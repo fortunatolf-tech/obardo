@@ -1,0 +1,6 @@
+{
+  "name": "O Bardo",
+  "description": "O Hub Áudio-Narrativo do Mestre de RPG — Sincronizando notas, atmosfera sonora e sessão em tempo real.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
