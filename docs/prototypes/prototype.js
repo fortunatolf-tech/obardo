@@ -323,7 +323,38 @@ function appendRollToFeed(label, formula, rolls, modifier, total, isCrit, isFumb
       </div>
     </div>
   `;
+  if (isCrit) {
+    playAudioSFX('crit');
+    triggerRunicFlash('gold');
+  } else if (isFumble) {
+    playAudioSFX('thunder');
+    triggerRunicFlash('ruby');
+  }
+
   feed.insertBefore(entry, feed.firstChild);
+}
+
+function triggerRunicFlash(type) {
+  const flash = document.createElement('div');
+  flash.style.cssText = `
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 140;
+    transition: opacity 0.5s ease;
+    box-shadow: inset 0 0 70px ${type === 'gold' ? 'rgba(251, 191, 36, 0.75)' : 'rgba(225, 29, 72, 0.85)'};
+    opacity: 1;
+  `;
+  document.body.appendChild(flash);
+  if (type === 'ruby') {
+    document.body.style.transform = 'translate(3px, 2px)';
+    setTimeout(() => { document.body.style.transform = 'translate(-3px, -2px)'; }, 50);
+    setTimeout(() => { document.body.style.transform = ''; }, 100);
+  }
+  setTimeout(() => {
+    flash.style.opacity = '0';
+    setTimeout(() => flash.remove(), 500);
+  }, 250);
 }
 
 // ==========================================================================
