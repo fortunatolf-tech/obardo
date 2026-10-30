@@ -2,12 +2,7 @@
 .gradle
 .kotlin
 /local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
+/.idea
 .DS_Store
 /build
 /captures
@@ -15,4 +10,26 @@
 .cxx
 local.properties
 .env
+.env.backup
+.user.ini
 debug.keystore
+
+# PHP & Composer
+/vendor/
+composer.phar
+.phpunit.result.cache
+
+# Logs & Temporary files
+*.log
+storage/logs/*.log
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/app/uploads/temp/*
+
+# Node & Frontend
+/node_modules/
+/public/build/
+/public/hot/
+npm-debug.log
+yarn-error.log
