@@ -12,6 +12,7 @@ local.properties
 .env
 .env.backup
 .user.ini
+.well-known/
 debug.keystore
 
 # PHP & Composer

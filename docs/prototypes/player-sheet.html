@@ -2,268 +2,537 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ficha do Jogador - O Bardo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Ficha de Personagem • Tormenta20 & D&D • O Bardo</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- Barra de Navegação Superior -->
-  <header class="bardo-navbar">
-    <a href="index.html" class="brand-container">
-      <div class="brand-icon">📜</div>
+  <!-- Header Superior Mobile -->
+  <header class="app-header">
+    <a href="index.html" class="brand-wrapper">
+      <div class="brand-shield">🛡️</div>
       <div>
-        <span class="brand-title">O BARDO</span>
-        <span class="brand-badge" style="color: var(--emerald-heal); border-color: var(--emerald-heal);">Ficha de Personagem</span>
+        <div class="brand-name">O BARDO</div>
+        <div class="brand-sub">Tormenta20 & D&D</div>
       </div>
     </a>
-    <div class="nav-controls">
-      <div class="sync-indicator">
-        <span class="pulse-dot"></span>
-        <span class="sync-status-text">Conectado ao Mestre (32ms)</span>
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+      <div class="sync-badge">
+        <span class="sync-dot"></span>
+        <span>Mesa Ao Vivo (34ms)</span>
       </div>
-      <a href="live-session-taverna.html" class="btn btn-primary btn-sm">Ir para a Taverna</a>
     </div>
   </header>
 
-  <main class="container" style="max-width: 1050px;">
+  <!-- Container Mobile Principal -->
+  <main class="mobile-container">
     
-    <!-- Cabeçalho do Personagem -->
-    <div class="card" style="margin-bottom: 1.5rem;">
-      <div class="character-header">
-        <div class="avatar-frame">🛡️</div>
-        <div style="flex-grow: 1;">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem;">
-            <div>
-              <h1 style="font-size: 1.8rem; margin-bottom: 0.2rem;">Thorgar, o Destemido</h1>
-              <p style="color: var(--gold-bardo); font-size: 0.95rem; font-weight: 600;">
-                Guerreiro Humano • Nível 3 • Antecedente: Soldado Veterano
-              </p>
-            </div>
-            <div style="display: flex; gap: 0.5rem;">
-              <span class="brand-badge" style="border-color: var(--gold-bardo); color: var(--gold-bardo);">Campanha: O Túmulo do Rei Serpente</span>
-            </div>
+    <!-- Hero Card do Personagem (Estilo Nobre T20/D&D) -->
+    <div class="rpg-card">
+      <div class="hero-compact">
+        <div class="hero-portrait-frame">
+          ⚔️
+          <div class="level-badge">NV 4</div>
+        </div>
+        <div class="hero-meta">
+          <div class="hero-name">Sir Galadhon</div>
+          <div class="hero-class-race">Guerreiro Arcano • Humano de Deheon</div>
+          <div class="hero-tags">
+            <span class="tag-pill gold">Devoto de Khalmyr</span>
+            <span class="tag-pill">Origem: Guarda Real</span>
           </div>
-
-          <!-- Monitor de PV e Estatísticas de Combate -->
-          <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 1rem; margin-top: 1.25rem; align-items: center;">
-            <!-- Pontos de Vida -->
-            <div class="hp-container">
-              <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700;">
-                <span>Pontos de Vida (PV)</span>
-                <span><span id="hp-current">24</span> / <span id="hp-max">28</span></span>
-              </div>
-              <div class="hp-bar-bg">
-                <div id="hp-bar-fill" class="hp-bar-fill" style="width: 85%;"></div>
-              </div>
-              <div style="display: flex; gap: 0.4rem; margin-top: 0.25rem;">
-                <button class="btn btn-secondary btn-sm" onclick="adjustHP(-5)">-5 Dano</button>
-                <button class="btn btn-secondary btn-sm" onclick="adjustHP(-1)">-1</button>
-                <button class="btn btn-secondary btn-sm" onclick="adjustHP(1)">+1</button>
-                <button class="btn btn-secondary btn-sm" onclick="adjustHP(5)">+5 Cura</button>
-              </div>
-            </div>
-
-            <!-- Classe de Armadura (CA) -->
-            <div style="text-align: center; background: var(--surface-elevated); padding: 0.6rem; border-radius: var(--radius-sm); border: 1px solid var(--border-iron);">
-              <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Armadura</div>
-              <div style="font-size: 1.6rem; font-weight: 800; font-family: var(--font-mono); color: var(--gold-bardo);">16</div>
-              <div style="font-size: 0.65rem; color: var(--text-muted);">Cota de Malha + Escudo</div>
-            </div>
-
-            <!-- Iniciativa -->
-            <div style="text-align: center; background: var(--surface-elevated); padding: 0.6rem; border-radius: var(--radius-sm); border: 1px solid var(--border-iron); cursor: pointer;" onclick="rollDice('1d20+1', 'Iniciativa')">
-              <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Iniciativa</div>
-              <div style="font-size: 1.6rem; font-weight: 800; font-family: var(--font-mono); color: var(--text-parchment);">+1</div>
-              <div style="font-size: 0.65rem; color: var(--gold-bardo);">Rolar 🎲</div>
-            </div>
-
-            <!-- Deslocamento -->
-            <div style="text-align: center; background: var(--surface-elevated); padding: 0.6rem; border-radius: var(--radius-sm); border: 1px solid var(--border-iron);">
-              <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Deslocamento</div>
-              <div style="font-size: 1.6rem; font-weight: 800; font-family: var(--font-mono); color: var(--text-parchment);">9m</div>
-              <div style="font-size: 0.65rem; color: var(--emerald-heal);">Sem Carga</div>
-            </div>
-          </div>
-
         </div>
       </div>
 
-      <!-- Atributos Principais com Rolagem de 1 Clique -->
-      <div class="attributes-grid">
-        <div class="attribute-box" onclick="rollDice('1d20+3', 'Teste de Força')">
-          <span class="attr-label">Força</span>
-          <span class="attr-value">16</span>
-          <span class="attr-modifier">+3</span>
+      <!-- Medidores Vitais: PV (Vida), PM (Mana) & Defesa -->
+      <div class="vitals-grid">
+        <!-- Barra de PV (Pontos de Vida - Carmesim) -->
+        <div class="vital-box" onclick="openVitalsModal()">
+          <div class="vital-header">
+            <span class="vital-title" style="color: var(--t20-ruby);">❤️ PV (VIDA)</span>
+            <span class="vital-numbers"><span id="hp-current-val">34</span>/<span id="hp-max-val">38</span></span>
+          </div>
+          <div class="bar-track">
+            <div id="hp-fill-bar" class="bar-fill ruby" style="width: 89%;"></div>
+          </div>
+          <div style="font-size: 0.65rem; color: var(--text-muted); margin-top: 4px; text-align: right;">
+            Toque p/ Dano/Cura
+          </div>
         </div>
-        <div class="attribute-box" onclick="rollDice('1d20+1', 'Teste de Destreza')">
-          <span class="attr-label">Destreza</span>
-          <span class="attr-value">12</span>
-          <span class="attr-modifier">+1</span>
+
+        <!-- Barra de PM (Pontos de Mana - Cyan Arcana de T20) -->
+        <div class="vital-box" onclick="modifyPM(-1)">
+          <div class="vital-header">
+            <span class="vital-title" style="color: var(--mana-cyan-light);">💎 PM (MANA)</span>
+            <span class="vital-numbers"><span id="pm-current-val">12</span>/<span id="pm-max-val">16</span></span>
+          </div>
+          <div class="bar-track">
+            <div id="pm-fill-bar" class="bar-fill mana" style="width: 75%;"></div>
+          </div>
+          <div style="font-size: 0.65rem; color: var(--text-muted); margin-top: 4px; text-align: right;">
+            Toque p/ Gastar 1 PM
+          </div>
         </div>
-        <div class="attribute-box" onclick="rollDice('1d20+2', 'Teste de Constituição')">
-          <span class="attr-label">Constituição</span>
-          <span class="attr-value">15</span>
-          <span class="attr-modifier">+2</span>
-        </div>
-        <div class="attribute-box" onclick="rollDice('1d20-1', 'Teste de Inteligência')">
-          <span class="attr-label">Inteligência</span>
-          <span class="attr-value">9</span>
-          <span class="attr-modifier">-1</span>
-        </div>
-        <div class="attribute-box" onclick="rollDice('1d20+0', 'Teste de Sabedoria')">
-          <span class="attr-label">Sabedoria</span>
-          <span class="attr-value">10</span>
-          <span class="attr-modifier">+0</span>
-        </div>
-        <div class="attribute-box" onclick="rollDice('1d20-1', 'Teste de Carisma')">
-          <span class="attr-label">Carisma</span>
-          <span class="attr-value">8</span>
-          <span class="attr-modifier">-1</span>
+
+        <!-- Defesa / CA (Escudo Nobre T20/D&D) -->
+        <div class="defense-shield-box" onclick="executeDiceRoll('1d20+1', 'Iniciativa')">
+          <span class="defense-label">DEFESA</span>
+          <span class="defense-value">19</span>
+          <span class="defense-sub">Inic +1 🎲</span>
         </div>
       </div>
     </div>
 
-    <!-- Navegação de Abas -->
-    <div class="card">
-      <div class="tabs-nav">
-        <button class="tab-btn active" onclick="switchTab('combate')">⚔️ Ataques & Combate</button>
-        <button class="tab-btn" onclick="switchTab('mochila')">🎒 Inventário & Carga (6/12)</button>
-        <button class="tab-btn" onclick="switchTab('grimorio')">📖 Grimório / Proezas</button>
-        <button class="tab-btn" onclick="switchTab('biografia')">📜 Biografia & Anotações</button>
+    <!-- Atributos Primários (Modificador Grande + Valor Base) -->
+    <div class="attributes-row">
+      <!-- FORÇA -->
+      <div class="attr-card" onclick="executeDiceRoll('1d20+3', 'Teste de Força')">
+        <span class="attr-tag">FOR</span>
+        <span class="attr-mod">+3</span>
+        <span class="attr-raw">17</span>
       </div>
-
-      <!-- Aba 1: Ataques & Combate -->
-      <div id="tab-combate" class="tab-content">
-        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-          <!-- Ataque 1 -->
-          <div style="background: var(--surface-elevated); padding: 0.85rem 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--gold-bardo); display: flex; justify-content: space-between; align-items: center;">
-            <div>
-              <div style="font-weight: 700; font-size: 1rem;">Espada Longa de Aço Forjado</div>
-              <div style="font-size: 0.8rem; color: var(--text-muted);">Corpo a corpo • Dano Cortante (1d8 + 3) • Versátil (1d10)</div>
-            </div>
-            <div style="display: flex; gap: 0.5rem;">
-              <button class="btn btn-secondary btn-sm" onclick="rollDice('1d20+5', 'Ataque com Espada')">Ataque (+5)</button>
-              <button class="btn btn-primary btn-sm" onclick="rollDice('1d8+3', 'Dano Espada Longa')">Dano (1d8+3)</button>
-            </div>
-          </div>
-
-          <!-- Ataque 2 -->
-          <div style="background: var(--surface-elevated); padding: 0.85rem 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--amber-tavern); display: flex; justify-content: space-between; align-items: center;">
-            <div>
-              <div style="font-weight: 700; font-size: 1rem;">Arco Curto de Teixo</div>
-              <div style="font-size: 0.8rem; color: var(--text-muted);">Distância (24m/96m) • Dano Perfurante (1d6 + 1) • Aljava: 18 flechas</div>
-            </div>
-            <div style="display: flex; gap: 0.5rem;">
-              <button class="btn btn-secondary btn-sm" onclick="rollDice('1d20+3', 'Disparo de Arco')">Ataque (+3)</button>
-              <button class="btn btn-primary btn-sm" onclick="rollDice('1d6+1', 'Dano Arco Curto')">Dano (1d6+1)</button>
-            </div>
-          </div>
-        </div>
+      <!-- DESTREZA -->
+      <div class="attr-card" onclick="executeDiceRoll('1d20+1', 'Teste de Destreza')">
+        <span class="attr-tag">DES</span>
+        <span class="attr-mod">+1</span>
+        <span class="attr-raw">12</span>
       </div>
-
-      <!-- Aba 2: Inventário & Carga -->
-      <div id="tab-mochila" class="tab-content" style="display: none;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-          <span style="font-size: 0.9rem; color: var(--text-muted);">Capacidade Máxima: 16 Slots (Força 16) • Carga Atual: 6 Slots (Carga Leve)</span>
-          <button class="btn btn-secondary btn-sm" onclick="alert('Item adicionado à mochila!')">+ Adicionar Item</button>
-        </div>
-        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
-          <thead>
-            <tr style="border-bottom: 1px solid var(--border-iron); color: var(--gold-bardo); text-align: left;">
-              <th style="padding: 0.5rem;">Item</th>
-              <th style="padding: 0.5rem;">Qtd</th>
-              <th style="padding: 0.5rem;">Slots</th>
-              <th style="padding: 0.5rem; text-align: right;">Equipado</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom: 1px solid rgba(47, 53, 79, 0.4);">
-              <td style="padding: 0.6rem;">Cota de Malha de Aço</td>
-              <td style="padding: 0.6rem;">1</td>
-              <td style="padding: 0.6rem;">3</td>
-              <td style="padding: 0.6rem; text-align: right;">✅ Sim</td>
-            </tr>
-            <tr style="border-bottom: 1px solid rgba(47, 53, 79, 0.4);">
-              <td style="padding: 0.6rem;">Espada Longa</td>
-              <td style="padding: 0.6rem;">1</td>
-              <td style="padding: 0.6rem;">1</td>
-              <td style="padding: 0.6rem; text-align: right;">✅ Sim</td>
-            </tr>
-            <tr style="border-bottom: 1px solid rgba(47, 53, 79, 0.4);">
-              <td style="padding: 0.6rem;">Tochas de Resina</td>
-              <td style="padding: 0.6rem;">6</td>
-              <td style="padding: 0.6rem;">1</td>
-              <td style="padding: 0.6rem; text-align: right;">🎒 Mochila</td>
-            </tr>
-            <tr>
-              <td style="padding: 0.6rem;">Rações de Viagem (dias)</td>
-              <td style="padding: 0.6rem;">5</td>
-              <td style="padding: 0.6rem;">1</td>
-              <td style="padding: 0.6rem; text-align: right;">🎒 Mochila</td>
-            </tr>
-          </tbody>
-        </table>
+      <!-- CONSTITUIÇÃO -->
+      <div class="attr-card" onclick="executeDiceRoll('1d20+2', 'Teste de Constituição')">
+        <span class="attr-tag">CON</span>
+        <span class="attr-mod">+2</span>
+        <span class="attr-raw">15</span>
       </div>
-
-      <!-- Aba 3: Grimório / Proezas -->
-      <div id="tab-grimorio" class="tab-content" style="display: none;">
-        <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
-          Proezas Marciais Ativas do Guerreiro:
-        </p>
-        <div style="background: var(--surface-elevated); padding: 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--emerald-heal); margin-bottom: 0.75rem;">
-          <div style="font-weight: 700; color: var(--gold-bardo);">Retomar o Fôlego (Second Wind)</div>
-          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;">
-            Uma vez por descanso curto, recupere 1d10 + 3 Pontos de Vida como ação bônus.
-          </p>
-          <button class="btn btn-primary btn-sm" style="margin-top: 0.5rem;" onclick="rollDice('1d10+3', 'Retomar o Fôlego'); adjustHP(rollDice('1d10+3'));">Usar Habilidade 🎲</button>
-        </div>
+      <!-- INTELIGÊNCIA -->
+      <div class="attr-card" onclick="executeDiceRoll('1d20+2', 'Teste de Inteligência')">
+        <span class="attr-tag">INT</span>
+        <span class="attr-mod">+2</span>
+        <span class="attr-raw">14</span>
       </div>
-
-      <!-- Aba 4: Biografia -->
-      <div id="tab-biografia" class="tab-content" style="display: none;">
-        <textarea rows="6" style="width: 100%; padding: 0.75rem; background: var(--surface-elevated); border: 1px solid var(--border-iron); border-radius: var(--radius-sm); color: var(--text-parchment); font-size: 0.9rem;">
-Thorgar serviu 8 anos na Guarda da Fronteira Norte até sua guarnição ser dizimada por uma horda orc desconhecida. Jurou proteger os fracos e agora busca as ruínas do Túmulo do Rei Serpente em busca do escudo lendário de seu antigo comandante.
-        </textarea>
+      <!-- SABEDORIA -->
+      <div class="attr-card" onclick="executeDiceRoll('1d20+0', 'Teste de Sabedoria')">
+        <span class="attr-tag">SAB</span>
+        <span class="attr-mod">+0</span>
+        <span class="attr-raw">10</span>
+      </div>
+      <!-- CARISMA -->
+      <div class="attr-card" onclick="executeDiceRoll('1d20-1', 'Teste de Carisma')">
+        <span class="attr-tag">CAR</span>
+        <span class="attr-mod">-1</span>
+        <span class="attr-raw">8</span>
       </div>
     </div>
 
-    <!-- Bandeja Rápida de Dados Flutuante -->
-    <div class="card" style="margin-top: 1.5rem; background: var(--surface-slate); border-color: var(--gold-bardo);">
-      <div class="card-header">
-        <span class="card-title">🎲 Rolador de Dados Rápido</span>
-        <span style="font-size: 0.8rem; color: var(--text-muted);">Semente Criptográfica Segura</span>
-      </div>
-      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
-        <button class="btn btn-secondary" onclick="rollDice('1d4', 'd4')">d4</button>
-        <button class="btn btn-secondary" onclick="rollDice('1d6', 'd6')">d6</button>
-        <button class="btn btn-secondary" onclick="rollDice('1d8', 'd8')">d8</button>
-        <button class="btn btn-secondary" onclick="rollDice('1d10', 'd10')">d10</button>
-        <button class="btn btn-secondary" onclick="rollDice('1d12', 'd12')">d12</button>
-        <button class="btn btn-primary" onclick="rollDice('1d20', 'd20')">d20</button>
-        <button class="btn btn-secondary" onclick="rollDice('1d100', 'd100')">d100</button>
-      </div>
+    <!-- SEÇÕES INTERATIVAS EM ABAS -->
 
-      <div id="dice-feed" class="dice-feed">
-        <div class="roll-entry">
-          <div>
-            <div class="roll-roller">Thorgar • Teste de Força</div>
-            <div class="roll-detail">Dados: [14] + 3 (1d20+3)</div>
+    <!-- ABA 1: COMBATE & ATAQUES -->
+    <div id="section-combate" class="tab-pane">
+      <div class="rpg-card">
+        <div class="card-title-bar">
+          <span class="card-title-text">⚔️ Ataques & Golpes Marciais</span>
+          <span style="font-size: 0.7rem; color: var(--text-muted);">Bônus Base: +5</span>
+        </div>
+
+        <!-- Arma 1: Espada Longa -->
+        <div class="action-card ruby">
+          <div class="action-header">
+            <span class="action-title">Espada Longa de Aço-Rubi</span>
+            <span class="tag-pill gold">Crítico 19-20/x2</span>
           </div>
-          <div class="roll-total">17</div>
+          <div class="action-desc">
+            1 mão (dano 1d8+3) ou 2 mãos (dano 1d10+3) • Dano Cortante • Perfuração de armadura
+          </div>
+          <div class="action-buttons">
+            <button class="btn-touch btn-touch-primary" onclick="executeDiceRoll('1d20+7', 'Ataque Espada Longa')">
+              ⚔️ Atacar (+7)
+            </button>
+            <button class="btn-touch btn-touch-dark" onclick="executeDiceRoll('1d8+3', 'Dano 1 Mão')">
+              1d8+3
+            </button>
+            <button class="btn-touch btn-touch-dark" onclick="executeDiceRoll('1d10+3', 'Dano 2 Mãos')">
+              1d10+3
+            </button>
+          </div>
+        </div>
+
+        <!-- Arma 2: Arco Composto -->
+        <div class="action-card">
+          <div class="action-header">
+            <span class="action-title">Arco Composto Reforçado</span>
+            <span class="tag-pill">Crítico x3 • 20m</span>
+          </div>
+          <div class="action-desc">
+            Distância • Dano Perfurante (1d6+3) • Aljava com 16 flechas
+          </div>
+          <div class="action-buttons">
+            <button class="btn-touch btn-touch-primary" onclick="executeDiceRoll('1d20+5', 'Disparo de Arco')">
+              🏹 Disparar (+5)
+            </button>
+            <button class="btn-touch btn-touch-dark" onclick="executeDiceRoll('1d6+3', 'Dano Arco Composto')">
+              1d6+3
+            </button>
+          </div>
+        </div>
+
+        <!-- Golpe Especial com Custo em PM -->
+        <div class="action-card mana">
+          <div class="action-header">
+            <span class="action-title">Golpe Pessoal: Lâmina Flamejante</span>
+            <span class="action-cost">Custo: 2 PM</span>
+          </div>
+          <div class="action-desc">
+            Envolve a espada em chamas arcanas. O alvo sofre +2d6 de dano de fogo e pega fogo caso falhe em Reflexos.
+          </div>
+          <div class="action-buttons">
+            <button class="btn-touch btn-touch-mana" onclick="modifyPM(-2); executeDiceRoll('1d20+7', 'Golpe Pessoal (Ataque)'); executeDiceRoll('2d6', 'Dano Flamejante');">
+              🔥 Desferir Golpe (2 PM)
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABA 2: MAGIAS & PODERES (COM CUSTO EM PM!) -->
+    <div id="section-magias" class="tab-pane" style="display: none;">
+      <div class="rpg-card">
+        <div class="card-title-bar">
+          <span class="card-title-text">🔮 Grimório & Habilidades Arcanas</span>
+          <span style="font-size: 0.75rem; color: var(--mana-cyan-light); font-weight: 700;">Limite PM/Turno: 4</span>
+        </div>
+
+        <!-- Magia 1: Armadura Arcana -->
+        <div class="action-card mana">
+          <div class="action-header">
+            <span class="action-title">Armadura Arcana</span>
+            <span class="action-cost">1 PM • Reação</span>
+          </div>
+          <div class="action-desc">
+            Um escudo invisível de força bloqueia golpes. Concede +5 na Defesa até o início do seu próximo turno.
+          </div>
+          <button class="btn-touch btn-touch-mana" style="width: 100%;" onclick="modifyPM(-1); showToast('🛡️ Defesa aumentada em +5 até o próximo turno!');">
+            Conjurar Armadura Arcana (Gastar 1 PM)
+          </button>
+        </div>
+
+        <!-- Magia 2: Toque Chocante -->
+        <div class="action-card mana">
+          <div class="action-header">
+            <span class="action-title">Toque Chocante</span>
+            <span class="action-cost">1 PM • Padrão</span>
+          </div>
+          <div class="action-desc">
+            Faíscas elétricas explodem na ponta dos dedos. Causa 2d8+2 de dano de eletricidade (+5 se o alvo usar metal).
+          </div>
+          <button class="btn-touch btn-touch-mana" style="width: 100%;" onclick="modifyPM(-1); executeDiceRoll('2d8+2', 'Dano Toque Chocante');">
+            ⚡ Conjurar Toque Chocante (1 PM)
+          </button>
+        </div>
+
+        <!-- Poder de Classe: Ataque Poderoso -->
+        <div class="action-card">
+          <div class="action-header">
+            <span class="action-title">Ataque Poderoso (Guerreiro)</span>
+            <span class="tag-pill">Passivo / Ativável</span>
+          </div>
+          <div class="action-desc">
+            Sofre -2 no teste de ataque para causar +4 no dano do golpe.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABA 3: PERÍCIAS (TORMENTA20 & D&D OGL) -->
+    <div id="section-pericias" class="tab-pane" style="display: none;">
+      <div class="rpg-card" style="padding: 0.5rem 0;">
+        <div style="padding: 0.5rem 0.75rem 0.25rem 0.75rem; display: flex; justify-content: space-between; align-items: center;">
+          <span class="card-title-text">📜 Perícias de Campanha</span>
+          <span style="font-size: 0.7rem; color: var(--gold-imperial);">[T] = Treinada (+4)</span>
+        </div>
+
+        <!-- Lista de Perícias Compatíveis OGL -->
+        <div class="skill-row" onclick="executeDiceRoll('1d20+7', 'Atletismo (FOR)')">
+          <div class="skill-left">
+            <div class="skill-train-badge trained">T</div>
+            <div>
+              <span class="skill-name">Atletismo</span>
+              <span class="skill-attr-ref">(FOR)</span>
+            </div>
+          </div>
+          <span class="skill-bonus">+7 🎲</span>
+        </div>
+
+        <div class="skill-row" onclick="executeDiceRoll('1d20+5', 'Cavalgar (DES)')">
+          <div class="skill-left">
+            <div class="skill-train-badge trained">T</div>
+            <div>
+              <span class="skill-name">Cavalgar</span>
+              <span class="skill-attr-ref">(DES)</span>
+            </div>
+          </div>
+          <span class="skill-bonus">+5 🎲</span>
+        </div>
+
+        <div class="skill-row" onclick="executeDiceRoll('1d20+6', 'Fortitude (CON)')">
+          <div class="skill-left">
+            <div class="skill-train-badge trained">T</div>
+            <div>
+              <span class="skill-name">Fortitude</span>
+              <span class="skill-attr-ref">(CON)</span>
+            </div>
+          </div>
+          <span class="skill-bonus">+6 🎲</span>
+        </div>
+
+        <div class="skill-row" onclick="executeDiceRoll('1d20+6', 'Guerra / Tática (INT)')">
+          <div class="skill-left">
+            <div class="skill-train-badge trained">T</div>
+            <div>
+              <span class="skill-name">Guerra</span>
+              <span class="skill-attr-ref">(INT)</span>
+            </div>
+          </div>
+          <span class="skill-bonus">+6 🎲</span>
+        </div>
+
+        <div class="skill-row" onclick="executeDiceRoll('1d20+1', 'Iniciativa (DES)')">
+          <div class="skill-left">
+            <div class="skill-train-badge"> </div>
+            <div>
+              <span class="skill-name">Iniciativa</span>
+              <span class="skill-attr-ref">(DES)</span>
+            </div>
+          </div>
+          <span class="skill-bonus">+1 🎲</span>
+        </div>
+
+        <div class="skill-row" onclick="executeDiceRoll('1d20+7', 'Luta / Corpo a Corpo (FOR)')">
+          <div class="skill-left">
+            <div class="skill-train-badge trained">T</div>
+            <div>
+              <span class="skill-name">Luta</span>
+              <span class="skill-attr-ref">(FOR)</span>
+            </div>
+          </div>
+          <span class="skill-bonus">+7 🎲</span>
+        </div>
+
+        <div class="skill-row" onclick="executeDiceRoll('1d20+6', 'Misticismo (INT)')">
+          <div class="skill-left">
+            <div class="skill-train-badge trained">T</div>
+            <div>
+              <span class="skill-name">Misticismo</span>
+              <span class="skill-attr-ref">(INT)</span>
+            </div>
+          </div>
+          <span class="skill-bonus">+6 🎲</span>
+        </div>
+
+        <div class="skill-row" onclick="executeDiceRoll('1d20+2', 'Percepção (SAB)')">
+          <div class="skill-left">
+            <div class="skill-train-badge"> </div>
+            <div>
+              <span class="skill-name">Percepção</span>
+              <span class="skill-attr-ref">(SAB)</span>
+            </div>
+          </div>
+          <span class="skill-bonus">+2 🎲</span>
+        </div>
+
+        <div class="skill-row" onclick="executeDiceRoll('1d20+5', 'Pontaria / Disparo (DES)')">
+          <div class="skill-left">
+            <div class="skill-train-badge trained">T</div>
+            <div>
+              <span class="skill-name">Pontaria</span>
+              <span class="skill-attr-ref">(DES)</span>
+            </div>
+          </div>
+          <span class="skill-bonus">+5 🎲</span>
+        </div>
+
+        <div class="skill-row" onclick="executeDiceRoll('1d20+4', 'Vontade (SAB)')">
+          <div class="skill-left">
+            <div class="skill-train-badge trained">T</div>
+            <div>
+              <span class="skill-name">Vontade</span>
+              <span class="skill-attr-ref">(SAB)</span>
+            </div>
+          </div>
+          <span class="skill-bonus">+4 🎲</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABA 4: MOCHILA & ESPAÇOS DE CARGA -->
+    <div id="section-mochila" class="tab-pane" style="display: none;">
+      <div class="rpg-card">
+        <div class="card-title-bar">
+          <span class="card-title-text">🎒 Mochila & Carga (T20/D&D)</span>
+          <span style="font-size: 0.75rem; color: var(--emerald-life); font-weight: 700;">7 / 17 Espaços (Leve)</span>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.85rem;">
+          <div style="background: var(--bg-surface); padding: 0.65rem 0.85rem; border-radius: 8px; display: flex; justify-content: space-between;">
+            <span>🛡️ Cota de Malha Épica (Vestida)</span>
+            <span style="color: var(--gold-imperial); font-weight: 700;">2 Espaços</span>
+          </div>
+          <div style="background: var(--bg-surface); padding: 0.65rem 0.85rem; border-radius: 8px; display: flex; justify-content: space-between;">
+            <span>⚔️ Espada Longa de Aço-Rubi</span>
+            <span style="color: var(--gold-imperial); font-weight: 700;">1 Espaço</span>
+          </div>
+          <div style="background: var(--bg-surface); padding: 0.65rem 0.85rem; border-radius: 8px; display: flex; justify-content: space-between;">
+            <span>🛡️ Escudo Pesado</span>
+            <span style="color: var(--gold-imperial); font-weight: 700;">1 Espaço</span>
+          </div>
+          <div style="background: var(--bg-surface); padding: 0.65rem 0.85rem; border-radius: 8px; display: flex; justify-content: space-between;">
+            <span>🔥 Tochas (4) & Pederneira</span>
+            <span style="color: var(--gold-imperial); font-weight: 700;">1 Espaço</span>
+          </div>
+          <div style="background: var(--bg-surface); padding: 0.65rem 0.85rem; border-radius: 8px; display: flex; justify-content: space-between;">
+            <span>🧪 Poção de Cura (2d8+2)</span>
+            <span style="color: var(--emerald-life); font-weight: 700;">1 Espaço</span>
+          </div>
+          <div style="background: var(--bg-surface); padding: 0.65rem 0.85rem; border-radius: 8px; display: flex; justify-content: space-between;">
+            <span>💰 Tibares de Ouro: 84 T$</span>
+            <span style="color: var(--text-muted);">1 Espaço</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEED DE ROLAGENS RECENTES NA MESA -->
+    <div class="rpg-card" style="margin-top: 1rem;">
+      <div class="card-title-bar">
+        <span class="card-title-text">🎲 Histórico de Rolagens da Sessão</span>
+        <button class="btn-touch btn-touch-dark" style="padding: 2px 8px; font-size: 0.7rem;" onclick="document.getElementById('session-roll-feed').innerHTML=''">Limpar</button>
+      </div>
+      <div id="session-roll-feed">
+        <div class="rpg-card" style="padding: 0.65rem 0.85rem; margin-bottom: 0.5rem; border-left: 3px solid #10b981;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-weight: 700; font-size: 0.85rem; color: var(--gold-imperial);">
+                Ataque Espada Longa <span style="color:#10b981;">(CRÍTICO!)</span>
+              </div>
+              <div style="font-size: 0.72rem; color: var(--text-muted);">Dados: [20] + 7 (1d20+7)</div>
+            </div>
+            <div style="font-family: var(--font-code); font-size: 1.3rem; font-weight: 900; color: #10b981; background: var(--bg-surface); padding: 2px 10px; border-radius: 6px; border: 1px solid var(--border-subtle);">
+              27
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
   </main>
 
+  <!-- BOTAO FLUTUANTE (FAB) PARA ROLAGEM RAPIDA DE DADOS -->
+  <div class="fab-dice" onclick="openDiceSheet()" title="Abrir Rolador de Dados">
+    🎲
+  </div>
+
+  <!-- BOTTOM SHEET MODAL DE ROLAGEM RAPIDA DE DADOS -->
+  <div id="dice-bottom-sheet" class="bottom-sheet" onclick="if(event.target === this) closeDiceSheet();">
+    <div class="bottom-sheet-content">
+      <div class="sheet-handle"></div>
+      <h3 style="font-size: 1.1rem; text-align: center; margin-bottom: 0.25rem;">Bandeja Rápida de Dados D20</h3>
+      <p style="font-size: 0.75rem; color: var(--text-muted); text-align: center;">Selecione o dado para rolar instantaneamente:</p>
+
+      <div class="dice-tray-grid">
+        <div class="dice-pill" onclick="executeDiceRoll('1d4', 'd4')">
+          <span class="dice-pill-icon">🔺</span>
+          <span class="dice-pill-name">d4</span>
+        </div>
+        <div class="dice-pill" onclick="executeDiceRoll('1d6', 'd6')">
+          <span class="dice-pill-icon">🎲</span>
+          <span class="dice-pill-name">d6</span>
+        </div>
+        <div class="dice-pill" onclick="executeDiceRoll('1d8', 'd8')">
+          <span class="dice-pill-icon">💎</span>
+          <span class="dice-pill-name">d8</span>
+        </div>
+        <div class="dice-pill" onclick="executeDiceRoll('1d10', 'd10')">
+          <span class="dice-pill-icon">🔟</span>
+          <span class="dice-pill-name">d10</span>
+        </div>
+        <div class="dice-pill" onclick="executeDiceRoll('1d12', 'd12')">
+          <span class="dice-pill-icon">⭐</span>
+          <span class="dice-pill-name">d12</span>
+        </div>
+        <div class="dice-pill selected" onclick="executeDiceRoll('1d20', 'd20 Puro')">
+          <span class="dice-pill-icon">👑</span>
+          <span class="dice-pill-name">d20</span>
+        </div>
+        <div class="dice-pill" onclick="executeDiceRoll('1d20+5', 'd20 + 5')">
+          <span class="dice-pill-icon">⚔️</span>
+          <span class="dice-pill-name">+5</span>
+        </div>
+        <div class="dice-pill" onclick="executeDiceRoll('1d100', 'd100 Porcentual')">
+          <span class="dice-pill-icon">💯</span>
+          <span class="dice-pill-name">d%</span>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+        <button class="btn-touch btn-touch-primary" style="flex: 1;" onclick="executeDiceRoll('1d20+7', 'Rolagem c/ Bônus Principal (+7)')">
+          Rolar d20 + 7 (Principal)
+        </button>
+        <button class="btn-touch btn-touch-dark" onclick="closeDiceSheet()">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM SHEET MODAL DE CONTROLE DE PV (DANO & CURA) -->
+  <div id="vitals-modal-sheet" class="bottom-sheet" onclick="if(event.target === this) closeVitalsModal();">
+    <div class="bottom-sheet-content">
+      <div class="sheet-handle"></div>
+      <h3 style="font-size: 1.1rem; text-align: center; color: var(--t20-ruby);">Ajuste Rápido de Pontos de Vida (PV)</h3>
+      <p style="font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-bottom: 1rem;">Aplique dano de combate ou cura instantânea:</p>
+
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-bottom: 1rem;">
+        <button class="btn-touch btn-touch-ruby" onclick="modifyHP(-1)">-1 Dano</button>
+        <button class="btn-touch btn-touch-ruby" onclick="modifyHP(-5)">-5 Dano</button>
+        <button class="btn-touch btn-touch-ruby" onclick="modifyHP(-10)">-10 Dano</button>
+        <button class="btn-touch btn-touch-primary" onclick="modifyHP(1)">+1 Cura</button>
+        <button class="btn-touch btn-touch-primary" onclick="modifyHP(5)">+5 Cura</button>
+        <button class="btn-touch btn-touch-primary" onclick="modifyHP(10)">+10 Cura</button>
+      </div>
+
+      <button class="btn-touch btn-touch-dark" style="width: 100%;" onclick="closeVitalsModal()">Concluir</button>
+    </div>
+  </div>
+
+  <!-- BARRA DE NAVEGAÇÃO INFERIOR DOCK (FIXA NO MOBILE) -->
+  <nav class="bottom-dock">
+    <div class="dock-item active" onclick="switchMobileTab('combate', this)">
+      <span class="dock-icon">⚔️</span>
+      <span>Combate</span>
+    </div>
+    <div class="dock-item" onclick="switchMobileTab('magias', this)">
+      <span class="dock-icon">🔮</span>
+      <span>Magias</span>
+    </div>
+    <div class="dock-item" onclick="switchMobileTab('pericias', this)">
+      <span class="dock-icon">📜</span>
+      <span>Perícias</span>
+    </div>
+    <div class="dock-item" onclick="switchMobileTab('mochila', this)">
+      <span class="dock-icon">🎒</span>
+      <span>Mochila</span>
+    </div>
+    <a href="live-session-taverna.html" class="dock-item">
+      <span class="dock-icon">🍻</span>
+      <span>Taverna</span>
+    </a>
+  </nav>
+
   <script src="prototype.js"></script>
   <script>
-    function switchTab(tabId) {
-      document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
-      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-      document.getElementById('tab-' + tabId).style.display = 'block';
-      event.target.classList.add('active');
+    function switchMobileTab(tabId, el) {
+      document.querySelectorAll('.tab-pane').forEach(p => p.style.display = 'none');
+      document.querySelectorAll('.dock-item').forEach(d => d.classList.remove('active'));
+      const target = document.getElementById('section-' + tabId);
+      if (target) target.style.display = 'block';
+      if (el) el.classList.add('active');
     }
   </script>
 </body>

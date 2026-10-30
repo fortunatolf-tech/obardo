@@ -1,143 +1,109 @@
 # O BARDO - PLATAFORMA WEB IMERSIVA PARA RPG DE MESA TRADICIONAL
 ## Guia de Estilo de Interface e Experiência do Usuário (UI/UX Style Guide)
+### Design System: Tormenta20 & D&D Mobile-First (Em Conformidade com OGL / SRD)
 
 ---
 
 ### Identificação do Documento
 - **Projeto:** O Bardo (obardo.com.br)
-- **Sistema de Design:** *Pergaminho & Ferro (Parchment & Iron)*
-- **Versão:** 1.0.0
+- **Sistema de Design:** *Rubi Arcano, Ouro Imperial & Aço Forjado (T20 & D&D D20 System)*
+- **Versão:** 2.0.0 (Revisão Aprovada Mobile-First)
 - **Data:** 30 de Outubro de 2026
-- **Status:** Homologado
-- **Repositório:** [https://github.com/fortunatolf-tech/obardo](https://github.com/fortunatolf-tech/obardo)
+- **Conformidade de Propriedade Intelectual:** Open Game License (OGL 1.0a) / Creative Commons SRD 5.1 / Compatibilidade Aberta Tormenta20 (Jambô Editora)
+- **Repositório Oficial:** [https://github.com/fortunatolf-tech/obardo](https://github.com/fortunatolf-tech/obardo)
 
 ---
 
-## 1. Filosofia de Design e Princípios da Experiência
+## 1. Filosofia de Design e Princípios Mobile-First
 
-O Design System d'**O Bardo** foi construído sob uma premissa inegociável: **a interface do usuário deve servir à imaginação, nunca competir com ela**. 
+O design d'**O Bardo** foi reformulado com foco absoluto na experiência **Mobile-First**, inspirado na consagrada estética épica e funcional de **Tormenta20** e **Dungeons & Dragons (D&D 5e / D20 System)**, respeitando estritamente os direitos autorais e licenças de jogo aberto.
 
-Em mesas de RPG tradicionais, o centro das atenções é a fala do Mestre, a reação dos amigos e o drama da narrativa. A aplicação web opera como um livro místico aberto sob a luz de velas — silencioso, elegante, rápido e profundamente atmosférico.
-
-### 1.1. Os Quatro Pilares de UX do Bardo
-1. **Atmosfera Sem Ruído (Zero Cognitive Clutter):** Cada botão, ícone e número existe por uma razão prática. Nenhum elemento gráfico desnecessário rouba a atenção do Mestre no calor da descrição de uma cena;
-2. **Ergonomia de Taverna (Mobile-First de Mesa):** O jogador sentado à mesa com seu smartphone deve conseguir rolar um teste de resistência ou alterar seus Pontos de Vida com apenas um polegar em menos de dois segundos;
-3. **Feedback Sensorial Imediato:** Ações críticas geram resposta visual e acústica instantânea: o som de metal desembainhado ao rolar iniciativa, a vibração suave na tela no sucesso crítico e o pulso sombrio na tela quando o Mestre aciona uma reviravolta;
-4. **Acessibilidade Inclusiva (WCAG 2.1 AA):** Alto contraste, legibilidade cristalina em ambientes escuros e suporte abrangente a atalhos de teclado para mestres ágeis.
+### 1.1. Os Pilares da Experiência Mobile de Mesa
+1. **Operação Completa com Uma Mão (Thumb-Zone Ergonomics):** Todas as ações críticas — alterar Pontos de Vida (PV), gastar Pontos de Mana (PM), disparar dados D20 ou ativar um efeito sonoro — estão ao alcance do polegar na metade inferior da tela do smartphone através de uma barra de navegação fixa (*Bottom Dock*) e botão flutuante (*FAB*);
+2. **Identidade Tormenta20 & D&D:**
+   - **Medidor Duplo:** Barra Carmesim/Rubi para **PV (Pontos de Vida)** e Barra Azul Cristalino para **PM (Pontos de Mana)** com steppers rápidos de ajuste;
+   - **Escudo Heróico de Defesa:** Emblema em forma de escudo destacando a Defesa/CA e o modificador de Iniciativa;
+   - **Atributos D20 com Modificador Gigante:** O valor primordial na mesa é o modificador (ex: `+3`, `+1`), com o valor base (`17`, `12`) logo abaixo;
+   - **Perícias Treinadas [T]:** Indicador visual de treinamento somando metade do nível + bônus de treino e atributo;
+   - **Ações e Poderes com Custo em PM:** Botões táteis que debitam a mana e realizam a rolagem simultaneamente;
+3. **Conformidade Irrevogável com Direitos Autorais:** Utilização das mecânicas universais abertas pelo Sistema D20 / OGL / SRD, abstendo-se de reproduzir textos proprietários ou marcas registradas de terceiros;
+4. **Acústica Tátil e Feedback Visual:** Disparos de SFX (espadas, magia arcana, trovão lefeu, dados) sintetizados com a Web Audio API nativa com iluminação de borda pulsante.
 
 ---
 
 ## 2. Paleta Cromática e Tokens Semânticos
 
-O sistema adota uma paleta baseada em tons profundos de ardósia, couro envelhecido, pergaminho e toques de latão e ouro antigo, garantindo conforto visual prolongado durante sessões noturnas de 4 a 6 horas.
-
 ```mermaid
 flowchart LR
-    subgraph "Base Escura (Grimoire Dark)"
-        C1["Abissal Profundo<br/>#0b0d13"]
-        C2["Ardósia Sombria<br/>#141724"]
-        C3["Superfície Forjada<br/>#1e2235"]
-        C4["Borda de Ferro<br/>#2f354f"]
+    subgraph "Base Grimoire Dark"
+        B1["Abissal Profundo<br/>#0a0b10"]
+        B2["Cartão Tático<br/>#131622"]
+        B3["Superfície Elevada<br/>#1e2235"]
+        B4["Borda de Ferro<br/>#2d334d"]
     end
 
-    subgraph "Tons Místicos & Ação"
-        A1["Ouro do Bardo<br/>#d4af37"]
-        A2["Âmbar de Taverna<br/>#f59e0b"]
-        A3["Sangue / Reviravolta<br/>#dc2626"]
-        A4["Magia Arcana<br/>#8b5cf6"]
-        A5["Vida / Sucesso<br/>#10b981"]
+    subgraph "Identidade T20 & D&D"
+        R1["Rubi Tormenta (PV)<br/>#e11d48"]
+        M1["Cyan Arcana (PM)<br/>#0284c7"]
+        G1["Ouro Imperial<br/>#d4af37"]
+        E1["Vida Esmeralda<br/>#10b981"]
     end
 
-    subgraph "Tipografia & Leitura"
-        T1["Pergaminho Puro<br/>#f4ede4"]
-        T2["Pergaminho Suave<br/>#c9c2b5"]
-        T3["Cinza Silenciado<br/>#858179"]
+    subgraph "Texto & Contraste"
+        T1["Pergaminho Nobre<br/>#f6f3eb"]
+        T2["Ardósia Suave<br/>#cbd5e1"]
+        T3["Silenciado<br/>#848fa4"]
     end
 ```
 
-### 2.1. Tabela de Cores e Tokens CSS
+### 2.1. Tabela de Tokens CSS
 
-| Token CSS | Código HEX | Finalidade de Uso | Contraste WCAG |
+| Token CSS | Código HEX | Significado / Uso em Jogo | Contraste WCAG |
 | :--- | :--- | :--- | :--- |
-| `--bg-abyssal` | `#0b0d13` | Fundo principal da aplicação | Base (1.0) |
-| `--surface-slate` | `#141724` | Fundo de cartões, fichas e painéis | 1.2:1 |
-| `--surface-elevated` | `#1e2235` | Modais, menus flutuantes e tooltips | 1.5:1 |
-| `--border-iron` | `#2f354f` | Linhas divisórias e contornos de campos | 2.4:1 |
-| `--gold-bardo` | `#d4af37` | Destaques nobres, títulos rúnicos, botões primários | 8.6:1 (AAA) |
-| `--amber-tavern` | `#f59e0b` | Estados de aviso, iluminação de fogueira, tocha | 9.2:1 (AAA) |
-| `--crimson-blood` | `#dc2626` | Dano crítico, PVs baixos, **Plot Twists** de perigo | 4.8:1 (AA) |
-| `--arcane-purple` | `#8b5cf6` | Magias, grimório de feitiços, efeitos sobrenaturais | 5.1:1 (AA) |
-| `--emerald-heal` | `#10b981` | Cura, sucessos em testes, áudio sincronizado ativo | 7.4:1 (AAA) |
-| `--text-parchment` | `#f4ede4` | Textos principais, valores de atributos, diálogos | 14.8:1 (AAA) |
-| `--text-muted` | `#9ca3af` | Rótulos secundários, descrições breves, timestamps | 6.5:1 (AA) |
+| `--bg-abyss` | `#0a0b10` | Fundo abissal do aplicativo | Base (1.0) |
+| `--bg-card` | `#131622` | Cartões e fichas de personagens | 1.2:1 |
+| `--t20-ruby` | `#e11d48` | **PV (Pontos de Vida)**, Danos e Plot Twists de perigo | 5.2:1 (AA) |
+| `--mana-cyan` | `#0284c7` | **PM (Pontos de Mana)**, Magias e Poderes de Classe | 6.1:1 (AAA) |
+| `--gold-imperial` | `#d4af37` | Títulos heróicos, bordas nobres, botão de rolagem D20 | 8.8:1 (AAA) |
+| `--emerald-life` | `#10b981` | Cura, sucessos em testes, áudio sincronizado ativo | 7.6:1 (AAA) |
+| `--text-parchment`| `#f6f3eb` | Textos principais e valores numéricos | 15.2:1 (AAA) |
 
 ---
 
-## 3. Tipografia
+## 3. Tipografia e Escala Mobile
 
-O emparelhamento tipográfico combina a solenidade épica de fontes serifadas clássicas para títulos de capítulos com a legibilidade cirúrgica de fontes sans-serif humanistas para atributos numéricos e blocos de texto.
-
-### 3.1. Famílias Tipográficas
-- **Display / Títulos Épicos:** `'Cinzel', 'Cinzel Decorative', serif` (caráter heróico, entalhe de pedra clássico);
-- **Interface e Leitura Contínua:** `'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif` (clareza ótica superior em todas as escalas);
-- **Notação de Dados e Números:** `'JetBrains Mono', 'Fira Code', monospace` (alinhamento tabular perfeito de dados matemáticos).
-
-### 3.2. Escala Tipográfica (Type Scale)
-
-| Nível | Tamanho | Altura da Linha (Line-Height) | Peso (Weight) | Uso Principal |
-| :--- | :--- | :--- | :--- | :--- |
-| **Display 1** | 36px (2.25rem) | 1.2 | 700 (Bold) | Título da Campanha, Telas de Abertura |
-| **Heading 1** | 28px (1.75rem) | 1.3 | 700 (Bold) | Nome do Personagem, Banner de Reviravolta |
-| **Heading 2** | 20px (1.25rem) | 1.4 | 600 (Semi-Bold) | Seções da Ficha (Atributos, Grimório, Mochila) |
-| **Heading 3** | 16px (1.00rem) | 1.4 | 600 (Semi-Bold) | Títulos de Faixas de Áudio e Handouts |
-| **Body Large** | 16px (1.00rem) | 1.6 | 400 (Regular) | Crônicas, Diário da Guilda, Descrição de Cenas |
-| **Body Medium** | 14px (0.875rem)| 1.5 | 400 (Regular) | Textos padrão de interface e cards |
-| **Caption / Small**| 12px (0.75rem) | 1.4 | 500 (Medium) | Modificadores, timestamps de rolagens |
+- **Títulos & Nomes Heróicos:** `'Cinzel', serif` (gravação em pedra rúnica, peso 700 e 800);
+- **Interface, Rótulos e Textos:** `'Inter', sans-serif` (legibilidade ótica superior em telas pequenas de 360px a 430px);
+- **Valores Numéricos e Dados:** `'JetBrains Mono', monospace` (alinhamento tabular perfeito de somas de dados).
 
 ---
 
-## 4. Anatomia e Especificações de Componentes Chave
+## 4. Componentes Chave da Interface Mobile
 
-### 4.1. Botão do Soundboard (Mestre)
-- **Dimensões:** Grade responsiva de botões de $72\text{px} \times 72\text{px}$ (mobile) ou $88\text{px} \times 88\text{px}$ (desktop);
-- **Estados:**
-  - *Inativo:* Fundo `--surface-slate`, borda `--border-iron`, ícone opaco a 70%;
-  - *Hover:* Borda ilumina em `--gold-bardo` com brilho sutil (*box-shadow: 0 0 12px rgba(212,175,55,0.2)*);
-  - *Ativo / Tocando:* Fundo com pulso contínuo em `--amber-tavern` e animação de barras de equalizador acústico animado em SVG;
-  - *Pressionado:* Escala de clique $0.96$.
+### 4.1. Medidores de PV e PM com Steppers Rápidos
+- Ao tocar na barra de **PV**, abre-se o modal inferior (*Bottom Sheet*) com botões de `-1`, `-5`, `-10` de Dano e `+1`, `+5`, `+10` de Cura com atualização em tempo real;
+- Ao tocar na barra de **PM**, efetua o gasto de 1 PM para manter ou ativar feitiços com som de cristal arcano;
+- Quando PV chega a 0, emite alerta de inconsciência / testes contra a morte.
 
-### 4.2. Card de Pontos de Vida (PV) e Estado Vital
-- Indicador numérico gigante (ex: `28 / 28`);
-- Barra de preenchimento dinâmica com gradiente:
-  - $\ge 50\%$: Verde Esmeralda (`--emerald-heal`);
-  - $20\% \text{ a } 49\%$: Âmbar de Alerta (`--amber-tavern`);
-  - $< 20\%$: Vermelho Sangue Pulsante (`--crimson-blood`);
-  - $0$ PV: Estado "Inconsciente / Sangrando" com ícone de crânio estilizado.
+### 4.2. Escudo de Defesa / CA
+- Emblema central dourado com o valor de Defesa em destaque (`19`), acompanhado de atalho de rolagem para o teste de Iniciativa.
 
-### 4.3. Banner de Reviravolta da Trama (Live Plot Twist)
-- Modal com sobreposição em tela cheia com vinheta escura semi-translúcida (`rgba(11, 13, 19, 0.88)`);
-- Efeito de pulso de luz no perímetro da tela em sintonia com a classificação da reviravolta (ex: Vermelho para Traição, Dourado para Revelação Divina, Roxo para Revelação Arcana);
-- Tipografia central em estilo entalhado (`Cinzel`) com animação suave de desvanecimento e escala de entrada.
+### 4.3. Grade de Atributos com Modificador Gigante
+- Destaque para o Modificador (+3, +1, +2, etc.) que é o número mais utilizado na mesa de jogo;
+- Ao tocar em qualquer atributo, aciona o interpretador matemático e lança a rolagem com som de dados no feed da sessão.
 
----
+### 4.4. Botão Flutuante (FAB) & Gaveta D20
+- Botão circular dourado fixo no canto inferior direito;
+- Ao tocar, desliza suavemente a bandeja rápida com dados d4, d6, d8, d10, d12, d20, d20+bônus e d100 com detecção automática de **20 Natural (Crítico!)** e **1 Natural (Desastre!)**.
 
-## 5. Diretrizes de Acessibilidade e Atalhos de Teclado
-
-### 5.1. Acessibilidade
-- Todos os campos de formulário e botões interativos contêm atributos `aria-label` e estados `aria-pressed` / `aria-expanded` corretos;
-- Indicadores visuais de foco com anel duplo dourado de $2\text{px}$ (`outline: 2px solid #d4af37; outline-offset: 2px;`);
-- Modo de Alto Contraste selecionável nas preferências do usuário.
-
-### 5.2. Atalhos de Produtividade para o Mestre
-| Tecla de Atalho | Ação Executada |
-| :--- | :--- |
-| `Espaço` | Alternar Reprodução / Pausa da Trilha Musical Ativa |
-| `M` | Silenciar / Dessilenciar Áudio Global (*Mute*) |
-| `T` | Abrir Modal Rápido de Disparo de Reviravolta (*Plot Twist*) |
-| `D` | Abrir Bandeja Flutuante de Rolagem de Dados |
-| `1` a `9` | Disparar Efeitos do Soundboard nos slots 1 a 9 |
-| `Esc` | Fechar qualquer modal ou visão expandida de handout |
+### 4.5. Barra Inferior Fixa (*Bottom Dock*)
+- Acesso instantâneo com o polegar:
+  - `[⚔️ Combate]` (Ataques, armas, golpes)
+  - `[🔮 Magias]` (Grimório com custos em PM)
+  - `[📜 Perícias]` (Lista completa com bônus treinados [T])
+  - `[🎒 Mochila]` (Inventário com slots de carga)
+  - `[🍻 Taverna]` (Mesa compartilhada ao vivo)
 
 ---
 
-*Guia de Estilo homologado para a implementação visual de todos os módulos d'O Bardo.*
+*Guia de Estilo Mobile-First aprovado e sincronizado com os protótipos interativos.*

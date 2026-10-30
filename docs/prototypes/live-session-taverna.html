@@ -2,212 +2,277 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>A Taverna (Ao Vivo) - O Bardo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>A Taverna (Ao Vivo) • Tormenta20 & D&D • O Bardo</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- Barra de Navegação Superior -->
-  <header class="bardo-navbar">
-    <a href="index.html" class="brand-container">
-      <div class="brand-icon">🍻</div>
+  <!-- Header Superior Mobile -->
+  <header class="app-header">
+    <a href="index.html" class="brand-wrapper">
+      <div class="brand-shield" style="border-color: var(--gold-bright); color: var(--gold-bright);">🍻</div>
       <div>
-        <span class="brand-title">O BARDO</span>
-        <span class="brand-badge" style="color: var(--amber-tavern); border-color: var(--amber-tavern);">A Taverna • Ao Vivo</span>
+        <div class="brand-name">A TAVERNA</div>
+        <div class="brand-sub">Sessão Compartilhada</div>
       </div>
     </a>
-    <div class="nav-controls">
-      <div class="sync-indicator">
-        <span class="pulse-dot"></span>
-        <span class="sync-status-text">Sincronizado com o Mestre (34ms)</span>
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+      <div class="sync-badge">
+        <span class="sync-dot"></span>
+        <span>Mestre Conectado (31ms)</span>
       </div>
-      <a href="player-sheet.html" class="btn btn-secondary btn-sm">Minha Ficha</a>
-      <a href="gm-dashboard.html" class="btn btn-primary btn-sm">Ver Visão do Mestre</a>
     </div>
   </header>
 
-  <main class="container">
+  <!-- Container Mobile Principal -->
+  <main class="mobile-container">
     
-    <!-- Player de Áudio Atmosférico Sincronizado com o Mestre -->
-    <div class="card" style="margin-bottom: 1.5rem; background: linear-gradient(180deg, var(--surface-card) 0%, var(--surface-slate) 100%); border-color: var(--emerald-heal);">
-      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-        <div style="display: flex; align-items: center; gap: 1rem;">
-          <div style="width: 48px; height: 48px; border-radius: var(--radius-sm); background: var(--surface-elevated); border: 1px solid var(--emerald-heal); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; color: var(--emerald-heal); box-shadow: 0 0 10px var(--emerald-glow);">
+    <!-- Player de Áudio Atmosférico Sincronizado com o Mestre (Fixo e Compacto) -->
+    <div class="rpg-card" style="border-color: var(--emerald-life); background: linear-gradient(145deg, #182030 0%, #10131d 100%);">
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.75rem;">
+        <div style="display: flex; align-items: center; gap: 0.65rem;">
+          <div style="width: 38px; height: 38px; border-radius: 8px; background: rgba(16, 185, 129, 0.15); border: 1px solid var(--emerald-life); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--emerald-life);">
             🎵
           </div>
           <div>
-            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">
-              Áudio Sincronizado Transmitido pelo Mestre
+            <div style="font-size: 0.65rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase;">
+              Áudio da Sessão Transmitido pelo Mestre
             </div>
-            <div id="now-playing-label" style="font-size: 1.15rem; font-weight: 700; color: var(--gold-bardo);">
-              Taverna do Javali Saltitante (Alaúdes e Murmúrio)
+            <div id="current-track-label" style="font-size: 0.88rem; font-weight: 700; color: var(--gold-imperial);">
+              Taverna do Javali Saltitante • Alaúdes & Lareira
             </div>
           </div>
         </div>
 
-        <div style="display: flex; align-items: center; gap: 1rem;">
-          <!-- Botão de Sintonização (Autoplay Unlock) -->
-          <button class="btn btn-primary" onclick="initAudioEngine(); playSynthesizedSFX('bell');">
-            🔊 Sintonizar Áudio da Mesa
+        <div style="display: flex; align-items: center; gap: 0.4rem;">
+          <button class="btn-touch btn-touch-primary" style="padding: 4px 8px; font-size: 0.75rem;" onclick="switchAmbientTrack('tavern'); playAudioSFX('spell'); showToast('🔊 Áudio da Taverna Sintonizado!');">
+            🔊 Sintonizar
           </button>
-          
-          <!-- Controle Deslizante de Volume Local -->
-          <div style="display: flex; align-items: center; gap: 0.5rem; background: var(--surface-elevated); padding: 0.4rem 0.8rem; border-radius: var(--radius-sm); border: 1px solid var(--border-iron);">
-            <span style="font-size: 0.85rem;">🔈</span>
-            <input type="range" min="0" max="100" value="70" style="cursor: pointer; width: 90px;" oninput="if(masterGainNode) masterGainNode.gain.setValueAtTime(this.value / 100, audioCtx.currentTime);">
-            <span style="font-size: 0.85rem;">🔊</span>
+        </div>
+      </div>
+
+      <!-- Slider de Volume Local para o Jogador -->
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.65rem; padding-top: 0.45rem; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.75rem; color: var(--text-muted);">
+        <span>Volume Pessoal:</span>
+        <div style="display: flex; align-items: center; gap: 0.4rem;">
+          <span>🔈</span>
+          <input type="range" min="0" max="100" value="75" style="width: 110px; cursor: pointer;" oninput="if(masterGainNode) masterGainNode.gain.setValueAtTime(this.value / 100, audioCtx.currentTime);">
+          <span>🔊</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Companheiros de Grupo na Mesa (Status PV/PM em Tempo Real) -->
+    <div class="rpg-card">
+      <div class="card-title-bar">
+        <span class="card-title-text">👥 Companheiros de Mesa</span>
+        <span style="font-size: 0.7rem; color: var(--gold-imperial);">Campanha: O Coração de Rubi</span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; text-align: center;">
+        <!-- Companheiro 1 -->
+        <div style="background: var(--bg-surface); padding: 0.5rem 0.25rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+          <div style="font-size: 1.2rem;">🗡️</div>
+          <div style="font-weight: 700; font-size: 0.75rem; color: var(--text-parchment);">Galadhon (Você)</div>
+          <div style="font-family: var(--font-code); font-size: 0.7rem; color: var(--t20-ruby); font-weight: 800;">34/38 PV</div>
+          <div style="font-family: var(--font-code); font-size: 0.7rem; color: var(--mana-cyan-light); font-weight: 800;">12/16 PM</div>
+        </div>
+
+        <!-- Companheiro 2 -->
+        <div style="background: var(--bg-surface); padding: 0.5rem 0.25rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+          <div style="font-size: 1.2rem;">🔮</div>
+          <div style="font-weight: 700; font-size: 0.75rem; color: var(--text-parchment);">Elidyr</div>
+          <div style="font-family: var(--font-code); font-size: 0.7rem; color: var(--amber-warn); font-weight: 800;">16/24 PV</div>
+          <div style="font-family: var(--font-code); font-size: 0.7rem; color: var(--mana-cyan-light); font-weight: 800;">18/26 PM</div>
+        </div>
+
+        <!-- Companheiro 3 -->
+        <div style="background: var(--bg-surface); padding: 0.5rem 0.25rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+          <div style="font-size: 1.2rem;">🏹</div>
+          <div style="font-weight: 700; font-size: 0.75rem; color: var(--text-parchment);">Kaelen</div>
+          <div style="font-family: var(--font-code); font-size: 0.7rem; color: var(--emerald-life); font-weight: 800;">29/29 PV</div>
+          <div style="font-family: var(--font-code); font-size: 0.7rem; color: var(--mana-cyan-light); font-weight: 800;">14/14 PM</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÕES INTERATIVAS DA TAVERNA -->
+
+    <!-- ABA 1: FEED DE ROLAGENS E DIÁLOGO -->
+    <div id="section-tavern-rolls" class="tavern-tab-pane">
+      <div class="rpg-card">
+        <div class="card-title-bar">
+          <span class="card-title-text">🎲 Feed de Rolagens & Ações ao Vivo</span>
+          <button class="btn-touch btn-touch-primary" style="padding: 2px 8px; font-size: 0.75rem;" onclick="executeDiceRoll('1d20+7', 'Ataque Rápido de Mesa')">Rolar d20</button>
+        </div>
+
+        <div id="session-roll-feed">
+          <div class="rpg-card" style="padding: 0.65rem 0.85rem; margin-bottom: 0.5rem; border-left: 3px solid #10b981;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div style="font-weight: 700; font-size: 0.85rem; color: var(--gold-imperial);">
+                  Galadhon • Ataque Espada Longa <span style="color:#10b981;">(CRÍTICO!)</span>
+                </div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">Dados: [20] + 7 (1d20+7)</div>
+              </div>
+              <div style="font-family: var(--font-code); font-size: 1.3rem; font-weight: 900; color: #10b981; background: var(--bg-surface); padding: 2px 10px; border-radius: 6px; border: 1px solid var(--border-subtle);">
+                27
+              </div>
+            </div>
+          </div>
+
+          <div class="rpg-card" style="padding: 0.65rem 0.85rem; margin-bottom: 0.5rem; border-left: 3px solid #d4af37;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div style="font-weight: 700; font-size: 0.85rem; color: var(--gold-imperial);">
+                  Elidyr • Misticismo (INT)
+                </div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">Dados: [16] + 6 (1d20+6)</div>
+              </div>
+              <div style="font-family: var(--font-code); font-size: 1.3rem; font-weight: 900; color: #fff; background: var(--bg-surface); padding: 2px 10px; border-radius: 6px; border: 1px solid var(--border-subtle);">
+                22
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="layout-main-sidebar">
-      <!-- Coluna Principal: Mural de Pistas e Crônica da Sessão -->
-      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-        
-        <!-- Mural de Handouts e Pistas Reveladas -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">📜 Mural de Pistas & Handouts Revelados</span>
-            <span class="brand-badge" style="color: var(--gold-bardo);">3 Documentos Revelados</span>
-          </div>
-          
-          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem;">
-            <!-- Pista 1 -->
-            <div style="background: var(--surface-elevated); border: 1px solid var(--border-iron); border-radius: var(--radius-sm); padding: 1rem; cursor: pointer; transition: all 0.2s;" onclick="alert('Documento em alta resolução aberto para leitura!')">
-              <div style="font-size: 1.8rem; margin-bottom: 0.5rem;">📜</div>
-              <div style="font-weight: 700; font-size: 0.95rem; color: var(--gold-bardo);">Carta do Cônsul Corrompido</div>
-              <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">
-                Encontrada nos aposentos privados. Selo quebrado com o brasão da víbora de sangue.
-              </p>
-              <span class="btn btn-sm btn-secondary" style="margin-top: 0.75rem; width: 100%; justify-content: center;">Inspecionar Carta</span>
-            </div>
-
-            <!-- Pista 2 -->
-            <div style="background: var(--surface-elevated); border: 1px solid var(--border-iron); border-radius: var(--radius-sm); padding: 1rem; cursor: pointer; transition: all 0.2s;" onclick="alert('Fragmento de Mapa aberto!')">
-              <div style="font-size: 1.8rem; margin-bottom: 0.5rem;">🗺️</div>
-              <div style="font-weight: 700; font-size: 0.95rem; color: var(--gold-bardo);">Fragmento do Mapa da Cripta</div>
-              <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">
-                Mostra um corredor oculto atrás do sarcófago do sumo-sacerdote.
-              </p>
-              <span class="btn btn-sm btn-secondary" style="margin-top: 0.75rem; width: 100%; justify-content: center;">Inspecionar Mapa</span>
-            </div>
-
-            <!-- Pista 3 -->
-            <div style="background: var(--surface-elevated); border: 1px solid var(--border-iron); border-radius: var(--radius-sm); padding: 1rem; cursor: pointer; transition: all 0.2s;" onclick="alert('Runa decifrada!')">
-              <div style="font-size: 1.8rem; margin-bottom: 0.5rem;">🔮</div>
-              <div style="font-weight: 700; font-size: 0.95rem; color: var(--gold-bardo);">Inscrição Rúnica Decifrada</div>
-              <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">
-                "Somente aquele que carregar a chama sagrada passará pelas lâminas sem sangrar."
-              </p>
-              <span class="btn btn-sm btn-secondary" style="margin-top: 0.75rem; width: 100%; justify-content: center;">Ler Tradução</span>
-            </div>
-          </div>
+    <!-- ABA 2: MURAL DE PISTAS & HANDOUTS -->
+    <div id="section-tavern-pistas" class="tavern-tab-pane" style="display: none;">
+      <div class="rpg-card">
+        <div class="card-title-bar">
+          <span class="card-title-text">📜 Pistas & Cartas Reveladas pelo Mestre</span>
+          <span class="tag-pill gold">3 Itens</span>
         </div>
 
-        <!-- Diário da Guilda / Crônica em Tempo Real -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">📖 Diário Compartilhado da Guilda</span>
-            <span style="font-size: 0.8rem; color: var(--text-muted);">Escriba da Sessão: Beatriz (Elidyr)</span>
+        <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+          <div class="action-card" onclick="alert('Carta do Cônsul aberta: \'A caravana de suprimentos não deve chegar a Yuvalin. Assegurem-se de que os aventureiros sejam detidos na garganta do dragão.\'')" style="cursor: pointer;">
+            <div class="action-header">
+              <span class="action-title">📜 Carta com Selo Quebrado</span>
+              <span class="tag-pill">Pista Física</span>
+            </div>
+            <div class="action-desc">Encontrada no cofre da estalagem. Contém ordens secretas da guilda dos contrabandistas.</div>
           </div>
 
-          <div style="background: var(--surface-elevated); padding: 1.25rem; border-radius: var(--radius-sm); border-left: 3px solid var(--gold-bardo); line-height: 1.7; font-size: 0.95rem;">
-            <h4 style="color: var(--gold-bardo); margin-bottom: 0.5rem;">Capítulo VII: As Portas Subterrâneas de Valfenda</h4>
-            <p style="color: var(--text-secondary); margin-bottom: 0.8rem;">
-              Após escaparem da patrulha dos orcs nas colinas cinzentas, o grupo encontrou refúgio na entrada de pedra esculpida na rocha nua. Thorgar forçou os portões de ferro enquanto Kaelen cobria a retaguarda com seu arco curto.
-            </p>
-            <p style="color: var(--text-secondary);">
-              Ao adentrarem o primeiro salão das colunas, um cheiro acre de incenso antigo e sangue ressecado tomou o ar. Elidyr acendeu uma tocha mágica, revelando os túmulos dos guardas reais da Dinastia da Serpente...
-            </p>
-          </div>
-
-          <div style="margin-top: 1rem; display: flex; gap: 0.75rem;">
-            <input type="text" placeholder="Adicionar nota rápida à crônica da sessão..." style="flex-grow: 1; padding: 0.6rem 0.85rem; background: var(--surface-elevated); border: 1px solid var(--border-iron); border-radius: var(--radius-sm); color: var(--text-parchment); font-size: 0.85rem;">
-            <button class="btn btn-secondary btn-sm" onclick="alert('Nota adicionada à crônica da guilda!')">Registrar</button>
+          <div class="action-card" onclick="alert('Mapa da Cripta aberto: Mostra passagem secreta sob o altar principal.')" style="cursor: pointer;">
+            <div class="action-header">
+              <span class="action-title">🗺️ Esboço do Templo Antigo</span>
+              <span class="tag-pill">Mapa</span>
+            </div>
+            <div class="action-desc">Desenho em pergaminho amarelado detalhando as catacumbas sob a colina.</div>
           </div>
         </div>
-
-      </div>
-
-      <!-- Barra Lateral: Feed de Dados & Heróis Conectados -->
-      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-        
-        <!-- Participantes Conectados na Mesa -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">👥 Companheiros na Mesa</span>
-            <span class="sync-indicator">
-              <span class="pulse-dot"></span> 5 Conectados
-            </span>
-          </div>
-
-          <div style="display: flex; flex-direction: column; gap: 0.65rem;">
-            <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.85rem;">
-              <span>👑 Lucas Fortunato (Mestre)</span>
-              <span style="color: var(--emerald-heal);">Transmitindo Áudio</span>
-            </div>
-            <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.85rem;">
-              <span>🗡️ Você (Thorgar - Guerreiro)</span>
-              <span style="color: var(--emerald-heal); font-family: var(--font-mono); font-weight: 700;">24/28 PV</span>
-            </div>
-            <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.85rem;">
-              <span>🔮 Beatriz (Elidyr - Mago)</span>
-              <span style="color: var(--amber-tavern); font-family: var(--font-mono); font-weight: 700;">7/14 PV</span>
-            </div>
-            <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.85rem;">
-              <span>🏹 Renan (Kaelen - Ladrão)</span>
-              <span style="color: var(--emerald-heal); font-family: var(--font-mono); font-weight: 700;">19/19 PV</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Feed de Rolagens de Dados em Tempo Real -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">🎲 Feed de Rolagens</span>
-            <button class="btn btn-secondary btn-sm" onclick="rollDice('1d20+3', 'Teste Rápido')">Rolar d20</button>
-          </div>
-          <div id="dice-feed" class="dice-feed">
-            <div class="roll-entry">
-              <div>
-                <div class="roll-roller">Thorgar • Ataque Espada</div>
-                <div class="roll-detail">Dados: [17] + 3 (1d20+3)</div>
-              </div>
-              <div class="roll-total">20</div>
-            </div>
-            <div class="roll-entry">
-              <div>
-                <div class="roll-roller">Kaelen • Furtividade</div>
-                <div class="roll-detail">Dados: [15] + 4 (1d20+4)</div>
-              </div>
-              <div class="roll-total">19</div>
-            </div>
-            <div class="roll-entry">
-              <div>
-                <div class="roll-roller">Elidyr • Identificar Magia</div>
-                <div class="roll-detail">Dados: [12] + 3 (1d20+3)</div>
-              </div>
-              <div class="roll-total">15</div>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
+
+    <!-- ABA 3: CRÔNICA COLETIVA DA GUILDA -->
+    <div id="section-tavern-cronica" class="tavern-tab-pane" style="display: none;">
+      <div class="rpg-card">
+        <div class="card-title-bar">
+          <span class="card-title-text">📖 Diário de Bordo da Sessão</span>
+          <span style="font-size: 0.7rem; color: var(--text-muted);">Sessão 06</span>
+        </div>
+
+        <div style="background: var(--bg-surface); padding: 0.85rem; border-radius: 8px; border-left: 3px solid var(--border-gold); font-size: 0.85rem; line-height: 1.5; color: var(--text-secondary); margin-bottom: 0.75rem;">
+          <strong style="color: var(--gold-imperial);">Capítulo VI: O Cerco na Colina das Caveiras</strong><br>
+          Os heróis enfrentaram os batedores sob a tempestade de ácido. Sir Galadhon rompeu a linha de frente enquanto Elidyr conjurou uma rajada elétrica para dispersar os arqueiros. O grupo agora descansa nos portões da cripta antiga.
+        </div>
+
+        <div style="display: flex; gap: 0.4rem;">
+          <input type="text" placeholder="Adicionar nota ao diário..." style="flex-grow: 1; padding: 0.55rem; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 6px; color: #fff; font-size: 0.8rem;">
+          <button class="btn-touch btn-touch-primary" onclick="showToast('Nota registrada no diário da guilda!');">Salvar</button>
+        </div>
+      </div>
+    </div>
+
   </main>
 
-  <!-- Modal de Plot Twist -->
-  <div id="plot-twist-overlay" class="plot-twist-overlay">
-    <div class="twist-card">
-      <span id="twist-tag" class="twist-tag">REVIRAVOLTA</span>
-      <h2 id="twist-headline" class="twist-headline">O TETO DESABA!</h2>
-      <p id="twist-desc" class="twist-desc">Um estalo ensurdecedor ecoa...</p>
-      <button class="btn btn-primary" onclick="closePlotTwist()">Fechar e Continuar a Cena</button>
+  <!-- BOTAO FLUTUANTE (FAB) PARA ROLAR DADOS -->
+  <div class="fab-dice" onclick="openDiceSheet()" title="Abrir Rolador de Dados">
+    🎲
+  </div>
+
+  <!-- BOTTOM SHEET MODAL DE ROLAGEM RAPIDA DE DADOS -->
+  <div id="dice-bottom-sheet" class="bottom-sheet" onclick="if(event.target === this) closeDiceSheet();">
+    <div class="bottom-sheet-content">
+      <div class="sheet-handle"></div>
+      <h3 style="font-size: 1.1rem; text-align: center; margin-bottom: 0.25rem;">Bandeja Rápida de Dados D20</h3>
+      <p style="font-size: 0.75rem; color: var(--text-muted); text-align: center;">Selecione o dado para rolar instantaneamente:</p>
+
+      <div class="dice-tray-grid">
+        <div class="dice-pill" onclick="executeDiceRoll('1d4', 'd4')">
+          <span class="dice-pill-icon">🔺</span>
+          <span class="dice-pill-name">d4</span>
+        </div>
+        <div class="dice-pill" onclick="executeDiceRoll('1d6', 'd6')">
+          <span class="dice-pill-icon">🎲</span>
+          <span class="dice-pill-name">d6</span>
+        </div>
+        <div class="dice-pill" onclick="executeDiceRoll('1d8', 'd8')">
+          <span class="dice-pill-icon">💎</span>
+          <span class="dice-pill-name">d8</span>
+        </div>
+        <div class="dice-pill" onclick="executeDiceRoll('1d10', 'd10')">
+          <span class="dice-pill-icon">🔟</span>
+          <span class="dice-pill-name">d10</span>
+        </div>
+        <div class="dice-pill" onclick="executeDiceRoll('1d12', 'd12')">
+          <span class="dice-pill-icon">⭐</span>
+          <span class="dice-pill-name">d12</span>
+        </div>
+        <div class="dice-pill selected" onclick="executeDiceRoll('1d20', 'd20 Puro')">
+          <span class="dice-pill-icon">👑</span>
+          <span class="dice-pill-name">d20</span>
+        </div>
+        <div class="dice-pill" onclick="executeDiceRoll('1d20+7', 'd20 + 7')">
+          <span class="dice-pill-icon">⚔️</span>
+          <span class="dice-pill-name">+7</span>
+        </div>
+        <div class="dice-pill" onclick="executeDiceRoll('1d100', 'd100 Porcentual')">
+          <span class="dice-pill-icon">💯</span>
+          <span class="dice-pill-name">d%</span>
+        </div>
+      </div>
+
+      <button class="btn-touch btn-touch-dark" style="width: 100%; margin-top: 0.5rem;" onclick="closeDiceSheet()">Fechar</button>
     </div>
   </div>
 
+  <!-- BARRA DE NAVEGAÇÃO INFERIOR DOCK (FIXA NO MOBILE) -->
+  <nav class="bottom-dock">
+    <div class="dock-item active" onclick="switchTavernTab('rolls', this)">
+      <span class="dock-icon">🎲</span>
+      <span>Rolagens</span>
+    </div>
+    <div class="dock-item" onclick="switchTavernTab('pistas', this)">
+      <span class="dock-icon">📜</span>
+      <span>Pistas</span>
+    </div>
+    <div class="dock-item" onclick="switchTavernTab('cronica', this)">
+      <span class="dock-icon">📖</span>
+      <span>Crônica</span>
+    </div>
+    <a href="player-sheet.html" class="dock-item">
+      <span class="dock-icon">🛡️</span>
+      <span>Minha Ficha</span>
+    </a>
+    <a href="gm-dashboard.html" class="dock-item">
+      <span class="dock-icon">👑</span>
+      <span>Mestre</span>
+    </a>
+  </nav>
+
   <script src="prototype.js"></script>
+  <script>
+    function switchTavernTab(tabId, el) {
+      document.querySelectorAll('.tavern-tab-pane').forEach(p => p.style.display = 'none');
+      document.querySelectorAll('.dock-item').forEach(d => d.classList.remove('active'));
+      const target = document.getElementById('section-tavern-' + tabId);
+      if (target) target.style.display = 'block';
+      if (el) el.classList.add('active');
+    }
+  </script>
 </body>
 </html>

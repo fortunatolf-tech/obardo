@@ -2,285 +2,289 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Painel do Mestre (GM) - O Bardo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Painel do Mestre (GM) • Tormenta20 & D&D • O Bardo</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- Barra de Navegação Superior -->
-  <header class="bardo-navbar">
-    <a href="index.html" class="brand-container">
-      <div class="brand-icon">👑</div>
+  <!-- Header Superior Mobile -->
+  <header class="app-header">
+    <a href="index.html" class="brand-wrapper">
+      <div class="brand-shield" style="border-color: var(--gold-imperial); color: var(--gold-imperial);">👑</div>
       <div>
-        <span class="brand-title">O BARDO</span>
-        <span class="brand-badge" style="color: var(--gold-bardo); border-color: var(--gold-bardo);">Painel do Mestre</span>
+        <div class="brand-name">O BARDO</div>
+        <div class="brand-sub">Comando do Mestre</div>
       </div>
     </a>
-    <div class="nav-controls">
-      <div class="sync-indicator">
-        <span class="pulse-dot"></span>
-        <span class="sync-status-text">Sincronizado com 4 Jogadores (28ms)</span>
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+      <div class="sync-badge">
+        <span class="sync-dot"></span>
+        <span>4 Jogadores Ouvindo (28ms)</span>
       </div>
-      <button class="btn btn-secondary btn-sm" onclick="rollDice('1d20', 'Rolagem Secreta do Mestre')">🎲 Dado Secreto</button>
-      <a href="live-session-taverna.html" class="btn btn-primary btn-sm">Ver Visão da Taverna</a>
     </div>
   </header>
 
-  <main class="container">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
-      <div>
-        <h2>Campanha: O Túmulo do Rei Serpente</h2>
-        <p style="color: var(--text-muted); font-size: 0.9rem;">Sessão 07 • Sistema: OSR / D&D B/X • Mestre: Lucas Fortunato</p>
-      </div>
-      <div style="display: flex; gap: 0.75rem;">
-        <button class="btn btn-danger" onclick="triggerPlotTwist('O TETO DESABA!', 'Um estalo ensurdecedor ecoa. As colunas de mármore cedem e pedras de duas toneladas bloqueiam o caminho de volta!', 'perigo')">
-          ⚡ Desencadear Reviravolta Rápida
+  <!-- Container Mobile Principal -->
+  <main class="mobile-container">
+    
+    <!-- Campanha & Sessão Ativa -->
+    <div class="rpg-card" style="border-color: var(--border-gold);">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+        <div>
+          <h2 style="font-size: 1.15rem; color: var(--gold-imperial);">O Coração de Rubi • Sessão 06</h2>
+          <p style="font-size: 0.75rem; color: var(--text-muted);">Sistema: Tormenta20 / D20 • Mestre: Lucas Fortunato</p>
+        </div>
+        <button class="btn-touch btn-touch-ruby" style="padding: 4px 10px; font-size: 0.75rem;" onclick="triggerDramaticTwist('A EMBOSCADA DA TORMENTA!', 'Nuvens púrpuras cobrem o céu. O solo sangra e aberrantes lefeu saltam das ruínas!', 'combate')">
+          ⚡ Plot Twist Rápido
         </button>
       </div>
     </div>
 
-    <div class="layout-main-sidebar">
-      <!-- Coluna Principal -->
-      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-        
-        <!-- Bloco 1: Central de Áudio & Soundboard do Mestre -->
-        <div class="card" style="border-color: var(--gold-bardo);">
-          <div class="card-header">
-            <span class="card-title">🎵 Mesa de Som & Ambientação Sincronizada</span>
-            <span id="now-playing-label" style="font-size: 0.85rem; color: var(--emerald-heal); font-weight: 600;">
-              Trilha Ativa: Taverna do Javali Saltitante
-            </span>
+    <!-- SEÇÃO 1: MESA DE SOM & SOUNDBOARD EM TEMPO REAL -->
+    <div id="section-gm-audio" class="gm-tab-pane">
+      <div class="rpg-card">
+        <div class="card-title-bar">
+          <span class="card-title-text">🎵 Som & Ambientação Sincronizada</span>
+          <span class="tag-pill gold">Broadcast Ativo</span>
+        </div>
+
+        <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+          Toque para alternar o clima sonoro simultaneamente no celular de todos os jogadores:
+        </p>
+
+        <!-- Seletor de Trilhas de Fundo -->
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.25rem;">
+          <div class="action-card ambient-track-btn" data-track="tavern" onclick="switchAmbientTrack('tavern')" style="cursor: pointer; margin-bottom: 0;">
+            <div class="action-header">
+              <span class="action-title">🍻 Taverna do Javali Saltitante</span>
+              <span class="tag-pill">Loop Contínuo</span>
+            </div>
+            <div class="action-desc">Alaúdes alegres, murmúrio de conversas e taças brindando.</div>
           </div>
 
-          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
-            Qualquer alteração feita aqui é transmitida em milissegundos para todos os dispositivos conectados na sessão.
-          </p>
-
-          <!-- Seleção de Trilhas de Fundo -->
-          <div class="audio-track-selector">
-            <div class="track-item active" data-track="tavern" onclick="setAmbientTrack('tavern')">
-              <div class="track-info">
-                <span class="track-name">🍻 Taverna do Javali Saltitante</span>
-                <span class="track-meta">Ambiência de conversa, lareira e alaúdes ao fundo • Loop</span>
-              </div>
-              <span class="btn btn-sm btn-secondary">Transmitir</span>
+          <div class="action-card ambient-track-btn" data-track="dungeon" onclick="switchAmbientTrack('dungeon')" style="cursor: pointer; margin-bottom: 0;">
+            <div class="action-header">
+              <span class="action-title">💀 Masmorra & Cripta Antiga</span>
+              <span class="tag-pill">Suspense</span>
             </div>
-            
-            <div class="track-item" data-track="dungeon" onclick="setAmbientTrack('dungeon')">
-              <div class="track-info">
-                <span class="track-name">💀 Cripta dos Ancestrais Perdidos</span>
-                <span class="track-meta">Gotejar de água fria, vento espectral e tensão • Loop</span>
-              </div>
-              <span class="btn btn-sm btn-secondary">Transmitir</span>
-            </div>
-
-            <div class="track-item" data-track="combat" onclick="setAmbientTrack('combat')">
-              <div class="track-info">
-                <span class="track-name">⚔️ Batalha pela Glória (Combate)</span>
-                <span class="track-meta">Tambores de guerra urgentes, cordas orquestradas • Clímax</span>
-              </div>
-              <span class="btn btn-sm btn-secondary">Transmitir</span>
-            </div>
+            <div class="action-desc">Gotas de água fria ecoando, vento espectral e tensão.</div>
           </div>
 
-          <!-- Soundboard de Efeitos Rápidos (SFX) -->
-          <h4 style="margin: 1.25rem 0 0.5rem 0; font-size: 0.95rem;">Disparo Instantâneo de Efeitos (SFX):</h4>
-          <div class="soundboard-grid">
-            <div class="sfx-button" onclick="playSynthesizedSFX('thunder')">
-              <span class="sfx-icon">⚡</span>
-              <span class="sfx-label">Trovão</span>
+          <div class="action-card ambient-track-btn" data-track="combat" onclick="switchAmbientTrack('combat')" style="cursor: pointer; margin-bottom: 0;">
+            <div class="action-header">
+              <span class="action-title">⚔️ Batalha pela Vida (Combate T20)</span>
+              <span class="tag-pill" style="color: var(--t20-ruby); border-color: var(--t20-ruby);">Clímax</span>
             </div>
-            <div class="sfx-button" onclick="playSynthesizedSFX('sword')">
-              <span class="sfx-icon">⚔️</span>
-              <span class="sfx-label">Aço / Golpe</span>
-            </div>
-            <div class="sfx-button" onclick="playSynthesizedSFX('roar')">
-              <span class="sfx-icon">🐉</span>
-              <span class="sfx-label">Rugido</span>
-            </div>
-            <div class="sfx-button" onclick="playSynthesizedSFX('bell')">
-              <span class="sfx-icon">🔔</span>
-              <span class="sfx-label">Sino Sombrio</span>
-            </div>
-            <div class="sfx-button" onclick="playSynthesizedSFX('dice')">
-              <span class="sfx-icon">🎲</span>
-              <span class="sfx-label">Dados</span>
-            </div>
+            <div class="action-desc">Tambores de guerra urgentes, trompas heróicas e adrenalina.</div>
           </div>
         </div>
 
-        <!-- Bloco 2: Disparador de Reviravoltas da Trama (Plot Twist Studio) -->
-        <div class="card" style="border-color: var(--crimson-blood);">
-          <div class="card-header">
-            <span class="card-title">🔥 Estúdio de Reviravoltas da Trama (Live Plot Twist)</span>
-            <span class="brand-badge" style="background: var(--crimson-blood); color: #fff;">Impacto Imediato</span>
-          </div>
-
-          <div style="display: flex; flex-direction: column; gap: 1rem;">
-            <div>
-              <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Manchete Dramática</label>
-              <input id="custom-twist-headline" type="text" value="A MÁSCARA DO CONSUL CAI!" style="width: 100%; padding: 0.75rem; background: var(--surface-elevated); border: 1px solid var(--border-iron); border-radius: var(--radius-sm); color: var(--text-parchment); font-family: var(--font-epic); font-size: 1.1rem; margin-top: 0.25rem;">
-            </div>
-
-            <div>
-              <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Descrição da Reviravolta</label>
-              <textarea id="custom-twist-desc" rows="3" style="width: 100%; padding: 0.75rem; background: var(--surface-elevated); border: 1px solid var(--border-iron); border-radius: var(--radius-sm); color: var(--text-parchment); font-family: var(--font-body); font-size: 0.95rem; margin-top: 0.25rem;">O homem diante de vocês retira o anel de sinete e revela a marca carmesim dos Cultistas do Abismo. Os guardas de ferro sacam suas alabardas!</textarea>
-            </div>
-
-            <div style="display: flex; gap: 1rem; align-items: center; justify-content: space-between; flex-wrap: wrap;">
-              <div style="display: flex; gap: 0.5rem;">
-                <button class="btn btn-secondary btn-sm" onclick="document.getElementById('custom-twist-headline').value='PORTAIS DO CAOS!'; document.getElementById('custom-twist-desc').value='As runas no chão ardem em chamas violetas. Criaturas de sombras emergem pelas frestas.';">Predefinir: Portais</button>
-                <button class="btn btn-secondary btn-sm" onclick="document.getElementById('custom-twist-headline').value='TRAIÇÃO NA CORTE!'; document.getElementById('custom-twist-desc').value='O veneno faz efeito no cálice do lorde regente. O capitão da guarda tranca os portões da sala.';">Predefinir: Traição</button>
-              </div>
-              <button class="btn btn-danger" onclick="triggerPlotTwist(document.getElementById('custom-twist-headline').value, document.getElementById('custom-twist-desc').value, 'traicao')">
-                ⚡ EXECUTAR REVIRAVOLTA AO VIVO
-              </button>
-            </div>
-          </div>
+        <!-- Soundboard de Disparo Imediato (SFX) -->
+        <div class="card-title-bar">
+          <span class="card-title-text">⚡ Soundboard Instantâneo (SFX)</span>
+          <span style="font-size: 0.7rem; color: var(--text-muted);">Disparo sem latência</span>
         </div>
 
-        <!-- Bloco 3: Visão de Monitoramento das Fichas do Grupo -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">🛡️ Monitor de Personagens da Campanha</span>
-            <span style="font-size: 0.8rem; color: var(--text-muted);">4 Heróis Ativos</span>
+        <div class="sfx-touch-grid">
+          <div class="sfx-pad" onclick="playAudioSFX('sword')">
+            <span class="sfx-pad-icon">⚔️</span>
+            <span class="sfx-pad-label">Aço / Golpe</span>
           </div>
-
-          <div style="display: flex; flex-direction: column; gap: 0.85rem;">
-            <!-- Personagem 1 -->
-            <div style="background: var(--surface-elevated); padding: 0.75rem 1rem; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
-              <div style="display: flex; align-items: center; gap: 0.75rem;">
-                <div style="font-size: 1.5rem;">🗡️</div>
-                <div>
-                  <div style="font-weight: 700; font-size: 0.95rem;">Thorgar, o Destemido</div>
-                  <div style="font-size: 0.75rem; color: var(--text-muted);">Guerreiro Nível 3 • CA 16 • Carga: Leve</div>
-                </div>
-              </div>
-              <div style="display: flex; align-items: center; gap: 1rem;">
-                <div style="text-align: right;">
-                  <span style="font-weight: 800; font-family: var(--font-mono); color: var(--emerald-heal);">24 / 28 PV</span>
-                  <div style="width: 110px; height: 8px; background: var(--surface-card); border-radius: 99px; overflow: hidden; margin-top: 4px;">
-                    <div style="width: 85%; height: 100%; background: var(--emerald-heal);"></div>
-                  </div>
-                </div>
-                <div style="display: flex; gap: 0.25rem;">
-                  <button class="btn btn-secondary btn-sm" onclick="playSynthesizedSFX('sword')">-4 PV</button>
-                  <button class="btn btn-secondary btn-sm">+4 PV</button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Personagem 2 -->
-            <div style="background: var(--surface-elevated); padding: 0.75rem 1rem; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
-              <div style="display: flex; align-items: center; gap: 0.75rem;">
-                <div style="font-size: 1.5rem;">🔮</div>
-                <div>
-                  <div style="font-weight: 700; font-size: 0.95rem;">Elidyr da Torre Prateada</div>
-                  <div style="font-size: 0.75rem; color: var(--text-muted);">Mago Nível 3 • CA 11 • Slots: 2/3</div>
-                </div>
-              </div>
-              <div style="display: flex; align-items: center; gap: 1rem;">
-                <div style="text-align: right;">
-                  <span style="font-weight: 800; font-family: var(--font-mono); color: var(--amber-tavern);">7 / 14 PV</span>
-                  <div style="width: 110px; height: 8px; background: var(--surface-card); border-radius: 99px; overflow: hidden; margin-top: 4px;">
-                    <div style="width: 50%; height: 100%; background: var(--amber-tavern);"></div>
-                  </div>
-                </div>
-                <div style="display: flex; gap: 0.25rem;">
-                  <button class="btn btn-secondary btn-sm" onclick="playSynthesizedSFX('sword')">-2 PV</button>
-                  <button class="btn btn-secondary btn-sm">+2 PV</button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Personagem 3 -->
-            <div style="background: var(--surface-elevated); padding: 0.75rem 1rem; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
-              <div style="display: flex; align-items: center; gap: 0.75rem;">
-                <div style="font-size: 1.5rem;">🏹</div>
-                <div>
-                  <div style="font-weight: 700; font-size: 0.95rem;">Kaelen, o Rastreador</div>
-                  <div style="font-size: 0.75rem; color: var(--text-muted);">Ladrão Nível 3 • CA 14 • Flechas: 18</div>
-                </div>
-              </div>
-              <div style="display: flex; align-items: center; gap: 1rem;">
-                <div style="text-align: right;">
-                  <span style="font-weight: 800; font-family: var(--font-mono); color: var(--emerald-heal);">19 / 19 PV</span>
-                  <div style="width: 110px; height: 8px; background: var(--surface-card); border-radius: 99px; overflow: hidden; margin-top: 4px;">
-                    <div style="width: 100%; height: 100%; background: var(--emerald-heal);"></div>
-                  </div>
-                </div>
-                <div style="display: flex; gap: 0.25rem;">
-                  <button class="btn btn-secondary btn-sm" onclick="playSynthesizedSFX('sword')">-3 PV</button>
-                  <button class="btn btn-secondary btn-sm">+3 PV</button>
-                </div>
-              </div>
-            </div>
+          <div class="sfx-pad" onclick="playAudioSFX('thunder')">
+            <span class="sfx-pad-icon">⚡</span>
+            <span class="sfx-pad-label">Trovão</span>
+          </div>
+          <div class="sfx-pad" onclick="playAudioSFX('spell')">
+            <span class="sfx-pad-icon">🔮</span>
+            <span class="sfx-pad-label">Magia Arcana</span>
+          </div>
+          <div class="sfx-pad" onclick="playAudioSFX('roar')">
+            <span class="sfx-pad-icon">🐉</span>
+            <span class="sfx-pad-label">Rugido</span>
+          </div>
+          <div class="sfx-pad" onclick="playAudioSFX('dice')">
+            <span class="sfx-pad-icon">🎲</span>
+            <span class="sfx-pad-label">Dados Mesa</span>
           </div>
         </div>
-
-      </div>
-
-      <!-- Barra Lateral do Mestre (Segredos & Histórico de Rolagens) -->
-      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-        
-        <!-- Segredos do Mestre -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">📜 Segredos do Mestre</span>
-            <span class="brand-badge" style="color: var(--gold-bardo);">Privado</span>
-          </div>
-          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">
-            Estas anotações nunca são transmitidas na API de jogadores.
-          </p>
-          <textarea rows="5" style="width: 100%; padding: 0.6rem; background: var(--surface-elevated); border: 1px solid var(--border-iron); border-radius: var(--radius-sm); color: var(--text-parchment); font-size: 0.85rem;">
-- A chave da cripta está escondida no cálice de prata sob o altar.
-- O lorde regente está sob efeito de dominação mental.
-- Na sala 4, a pressão no terceiro piso dispara armadilha de gás (DC 13 Con ou envenenado).
-          </textarea>
-          <button class="btn btn-secondary btn-sm" style="margin-top: 0.5rem; width: 100%;" onclick="alert('Pista enviada para o mural de Handouts revelados!')">
-            Revelar Pista Selecionada aos Jogadores
-          </button>
-        </div>
-
-        <!-- Feed de Rolagens de Dados em Tempo Real -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">🎲 Feed de Rolagens</span>
-            <button class="btn btn-secondary btn-sm" onclick="rollDice('1d20+4', 'Ataque Monstro')">Rolar</button>
-          </div>
-          <div id="dice-feed" class="dice-feed">
-            <div class="roll-entry">
-              <div>
-                <div class="roll-roller">Thorgar • Ataque Espada</div>
-                <div class="roll-detail">Dados: [17] + 3 (1d20+3)</div>
-              </div>
-              <div class="roll-total">20</div>
-            </div>
-            <div class="roll-entry">
-              <div>
-                <div class="roll-roller">Mestre • Percepção Secreta</div>
-                <div class="roll-detail">Dados: [14] + 2 (1d20+2)</div>
-              </div>
-              <div class="roll-total">16</div>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
+
+    <!-- SEÇÃO 2: ESTÚDIO DE REVIRAVOLTAS DA TRAMA (LIVE PLOT TWIST) -->
+    <div id="section-gm-twists" class="gm-tab-pane" style="display: none;">
+      <div class="rpg-card" style="border-color: var(--t20-ruby);">
+        <div class="card-title-bar">
+          <span class="card-title-text" style="color: var(--t20-ruby);">🔥 Desencadear Reviravolta da Trama</span>
+          <span class="tag-pill" style="background: var(--t20-ruby); color: #fff;">Impacto em Tela Cheia</span>
+        </div>
+
+        <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+          Ao clicar, a tela de todos os celulares escurece com pulso carmesim e o som dramático ecoa simultaneamente:
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <div>
+            <label style="font-size: 0.7rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Manchete Dramática</label>
+            <input id="gm-twist-title" type="text" value="A MÁSCARA DO CONSUL CAI!" style="width: 100%; padding: 0.65rem; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; color: var(--gold-imperial); font-family: var(--font-title); font-size: 1rem; margin-top: 3px;">
+          </div>
+
+          <div>
+            <label style="font-size: 0.7rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Descrição de Impacto</label>
+            <textarea id="gm-twist-text" rows="3" style="width: 100%; padding: 0.65rem; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; color: var(--text-parchment); font-size: 0.85rem; margin-top: 3px;">O nobre retira o capuz e desembainha uma lâmina negra. As portas da sala se fecham com estrondo de ferro!</textarea>
+          </div>
+
+          <!-- Presets Rápidos -->
+          <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+            <button class="btn-touch btn-touch-dark" style="font-size: 0.7rem; padding: 4px 8px;" onclick="document.getElementById('gm-twist-title').value='OS PORTAIS SE ABREM!'; document.getElementById('gm-twist-text').value='O solo se racha em lava púrpura. Criaturas abissais saltam das fendas!';">Preset: Portais</button>
+            <button class="btn-touch btn-touch-dark" style="font-size: 0.7rem; padding: 4px 8px;" onclick="document.getElementById('gm-twist-title').value='TRAIÇÃO NA CORTE!'; document.getElementById('gm-twist-text').value='O veneno atinge o cálice do regente. A guarda de elite cerca os heróis!';">Preset: Traição</button>
+          </div>
+
+          <button class="btn-touch btn-touch-ruby" style="width: 100%; padding: 0.85rem; font-size: 0.95rem; margin-top: 0.5rem;" onclick="triggerDramaticTwist(document.getElementById('gm-twist-title').value, document.getElementById('gm-twist-text').value, 'combate')">
+            ⚡ EXECUTAR REVIRAVOLTA AO VIVO (TODOS OS DISPOSITIVOS)
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 3: MONITOR DE FICHAS DA MESA (PV & PM EM TEMPO REAL) -->
+    <div id="section-gm-party" class="gm-tab-pane" style="display: none;">
+      <div class="rpg-card">
+        <div class="card-title-bar">
+          <span class="card-title-text">🛡️ Status do Grupo (PV & PM)</span>
+          <span style="font-size: 0.7rem; color: var(--emerald-life);">Sincronia Contínua</span>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+          <!-- Personagem 1: Galadhon -->
+          <div class="action-card ruby" style="margin-bottom: 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div style="font-weight: 700; font-size: 0.9rem;">Sir Galadhon (Guerreiro Arcano 4)</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Defesa: 19 • Iniciativa: +1</div>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-family: var(--font-code); font-weight: 800; font-size: 0.85rem; color: var(--t20-ruby);">34/38 PV</div>
+                <div style="font-family: var(--font-code); font-weight: 800; font-size: 0.85rem; color: var(--mana-cyan-light);">12/16 PM</div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 0.35rem; margin-top: 0.5rem;">
+              <button class="btn-touch btn-touch-dark" style="font-size: 0.7rem; padding: 2px 6px;" onclick="playAudioSFX('sword'); showToast('Dano de 6 aplicado em Galadhon!')">-6 PV</button>
+              <button class="btn-touch btn-touch-dark" style="font-size: 0.7rem; padding: 2px 6px;" onclick="playAudioSFX('spell'); showToast('Cura de 6 aplicada em Galadhon!')">+6 PV</button>
+              <button class="btn-touch btn-touch-mana" style="font-size: 0.7rem; padding: 2px 6px;" onclick="modifyPM(-2)">-2 PM</button>
+            </div>
+          </div>
+
+          <!-- Personagem 2: Elidyr -->
+          <div class="action-card mana" style="margin-bottom: 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div style="font-weight: 700; font-size: 0.9rem;">Elidyr (Arcanista Mago 4)</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Defesa: 14 • Iniciativa: +3</div>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-family: var(--font-code); font-weight: 800; font-size: 0.85rem; color: var(--amber-warn);">16/24 PV</div>
+                <div style="font-family: var(--font-code); font-weight: 800; font-size: 0.85rem; color: var(--mana-cyan-light);">18/26 PM</div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 0.35rem; margin-top: 0.5rem;">
+              <button class="btn-touch btn-touch-dark" style="font-size: 0.7rem; padding: 2px 6px;" onclick="playAudioSFX('sword')">-4 PV</button>
+              <button class="btn-touch btn-touch-dark" style="font-size: 0.7rem; padding: 2px 6px;" onclick="playAudioSFX('spell')">+4 PV</button>
+              <button class="btn-touch btn-touch-mana" style="font-size: 0.7rem; padding: 2px 6px;">-3 PM</button>
+            </div>
+          </div>
+
+          <!-- Personagem 3: Kaelen -->
+          <div class="action-card" style="margin-bottom: 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div style="font-weight: 700; font-size: 0.9rem;">Kaelen (Ladino da Floresta 4)</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Defesa: 17 • Iniciativa: +5</div>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-family: var(--font-code); font-weight: 800; font-size: 0.85rem; color: var(--emerald-life);">29/29 PV</div>
+                <div style="font-family: var(--font-code); font-weight: 800; font-size: 0.85rem; color: var(--mana-cyan-light);">14/14 PM</div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 0.35rem; margin-top: 0.5rem;">
+              <button class="btn-touch btn-touch-dark" style="font-size: 0.7rem; padding: 2px 6px;" onclick="playAudioSFX('sword')">-5 PV</button>
+              <button class="btn-touch btn-touch-dark" style="font-size: 0.7rem; padding: 2px 6px;" onclick="playAudioSFX('spell')">+5 PV</button>
+              <button class="btn-touch btn-touch-mana" style="font-size: 0.7rem; padding: 2px 6px;">-1 PM</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 4: SEGREDOS DO MESTRE & PISTAS -->
+    <div id="section-gm-secrets" class="gm-tab-pane" style="display: none;">
+      <div class="rpg-card">
+        <div class="card-title-bar">
+          <span class="card-title-text">📜 Anotações Secretas do Mestre</span>
+          <span class="tag-pill" style="color: var(--gold-imperial);">Nunca vaza via API</span>
+        </div>
+
+        <textarea rows="6" style="width: 100%; padding: 0.65rem; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; color: var(--text-parchment); font-size: 0.85rem; line-height: 1.5;">
+• O artefato no altar exige 3 gotas de sangue de um nobre ou 5 PM canalizados.
+• Os cultistas têm vulnerabilidade a dano de fogo (fraqueza oculta).
+• O mapa da saída secreta fica atrás do brasão de aço na parede leste.
+        </textarea>
+
+        <button class="btn-touch btn-touch-primary" style="width: 100%; margin-top: 0.5rem;" onclick="showToast('📜 Pista revelada instantaneamente na Taverna dos jogadores!');">
+          Revelar Pista Selecionada na Taverna dos Jogadores
+        </button>
+      </div>
+    </div>
+
   </main>
 
-  <!-- Modal de Plot Twist -->
-  <div id="plot-twist-overlay" class="plot-twist-overlay">
-    <div class="twist-card">
-      <span id="twist-tag" class="twist-tag">REVIRAVOLTA</span>
-      <h2 id="twist-headline" class="twist-headline">O TETO DESABA!</h2>
-      <p id="twist-desc" class="twist-desc">Um estalo ensurdecedor ecoa...</p>
-      <button class="btn btn-primary" onclick="closePlotTwist()">Fechar e Continuar a Cena</button>
+  <!-- MODAL DRAMÁTICO EM TELA CHEIA (PLOT TWIST OVERLAY) -->
+  <div id="dramatic-twist-screen" class="dramatic-twist-screen" onclick="closeDramaticTwist()">
+    <div class="dramatic-box" onclick="event.stopPropagation()">
+      <span class="tag-pill" style="background: var(--t20-ruby); color: #fff; margin-bottom: 0.75rem;">REVIRAVOLTA DA TRAMA</span>
+      <h2 id="dramatic-headline" style="font-size: 1.5rem; margin-bottom: 0.6rem; color: var(--gold-imperial);">A MÁSCARA DO CONSUL CAI!</h2>
+      <p id="dramatic-desc" style="font-size: 0.9rem; color: var(--text-parchment); line-height: 1.5; margin-bottom: 1.25rem;">
+        O nobre retira o capuz e desembainha uma lâmina negra...
+      </p>
+      <button class="btn-touch btn-touch-primary" style="width: 100%;" onclick="closeDramaticTwist()">
+        Continuar a Narrativa
+      </button>
     </div>
   </div>
 
+  <!-- BARRA DE NAVEGAÇÃO INFERIOR DOCK (FIXA NO MOBILE) -->
+  <nav class="bottom-dock">
+    <div class="dock-item active" onclick="switchGmTab('audio', this)">
+      <span class="dock-icon">🎵</span>
+      <span>Áudio</span>
+    </div>
+    <div class="dock-item" onclick="switchGmTab('twists', this)">
+      <span class="dock-icon">🔥</span>
+      <span>Reviravoltas</span>
+    </div>
+    <div class="dock-item" onclick="switchGmTab('party', this)">
+      <span class="dock-icon">🛡️</span>
+      <span>Fichas</span>
+    </div>
+    <div class="dock-item" onclick="switchGmTab('secrets', this)">
+      <span class="dock-icon">📜</span>
+      <span>Segredos</span>
+    </div>
+    <a href="live-session-taverna.html" class="dock-item">
+      <span class="dock-icon">🍻</span>
+      <span>Taverna</span>
+    </a>
+  </nav>
+
   <script src="prototype.js"></script>
+  <script>
+    function switchGmTab(tabId, el) {
+      document.querySelectorAll('.gm-tab-pane').forEach(p => p.style.display = 'none');
+      document.querySelectorAll('.dock-item').forEach(d => d.classList.remove('active'));
+      const target = document.getElementById('section-gm-' + tabId);
+      if (target) target.style.display = 'block';
+      if (el) el.classList.add('active');
+    }
+  </script>
 </body>
 </html>
