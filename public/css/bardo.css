@@ -1,0 +1,881 @@
+/* ==========================================================================
+   O BARDO - DESIGN SYSTEM: TORMENTA20 & D&D MOBILE-FIRST (OGL COMPLIANT)
+   Estética: Rubi Arcano, Ouro Imperial, Couro Nobre e Aço Forjado
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+:root {
+  /* Paleta Base: Fundo Escuro Grimoire */
+  --bg-abyss: #0a0b10;
+  --bg-card: #131622;
+  --bg-surface: #1a1e2e;
+  --bg-surface-elevated: #24293e;
+  --border-subtle: #2d334d;
+  --border-gold: #c99c36;
+  --border-gold-glow: rgba(201, 156, 54, 0.35);
+
+  /* Identidade Visual T20 / D&D */
+  --t20-ruby: #e11d48;
+  --t20-ruby-dark: #9f1239;
+  --t20-ruby-glow: rgba(225, 29, 72, 0.3);
+
+  --mana-cyan: #0284c7;
+  --mana-cyan-light: #38bdf8;
+  --mana-glow: rgba(2, 132, 199, 0.35);
+
+  --gold-imperial: #d4af37;
+  --gold-bright: #fbbf24;
+  --gold-soft: #fde68a;
+
+  --emerald-life: #10b981;
+  --amber-warn: #f59e0b;
+  --purple-arcane: #8b5cf6;
+
+  /* Tipografia & Legibilidade */
+  --text-parchment: #f6f3eb;
+  --text-secondary: #cbd5e1;
+  --text-muted: #848fa4;
+  --text-dark: #0f172a;
+
+  --font-title: 'Cinzel', serif;
+  --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-code: 'JetBrains Mono', monospace;
+
+  --safe-bottom: env(safe-area-inset-bottom, 16px);
+  --bottom-dock-height: 68px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: var(--bg-abyss);
+  color: var(--text-parchment);
+  font-family: var(--font-ui);
+  line-height: 1.45;
+  min-height: 100vh;
+  padding-bottom: calc(var(--bottom-dock-height) + 32px);
+  overflow-x: hidden;
+  user-select: none;
+}
+
+/* Tipografia */
+h1, h2, h3, h4, .font-title {
+  font-family: var(--font-title);
+  color: var(--gold-imperial);
+  letter-spacing: 0.03em;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
+
+/* ==========================================================================
+   HEADER MOBILE-FIRST
+   ========================================================================== */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(19, 22, 34, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 0.65rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+}
+
+.brand-shield {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #24293e 0%, #131622 100%);
+  border: 1.5px solid var(--border-gold);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  box-shadow: 0 0 10px var(--border-gold-glow);
+}
+
+.brand-name {
+  font-family: var(--font-title);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--gold-imperial);
+  line-height: 1;
+}
+
+.brand-sub {
+  font-size: 0.65rem;
+  color: var(--t20-ruby);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sync-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--emerald-life);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  padding: 0.25rem 0.55rem;
+  border-radius: 99px;
+}
+
+.sync-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--emerald-life);
+  box-shadow: 0 0 6px var(--emerald-life);
+  animation: pulse-sync 1.8s infinite;
+}
+
+@keyframes pulse-sync {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  50% { transform: scale(1.25); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.7; }
+}
+
+/* ==========================================================================
+   CONTAINER & ESTRUTURA MOBILE
+   ========================================================================== */
+.mobile-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0.85rem;
+}
+
+@media (min-width: 900px) {
+  .mobile-container {
+    max-width: 980px;
+    padding: 1.5rem;
+  }
+}
+
+/* ==========================================================================
+   CARDS & MOLDURAS ESTILO T20 / D&D
+   ========================================================================== */
+.rpg-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 0.9rem;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.45);
+  position: relative;
+  overflow: hidden;
+}
+
+.rpg-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--border-gold), transparent);
+  opacity: 0.6;
+}
+
+.card-title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.card-title-text {
+  font-family: var(--font-title);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--gold-imperial);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* ==========================================================================
+   HERO HEADER DO PERSONAGEM (TORMENTA20 & D&D)
+   ========================================================================== */
+.hero-compact {
+  display: flex;
+  gap: 0.85rem;
+  align-items: center;
+}
+
+.hero-portrait-frame {
+  width: 72px;
+  height: 72px;
+  border-radius: 12px;
+  border: 2px solid var(--border-gold);
+  background: linear-gradient(145deg, #1f2436 0%, #10121a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  box-shadow: 0 0 12px var(--border-gold-glow);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.level-badge {
+  position: absolute;
+  bottom: -6px;
+  right: -6px;
+  background: var(--t20-ruby);
+  color: #fff;
+  font-family: var(--font-title);
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 6px;
+  border: 1px solid #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+}
+
+.hero-meta {
+  flex-grow: 1;
+}
+
+.hero-name {
+  font-family: var(--font-title);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--gold-imperial);
+  line-height: 1.2;
+}
+
+.hero-class-race {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+.hero-tags {
+  display: flex;
+  gap: 0.35rem;
+  margin-top: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.tag-pill {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 99px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+}
+
+.tag-pill.gold {
+  color: var(--gold-imperial);
+  border-color: rgba(212, 175, 55, 0.4);
+  background: rgba(212, 175, 55, 0.1);
+}
+
+/* ==========================================================================
+   MEDIDORES VITAIS: PV (VIDA), PM (MANA) & DEFESA
+   ========================================================================== */
+.vitals-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 80px;
+  gap: 0.65rem;
+  margin-top: 0.85rem;
+}
+
+/* Caixa de Defesa / CA (Estilo Escudo Nobre) */
+.defense-shield-box {
+  background: linear-gradient(145deg, #1e2337 0%, #111420 100%);
+  border: 1.5px solid var(--border-gold);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 0 10px var(--border-gold-glow);
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.defense-shield-box:active {
+  transform: scale(0.96);
+}
+
+.defense-label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: var(--gold-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.defense-value {
+  font-family: var(--font-title);
+  font-size: 1.7rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+}
+
+.defense-sub {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+}
+
+/* Barras de PV e PM */
+.vital-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 0.6rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.vital-box:active {
+  background: var(--bg-surface-elevated);
+}
+
+.vital-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.vital-title {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.vital-numbers {
+  font-family: var(--font-code);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.bar-track {
+  width: 100%;
+  height: 9px;
+  background: rgba(0,0,0,0.5);
+  border-radius: 99px;
+  margin-top: 0.35rem;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bar-fill.ruby {
+  background: linear-gradient(90deg, #f43f5e 0%, #be123c 100%);
+  box-shadow: 0 0 8px var(--t20-ruby-glow);
+}
+
+.bar-fill.mana {
+  background: linear-gradient(90deg, #38bdf8 0%, #0284c7 100%);
+  box-shadow: 0 0 8px var(--mana-glow);
+}
+
+/* ==========================================================================
+   ATRIBUTOS ESTILO TORMENTA20 & D&D (MODIFICADOR GIGANTE)
+   ========================================================================== */
+.attributes-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.45rem;
+  margin-bottom: 0.9rem;
+}
+
+.attr-card {
+  background: linear-gradient(180deg, #1e2235 0%, #131622 100%);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 0.5rem 0.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+}
+
+.attr-card:active {
+  border-color: var(--border-gold);
+  transform: translateY(1px);
+  background: #24293e;
+}
+
+.attr-tag {
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.attr-mod {
+  font-family: var(--font-title);
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--gold-imperial);
+  line-height: 1.1;
+  margin: 2px 0;
+}
+
+.attr-raw {
+  font-family: var(--font-code);
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  background: rgba(0,0,0,0.4);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   PERÍCIAS TORMENTA20 & D&D (OGL COMPATÍVEL)
+   ========================================================================== */
+.skill-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid rgba(45, 51, 77, 0.4);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.skill-row:active {
+  background: var(--bg-surface);
+}
+
+.skill-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.skill-train-badge {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: var(--text-muted);
+}
+
+.skill-train-badge.trained {
+  background: var(--gold-imperial);
+  color: var(--text-dark);
+  border-color: var(--gold-bright);
+}
+
+.skill-name {
+  font-weight: 600;
+  color: var(--text-parchment);
+}
+
+.skill-attr-ref {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.skill-bonus {
+  font-family: var(--font-code);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--gold-imperial);
+  background: var(--bg-surface);
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border-subtle);
+}
+
+/* ==========================================================================
+   ATAQUES, ARMAS & PODERES (COM CUSTO EM PM!)
+   ========================================================================== */
+.action-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--border-gold);
+  border-radius: 10px;
+  padding: 0.75rem 0.85rem;
+  margin-bottom: 0.65rem;
+}
+
+.action-card.ruby {
+  border-left-color: var(--t20-ruby);
+}
+
+.action-card.mana {
+  border-left-color: var(--mana-cyan);
+}
+
+.action-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.35rem;
+}
+
+.action-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-parchment);
+}
+
+.action-cost {
+  font-size: 0.7rem;
+  font-weight: 800;
+  background: rgba(2, 132, 199, 0.2);
+  color: var(--mana-cyan-light);
+  border: 1px solid rgba(2, 132, 199, 0.4);
+  padding: 1px 7px;
+  border-radius: 99px;
+}
+
+.action-desc {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.4rem;
+}
+
+/* ==========================================================================
+   BOTÕES TACTEIS TOUCH-FRIENDLY
+   ========================================================================== */
+.btn-touch {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.55rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  transition: all 0.12s ease;
+  user-select: none;
+}
+
+.btn-touch:active {
+  transform: scale(0.96);
+}
+
+.btn-touch-primary {
+  background: linear-gradient(135deg, #d4af37 0%, #b89324 100%);
+  color: #0b0d13;
+  border-color: #fce7a1;
+  box-shadow: 0 2px 8px var(--border-gold-glow);
+}
+
+.btn-touch-ruby {
+  background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+  color: #fff;
+  border-color: #fca5a5;
+  box-shadow: 0 2px 8px var(--t20-ruby-glow);
+}
+
+.btn-touch-mana {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: #fff;
+  border-color: #7dd3fc;
+  box-shadow: 0 2px 8px var(--mana-glow);
+}
+
+.btn-touch-dark {
+  background: var(--bg-surface-elevated);
+  color: var(--text-parchment);
+  border-color: var(--border-subtle);
+}
+
+/* ==========================================================================
+   FLOATING ACTION BUTTON (FAB) & GAVETA DE ROLAGEM DE DADOS
+   ========================================================================== */
+.fab-dice {
+  position: fixed;
+  bottom: calc(var(--bottom-dock-height) + 16px);
+  right: 18px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d4af37 0%, #947214 100%);
+  border: 2px solid #fef08a;
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  color: #0b0d13;
+  cursor: pointer;
+  z-index: 60;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.fab-dice:active {
+  transform: scale(0.9);
+}
+
+/* Bottom Sheet Modal de Rolagem */
+.bottom-sheet {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.bottom-sheet.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.bottom-sheet-content {
+  background: var(--bg-card);
+  border-top: 2px solid var(--border-gold);
+  border-radius: 20px 20px 0 0;
+  padding: 1.25rem 1.25rem calc(var(--safe-bottom) + 1rem) 1.25rem;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.7);
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bottom-sheet.open .bottom-sheet-content {
+  transform: translateY(0);
+}
+
+.sheet-handle {
+  width: 44px;
+  height: 4px;
+  border-radius: 99px;
+  background: var(--border-subtle);
+  margin: 0 auto 1rem auto;
+}
+
+.dice-tray-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.65rem;
+  margin: 1rem 0;
+}
+
+.dice-pill {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 0.75rem 0.3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-title);
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.dice-pill:active, .dice-pill.selected {
+  border-color: var(--gold-imperial);
+  background: rgba(212, 175, 55, 0.15);
+  box-shadow: 0 0 10px var(--border-gold-glow);
+  transform: scale(0.95);
+}
+
+.dice-pill-name {
+  font-size: 1.1rem;
+  color: var(--gold-imperial);
+}
+
+.dice-pill-icon {
+  font-size: 1.2rem;
+  margin-bottom: 2px;
+}
+
+/* ==========================================================================
+   BOTTOM DOCK NAVIGATION (MOBILE FIRST)
+   ========================================================================== */
+.bottom-dock {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--bottom-dock-height);
+  padding-bottom: var(--safe-bottom);
+  background: rgba(15, 18, 28, 0.98);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  z-index: 50;
+}
+
+.dock-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-decoration: none;
+  gap: 3px;
+  flex: 1;
+  padding: 4px 0;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.dock-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.dock-item.active {
+  color: var(--gold-imperial);
+}
+
+.dock-item.active .dock-icon {
+  transform: translateY(-2px);
+  filter: drop-shadow(0 0 6px var(--border-gold-glow));
+}
+
+/* ==========================================================================
+   SOUNDBOARD & PLAYER SINCRONIZADO DO MESTRE (MOBILE FIRST)
+   ========================================================================== */
+.sfx-touch-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.55rem;
+}
+
+@media (min-width: 600px) {
+  .sfx-touch-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.sfx-pad {
+  background: linear-gradient(145deg, #1d2235 0%, #121522 100%);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 0.85rem 0.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.12s;
+}
+
+.sfx-pad:active, .sfx-pad.playing {
+  border-color: var(--gold-bright);
+  background: rgba(212, 175, 55, 0.2);
+  box-shadow: 0 0 14px var(--border-gold-glow);
+  transform: scale(0.96);
+}
+
+.sfx-pad-icon {
+  font-size: 1.4rem;
+}
+
+.sfx-pad-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-parchment);
+  text-align: center;
+}
+
+/* Plot Twist Banner Mobile */
+.plot-banner-mobile {
+  background: linear-gradient(135deg, rgba(225, 29, 72, 0.25) 0%, rgba(19, 22, 34, 0.95) 100%);
+  border: 1.5px solid var(--t20-ruby);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 0 20px var(--t20-ruby-glow);
+  position: relative;
+}
+
+/* Modal Dramático em Tela Cheia */
+.dramatic-twist-screen {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(30, 10, 16, 0.96) 0%, rgba(5, 5, 8, 0.98) 100%);
+  z-index: 120;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.dramatic-twist-screen.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.dramatic-box {
+  background: var(--bg-card);
+  border: 2px solid var(--t20-ruby);
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  max-width: 480px;
+  box-shadow: 0 0 45px var(--t20-ruby-glow);
+  transform: scale(0.9);
+  transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.dramatic-twist-screen.active .dramatic-box {
+  transform: scale(1);
+}
