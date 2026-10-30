@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>O Bardo - Protótipos de Alta Fidelidade (Oficial)</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="bardo-navbar">
+    <a href="index.html" class="brand-container">
+      <div class="brand-icon">⚔️</div>
+      <div>
+        <span class="brand-title">O BARDO</span>
+        <span class="brand-badge">Protótipo v1.0</span>
+      </div>
+    </a>
+    <div class="nav-controls">
+      <div class="sync-indicator">
+        <span class="pulse-dot"></span>
+        <span class="sync-status-text">Ambiente Homologado</span>
+      </div>
+      <a href="https://github.com/fortunatolf-tech/obardo" target="_blank" class="btn btn-secondary btn-sm">GitHub</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div style="text-align: center; margin: 2.5rem 0 3rem 0;">
+      <h1 style="font-size: 2.8rem; margin-bottom: 0.8rem;">O BARDO</h1>
+      <p style="font-size: 1.2rem; color: var(--text-secondary); max-width: 750px; margin: 0 auto;">
+        Plataforma web imersiva em PHP 8.3 dedicada exclusivamente a jogadores e mestres de RPG de mesa tradicional (raiz).
+      </p>
+    </div>
+
+    <div class="grid-cols-3">
+      <!-- Card Protótipo 1: Painel do Mestre -->
+      <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div class="card-header">
+            <span class="card-title">👑 Painel do Mestre (GM)</span>
+            <span class="brand-badge" style="color: var(--gold-bardo); border-color: var(--gold-bardo);">Exclusivo GM</span>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.25rem;">
+            A central de comando do narrador: soundboard em tempo real com disparo de efeitos, troca de trilhas com transição suave, disparador de reviravoltas da trama (Plot Twists) e visão tática das fichas do grupo.
+          </p>
+          <ul style="color: var(--text-secondary); font-size: 0.85rem; padding-left: 1.2rem; margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 0.4rem;">
+            <li>Mesa de som e controle acústico simultâneo</li>
+            <li>Disparador de Reviravoltas ao Vivo</li>
+            <li>Monitor de PVs e condições de todos os heróis</li>
+            <li>Gestão de pistas e notas secretas</li>
+          </ul>
+        </div>
+        <a href="gm-dashboard.html" class="btn btn-primary" style="justify-content: center; width: 100%;">
+          Explorar Painel do Mestre →
+        </a>
+      </div>
+
+      <!-- Card Protótipo 2: Ficha do Jogador -->
+      <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div class="card-header">
+            <span class="card-title">📜 Ficha do Jogador</span>
+            <span class="brand-badge" style="color: var(--emerald-heal); border-color: var(--emerald-heal);">Mobile First</span>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.25rem;">
+            Ficha de personagem dinâmica com cálculo instantâneo de atributos OSR e D20, gerenciamento de inventário com slots de carga, grimório de magias e rolador de dados com semente criptográfica.
+          </p>
+          <ul style="color: var(--text-secondary); font-size: 0.85rem; padding-left: 1.2rem; margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 0.4rem;">
+            <li>Controle de Pontos de Vida com alertas de estado</li>
+            <li>Rolagens diretas de atributos e ataques</li>
+            <li>Controle de slots de magias e grimório</li>
+            <li>Inventário inteligente com cálculo de encumbrance</li>
+          </ul>
+        </div>
+        <a href="player-sheet.html" class="btn btn-primary" style="justify-content: center; width: 100%;">
+          Abrir Ficha de Personagem →
+        </a>
+      </div>
+
+      <!-- Card Protótipo 3: A Taverna / Sessão Compartilhada -->
+      <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div class="card-header">
+            <span class="card-title">🍻 A Taverna (Ao Vivo)</span>
+            <span class="brand-badge" style="color: var(--amber-tavern); border-color: var(--amber-tavern);">Sincronia Total</span>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.25rem;">
+            O ponto de encontro virtual durante a sessão de jogo: player de áudio sincronizado com o Mestre, crônica compartilhada da guilda, mural de handouts e feed de dados em tempo real.
+          </p>
+          <ul style="color: var(--text-secondary); font-size: 0.85rem; padding-left: 1.2rem; margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 0.4rem;">
+            <li>Recepção instantânea do som da mesa</li>
+            <li>Mural de cartas e pergaminhos revelados</li>
+            <li>Feed transparente de rolagens de dados</li>
+            <li>Reação a reviravoltas da trama em tela cheia</li>
+          </ul>
+        </div>
+        <a href="live-session-taverna.html" class="btn btn-primary" style="justify-content: center; width: 100%;">
+          Entrar na Taverna →
+        </a>
+      </div>
+    </div>
+
+    <!-- Guia de Teste Acústico Interativo -->
+    <div class="card" style="margin-top: 2.5rem; background: var(--surface-slate); border-color: var(--gold-bardo);">
+      <div class="card-header">
+        <span class="card-title">🎵 Demonstração Rápida: Motor Acústico & Síntese Web Audio</span>
+        <button class="btn btn-secondary btn-sm" onclick="initAudioEngine()">Ativar Áudio Web</button>
+      </div>
+      <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1rem;">
+        Teste o sintetizador acústico que alimenta os protótipos em tempo real sem arquivos externos:
+      </p>
+      <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+        <button class="btn btn-secondary" onclick="playSynthesizedSFX('thunder')">⚡ Trovão Distante</button>
+        <button class="btn btn-secondary" onclick="playSynthesizedSFX('sword')">⚔️ Lâmina Desembainhada</button>
+        <button class="btn btn-secondary" onclick="playSynthesizedSFX('bell')">🔔 Sino da Cripta</button>
+        <button class="btn btn-secondary" onclick="playSynthesizedSFX('roar')">🐉 Rugido Bestial</button>
+        <button class="btn btn-secondary" onclick="playSynthesizedSFX('dice')">🎲 Rolagem de Dados</button>
+        <button class="btn btn-danger" onclick="triggerPlotTwist('A EMBOSCADA!', 'Flechas em chamas caem do dossel da floresta. O estalajadeiro que os guiou sumiu nas sombras.', 'traicao')">🔥 Testar Reviravolta da Trama</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal de Plot Twist -->
+  <div id="plot-twist-overlay" class="plot-twist-overlay">
+    <div class="twist-card">
+      <span id="twist-tag" class="twist-tag">REVIRAVOLTA</span>
+      <h2 id="twist-headline" class="twist-headline">A EMBOSCADA!</h2>
+      <p id="twist-desc" class="twist-desc">Flechas em chamas caem do dossel da floresta...</p>
+      <button class="btn btn-primary" onclick="closePlotTwist()">Continuar a Narrativa</button>
+    </div>
+  </div>
+
+  <footer style="margin-top: auto; padding: 2rem 1.5rem; text-align: center; border-top: 1px solid var(--border-iron); color: var(--text-muted); font-size: 0.85rem;">
+    O Bardo &copy; 2026 • Desenvolvido com maestria em PHP 8.3 para a comunidade de RPG tradicional.
+  </footer>
+
+  <script src="prototype.js"></script>
+</body>
+</html>

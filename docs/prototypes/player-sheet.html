@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ficha do Jogador - O Bardo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Barra de Navegação Superior -->
+  <header class="bardo-navbar">
+    <a href="index.html" class="brand-container">
+      <div class="brand-icon">📜</div>
+      <div>
+        <span class="brand-title">O BARDO</span>
+        <span class="brand-badge" style="color: var(--emerald-heal); border-color: var(--emerald-heal);">Ficha de Personagem</span>
+      </div>
+    </a>
+    <div class="nav-controls">
+      <div class="sync-indicator">
+        <span class="pulse-dot"></span>
+        <span class="sync-status-text">Conectado ao Mestre (32ms)</span>
+      </div>
+      <a href="live-session-taverna.html" class="btn btn-primary btn-sm">Ir para a Taverna</a>
+    </div>
+  </header>
+
+  <main class="container" style="max-width: 1050px;">
+    
+    <!-- Cabeçalho do Personagem -->
+    <div class="card" style="margin-bottom: 1.5rem;">
+      <div class="character-header">
+        <div class="avatar-frame">🛡️</div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem;">
+            <div>
+              <h1 style="font-size: 1.8rem; margin-bottom: 0.2rem;">Thorgar, o Destemido</h1>
+              <p style="color: var(--gold-bardo); font-size: 0.95rem; font-weight: 600;">
+                Guerreiro Humano • Nível 3 • Antecedente: Soldado Veterano
+              </p>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+              <span class="brand-badge" style="border-color: var(--gold-bardo); color: var(--gold-bardo);">Campanha: O Túmulo do Rei Serpente</span>
+            </div>
+          </div>
+
+          <!-- Monitor de PV e Estatísticas de Combate -->
+          <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 1rem; margin-top: 1.25rem; align-items: center;">
+            <!-- Pontos de Vida -->
+            <div class="hp-container">
+              <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700;">
+                <span>Pontos de Vida (PV)</span>
+                <span><span id="hp-current">24</span> / <span id="hp-max">28</span></span>
+              </div>
+              <div class="hp-bar-bg">
+                <div id="hp-bar-fill" class="hp-bar-fill" style="width: 85%;"></div>
+              </div>
+              <div style="display: flex; gap: 0.4rem; margin-top: 0.25rem;">
+                <button class="btn btn-secondary btn-sm" onclick="adjustHP(-5)">-5 Dano</button>
+                <button class="btn btn-secondary btn-sm" onclick="adjustHP(-1)">-1</button>
+                <button class="btn btn-secondary btn-sm" onclick="adjustHP(1)">+1</button>
+                <button class="btn btn-secondary btn-sm" onclick="adjustHP(5)">+5 Cura</button>
+              </div>
+            </div>
+
+            <!-- Classe de Armadura (CA) -->
+            <div style="text-align: center; background: var(--surface-elevated); padding: 0.6rem; border-radius: var(--radius-sm); border: 1px solid var(--border-iron);">
+              <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Armadura</div>
+              <div style="font-size: 1.6rem; font-weight: 800; font-family: var(--font-mono); color: var(--gold-bardo);">16</div>
+              <div style="font-size: 0.65rem; color: var(--text-muted);">Cota de Malha + Escudo</div>
+            </div>
+
+            <!-- Iniciativa -->
+            <div style="text-align: center; background: var(--surface-elevated); padding: 0.6rem; border-radius: var(--radius-sm); border: 1px solid var(--border-iron); cursor: pointer;" onclick="rollDice('1d20+1', 'Iniciativa')">
+              <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Iniciativa</div>
+              <div style="font-size: 1.6rem; font-weight: 800; font-family: var(--font-mono); color: var(--text-parchment);">+1</div>
+              <div style="font-size: 0.65rem; color: var(--gold-bardo);">Rolar 🎲</div>
+            </div>
+
+            <!-- Deslocamento -->
+            <div style="text-align: center; background: var(--surface-elevated); padding: 0.6rem; border-radius: var(--radius-sm); border: 1px solid var(--border-iron);">
+              <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Deslocamento</div>
+              <div style="font-size: 1.6rem; font-weight: 800; font-family: var(--font-mono); color: var(--text-parchment);">9m</div>
+              <div style="font-size: 0.65rem; color: var(--emerald-heal);">Sem Carga</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Atributos Principais com Rolagem de 1 Clique -->
+      <div class="attributes-grid">
+        <div class="attribute-box" onclick="rollDice('1d20+3', 'Teste de Força')">
+          <span class="attr-label">Força</span>
+          <span class="attr-value">16</span>
+          <span class="attr-modifier">+3</span>
+        </div>
+        <div class="attribute-box" onclick="rollDice('1d20+1', 'Teste de Destreza')">
+          <span class="attr-label">Destreza</span>
+          <span class="attr-value">12</span>
+          <span class="attr-modifier">+1</span>
+        </div>
+        <div class="attribute-box" onclick="rollDice('1d20+2', 'Teste de Constituição')">
+          <span class="attr-label">Constituição</span>
+          <span class="attr-value">15</span>
+          <span class="attr-modifier">+2</span>
+        </div>
+        <div class="attribute-box" onclick="rollDice('1d20-1', 'Teste de Inteligência')">
+          <span class="attr-label">Inteligência</span>
+          <span class="attr-value">9</span>
+          <span class="attr-modifier">-1</span>
+        </div>
+        <div class="attribute-box" onclick="rollDice('1d20+0', 'Teste de Sabedoria')">
+          <span class="attr-label">Sabedoria</span>
+          <span class="attr-value">10</span>
+          <span class="attr-modifier">+0</span>
+        </div>
+        <div class="attribute-box" onclick="rollDice('1d20-1', 'Teste de Carisma')">
+          <span class="attr-label">Carisma</span>
+          <span class="attr-value">8</span>
+          <span class="attr-modifier">-1</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navegação de Abas -->
+    <div class="card">
+      <div class="tabs-nav">
+        <button class="tab-btn active" onclick="switchTab('combate')">⚔️ Ataques & Combate</button>
+        <button class="tab-btn" onclick="switchTab('mochila')">🎒 Inventário & Carga (6/12)</button>
+        <button class="tab-btn" onclick="switchTab('grimorio')">📖 Grimório / Proezas</button>
+        <button class="tab-btn" onclick="switchTab('biografia')">📜 Biografia & Anotações</button>
+      </div>
+
+      <!-- Aba 1: Ataques & Combate -->
+      <div id="tab-combate" class="tab-content">
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <!-- Ataque 1 -->
+          <div style="background: var(--surface-elevated); padding: 0.85rem 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--gold-bardo); display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-weight: 700; font-size: 1rem;">Espada Longa de Aço Forjado</div>
+              <div style="font-size: 0.8rem; color: var(--text-muted);">Corpo a corpo • Dano Cortante (1d8 + 3) • Versátil (1d10)</div>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="btn btn-secondary btn-sm" onclick="rollDice('1d20+5', 'Ataque com Espada')">Ataque (+5)</button>
+              <button class="btn btn-primary btn-sm" onclick="rollDice('1d8+3', 'Dano Espada Longa')">Dano (1d8+3)</button>
+            </div>
+          </div>
+
+          <!-- Ataque 2 -->
+          <div style="background: var(--surface-elevated); padding: 0.85rem 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--amber-tavern); display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-weight: 700; font-size: 1rem;">Arco Curto de Teixo</div>
+              <div style="font-size: 0.8rem; color: var(--text-muted);">Distância (24m/96m) • Dano Perfurante (1d6 + 1) • Aljava: 18 flechas</div>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="btn btn-secondary btn-sm" onclick="rollDice('1d20+3', 'Disparo de Arco')">Ataque (+3)</button>
+              <button class="btn btn-primary btn-sm" onclick="rollDice('1d6+1', 'Dano Arco Curto')">Dano (1d6+1)</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Aba 2: Inventário & Carga -->
+      <div id="tab-mochila" class="tab-content" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <span style="font-size: 0.9rem; color: var(--text-muted);">Capacidade Máxima: 16 Slots (Força 16) • Carga Atual: 6 Slots (Carga Leve)</span>
+          <button class="btn btn-secondary btn-sm" onclick="alert('Item adicionado à mochila!')">+ Adicionar Item</button>
+        </div>
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border-iron); color: var(--gold-bardo); text-align: left;">
+              <th style="padding: 0.5rem;">Item</th>
+              <th style="padding: 0.5rem;">Qtd</th>
+              <th style="padding: 0.5rem;">Slots</th>
+              <th style="padding: 0.5rem; text-align: right;">Equipado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid rgba(47, 53, 79, 0.4);">
+              <td style="padding: 0.6rem;">Cota de Malha de Aço</td>
+              <td style="padding: 0.6rem;">1</td>
+              <td style="padding: 0.6rem;">3</td>
+              <td style="padding: 0.6rem; text-align: right;">✅ Sim</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(47, 53, 79, 0.4);">
+              <td style="padding: 0.6rem;">Espada Longa</td>
+              <td style="padding: 0.6rem;">1</td>
+              <td style="padding: 0.6rem;">1</td>
+              <td style="padding: 0.6rem; text-align: right;">✅ Sim</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(47, 53, 79, 0.4);">
+              <td style="padding: 0.6rem;">Tochas de Resina</td>
+              <td style="padding: 0.6rem;">6</td>
+              <td style="padding: 0.6rem;">1</td>
+              <td style="padding: 0.6rem; text-align: right;">🎒 Mochila</td>
+            </tr>
+            <tr>
+              <td style="padding: 0.6rem;">Rações de Viagem (dias)</td>
+              <td style="padding: 0.6rem;">5</td>
+              <td style="padding: 0.6rem;">1</td>
+              <td style="padding: 0.6rem; text-align: right;">🎒 Mochila</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Aba 3: Grimório / Proezas -->
+      <div id="tab-grimorio" class="tab-content" style="display: none;">
+        <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
+          Proezas Marciais Ativas do Guerreiro:
+        </p>
+        <div style="background: var(--surface-elevated); padding: 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--emerald-heal); margin-bottom: 0.75rem;">
+          <div style="font-weight: 700; color: var(--gold-bardo);">Retomar o Fôlego (Second Wind)</div>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;">
+            Uma vez por descanso curto, recupere 1d10 + 3 Pontos de Vida como ação bônus.
+          </p>
+          <button class="btn btn-primary btn-sm" style="margin-top: 0.5rem;" onclick="rollDice('1d10+3', 'Retomar o Fôlego'); adjustHP(rollDice('1d10+3'));">Usar Habilidade 🎲</button>
+        </div>
+      </div>
+
+      <!-- Aba 4: Biografia -->
+      <div id="tab-biografia" class="tab-content" style="display: none;">
+        <textarea rows="6" style="width: 100%; padding: 0.75rem; background: var(--surface-elevated); border: 1px solid var(--border-iron); border-radius: var(--radius-sm); color: var(--text-parchment); font-size: 0.9rem;">
+Thorgar serviu 8 anos na Guarda da Fronteira Norte até sua guarnição ser dizimada por uma horda orc desconhecida. Jurou proteger os fracos e agora busca as ruínas do Túmulo do Rei Serpente em busca do escudo lendário de seu antigo comandante.
+        </textarea>
+      </div>
+    </div>
+
+    <!-- Bandeja Rápida de Dados Flutuante -->
+    <div class="card" style="margin-top: 1.5rem; background: var(--surface-slate); border-color: var(--gold-bardo);">
+      <div class="card-header">
+        <span class="card-title">🎲 Rolador de Dados Rápido</span>
+        <span style="font-size: 0.8rem; color: var(--text-muted);">Semente Criptográfica Segura</span>
+      </div>
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+        <button class="btn btn-secondary" onclick="rollDice('1d4', 'd4')">d4</button>
+        <button class="btn btn-secondary" onclick="rollDice('1d6', 'd6')">d6</button>
+        <button class="btn btn-secondary" onclick="rollDice('1d8', 'd8')">d8</button>
+        <button class="btn btn-secondary" onclick="rollDice('1d10', 'd10')">d10</button>
+        <button class="btn btn-secondary" onclick="rollDice('1d12', 'd12')">d12</button>
+        <button class="btn btn-primary" onclick="rollDice('1d20', 'd20')">d20</button>
+        <button class="btn btn-secondary" onclick="rollDice('1d100', 'd100')">d100</button>
+      </div>
+
+      <div id="dice-feed" class="dice-feed">
+        <div class="roll-entry">
+          <div>
+            <div class="roll-roller">Thorgar • Teste de Força</div>
+            <div class="roll-detail">Dados: [14] + 3 (1d20+3)</div>
+          </div>
+          <div class="roll-total">17</div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="prototype.js"></script>
+  <script>
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-' + tabId).style.display = 'block';
+      event.target.classList.add('active');
+    }
+  </script>
+</body>
+</html>

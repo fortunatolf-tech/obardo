@@ -1,0 +1,259 @@
+openapi: 3.1.0
+info:
+  title: O Bardo API
+  description: API oficial da plataforma web imersiva para RPG de mesa tradicional O Bardo.
+  version: 1.0.0
+  contact:
+    name: O Bardo Engineering
+    url: https://github.com/fortunatolf-tech/obardo
+servers:
+  - url: https://obardo.com.br/api/v1
+    description: Servidor de Produção
+  - url: http://localhost:8080/api/v1
+    description: Ambiente de Desenvolvimento Local
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    ErrorResponse:
+      type: object
+      required:
+        - type
+        - title
+        - status
+        - detail
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+        instance:
+          type: string
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        role:
+          type: string
+          enum: [admin, user]
+        created_at:
+          type: string
+          format: date-time
+
+    Campaign:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        code:
+          type: string
+        rule_system:
+          type: string
+          enum: [OSR_BX, DND_5E, TORMENTA20, CUSTOM]
+        description:
+          type: string
+        cover_image_url:
+          type: string
+        gm_user_id:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+
+    CharacterSheet:
+      type: object
+      properties:
+        id:
+          type: integer
+        campaign_id:
+          type: integer
+        name:
+          type: string
+        class_and_level:
+          type: string
+        hp_current:
+          type: integer
+        hp_max:
+          type: integer
+        armor_class:
+          type: integer
+        attributes:
+          type: object
+        inventory:
+          type: array
+          items:
+            type: object
+
+    AudioSyncCommand:
+      type: object
+      required:
+        - action
+      properties:
+        action:
+          type: string
+          enum: [PLAY_TRACK, PAUSE_TRACK, SEEK_TRACK, TRIGGER_SFX, SET_LAYER_VOLUME]
+        layer:
+          type: string
+          enum: [music, ambience]
+        track_id:
+          type: integer
+        track_url:
+          type: string
+        sfx_url:
+          type: string
+        volume:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+        start_offset_ms:
+          type: integer
+
+paths:
+  /auth/register:
+    post:
+      summary: Registro de novo usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, password, terms_accepted]
+              properties:
+                name: { type: string }
+                email: { type: string, format: email }
+                password: { type: string, minLength: 8 }
+                terms_accepted: { type: boolean }
+      responses:
+        '201':
+          description: Usuário cadastrado com sucesso
+        '422':
+          description: Dados inválidos
+
+  /auth/login:
+    post:
+      summary: Autenticação de usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string, format: email }
+                password: { type: string }
+      responses:
+        '200':
+          description: Autenticado com sucesso
+        '401':
+          description: Credenciais inválidas
+
+  /campaigns:
+    get:
+      summary: Listar campanhas do usuário autenticado
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Lista de campanhas retornada
+    post:
+      summary: Criar nova campanha (o criador torna-se Mestre)
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title, rule_system]
+              properties:
+                title: { type: string }
+                rule_system: { type: string }
+                description: { type: string }
+                cover_image_url: { type: string }
+      responses:
+        '201':
+          description: Campanha criada
+
+  /campaigns/{id}/audio/sync:
+    post:
+      summary: Comandar sincronização de som da sessão (Exclusivo Mestre)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AudioSyncCommand'
+      responses:
+        '200':
+          description: Comando transmitido com sucesso
+        '403':
+          description: Acesso negado (apenas o Mestre pode controlar o som)
+
+  /campaigns/{id}/plots/trigger:
+    post:
+      summary: Disparar Reviravolta na Trama (Exclusivo Mestre)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [headline, description]
+              properties:
+                twist_type: { type: string }
+                headline: { type: string }
+                description: { type: string }
+                audio_sfx_url: { type: string }
+                bg_theme: { type: string }
+      responses:
+        '200':
+          description: Reviravolta ativada
+
+  /campaigns/{id}/events/stream:
+    get:
+      summary: Canal SSE em tempo real de eventos da campanha
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Fluxo contínuo de eventos Server-Sent Events (text/event-stream)
