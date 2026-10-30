@@ -2,17 +2,30 @@
 
 <main class="mobile-container">
   
-  <!-- Campanha & Sessão Ativa -->
+  <!-- Banner Artístico do Mestre (Tormenta & D&D) -->
+  <div class="fantasy-art-banner" style="background-image: linear-gradient(180deg, rgba(13,16,26,0.2) 0%, rgba(13,16,26,0.95) 100%), url('/images/gm-dragon-twist.jpg'); height: 165px; border-radius: 12px; border: 1.5px solid var(--border-gold); margin-bottom: 0.85rem; background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: flex-end; padding: 1rem; position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.7);">
+    <div style="font-size: 0.65rem; color: var(--t20-ruby); font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; text-shadow: 0 2px 4px #000;">
+      🐉 Covil do Mestre • Destino & Reviravoltas da Trama
+    </div>
+    <div style="font-family: var(--font-title); font-size: 1.35rem; font-weight: 900; color: var(--gold-imperial); text-shadow: 0 2px 8px rgba(0,0,0,0.95);">
+      <?= $e($campaign->title) ?>
+    </div>
+    <div style="font-size: 0.72rem; color: var(--text-secondary); text-shadow: 0 1px 4px #000;">
+      Sistema: <?= $e($campaign->ruleSystem) ?> • Mestre da Mesa: <strong style="color:#fff;"><?= $e($user->name) ?></strong>
+    </div>
+  </div>
+
+  <!-- Ações Rápidas do Mestre -->
   <div class="rpg-card" style="border-color: var(--border-gold);">
-    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
       <div>
-        <h2 style="font-size: 1.15rem; color: var(--gold-imperial);"><?= $e($campaign->title) ?></h2>
+        <h2 style="font-size: 1.05rem; color: var(--gold-imperial);">Comando da Sessão</h2>
         <p style="font-size: 0.75rem; color: var(--text-muted);">
-          Sistema: <?= $e($campaign->ruleSystem) ?> • Mestre: <?= $e($user->name) ?>
+          Controle a atmosfera acústica e os segredos narrativos em tempo real.
         </p>
       </div>
-      <button class="btn-touch btn-touch-ruby" style="padding: 4px 10px; font-size: 0.75rem;" onclick="bardoGMPlotTwist(<?= $campaign->id ?>, 'A EMBOSCADA DA TORMENTA!', 'Nuvens púrpuras cobrem o céu. O solo sangra e aberrantes lefeu saltam das ruínas!', 'combate')">
-        ⚡ Plot Twist Rápido
+      <button class="btn-touch btn-touch-ruby" style="padding: 5px 12px; font-size: 0.78rem;" onclick="bardoGMPlotTwist(<?= $campaign->id ?>, 'A EMBOSCADA DA TORMENTA!', 'Nuvens púrpuras cobrem o céu. O solo sangra e aberrantes lefeu saltam das ruínas!', 'combate')">
+        ⚡ Disparar Reviravolta Épica
       </button>
     </div>
   </div>

@@ -54,14 +54,16 @@
 }
 
 body {
-  background-color: var(--bg-abyss);
+  background: 
+    radial-gradient(ellipse at 50% 12%, rgba(225, 29, 72, 0.18) 0%, rgba(13, 15, 24, 0.85) 45%, rgba(6, 7, 12, 0.97) 90%),
+    url('/images/bg-tormenta-epic.jpg') no-repeat top center / 100% auto fixed,
+    #06070a;
   color: var(--text-parchment);
   font-family: var(--font-ui);
   line-height: 1.45;
   min-height: 100vh;
   padding-bottom: calc(var(--bottom-dock-height) + 32px);
   overflow-x: hidden;
-  user-select: none;
 }
 
 /* Tipografia */
@@ -173,14 +175,17 @@ h1, h2, h3, h4, .font-title {
    CARDS & MOLDURAS ESTILO T20 / D&D
    ========================================================================== */
 .rpg-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: 12px;
-  padding: 1rem;
-  margin-bottom: 0.9rem;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.45);
+  background: 
+    linear-gradient(145deg, rgba(23, 27, 42, 0.94) 0%, rgba(13, 16, 26, 0.98) 100%),
+    url('/images/parchment-grimoire.jpg') center / cover;
+  border: 1.5px solid rgba(212, 175, 55, 0.45);
+  border-radius: 14px;
+  padding: 1.15rem;
+  margin-bottom: 0.95rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.7), inset 0 0 20px rgba(212, 175, 55, 0.05);
   position: relative;
   overflow: hidden;
+  backdrop-filter: blur(8px);
 }
 
 .rpg-card::before {
@@ -189,9 +194,19 @@ h1, h2, h3, h4, .font-title {
   top: 0;
   left: 0;
   right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--border-gold), transparent);
-  opacity: 0.6;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #fbbf24 15%, #e11d48 50%, #fbbf24 85%, transparent);
+  opacity: 0.9;
+}
+
+.fantasy-art-banner {
+  border-radius: 14px;
+  border: 1.5px solid var(--border-gold);
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.75), inset 0 0 15px rgba(212, 175, 55, 0.2);
 }
 
 .card-title-bar {
@@ -844,11 +859,13 @@ h1, h2, h3, h4, .font-title {
   position: relative;
 }
 
-/* Modal Dramático em Tela Cheia */
-.dramatic-twist-screen {
+/* Modal Dramático em Tela Cheia (Tormenta & D&D) */
+.dramatic-overlay, .dramatic-twist-screen {
   position: fixed;
   inset: 0;
-  background: radial-gradient(circle at center, rgba(30, 10, 16, 0.96) 0%, rgba(5, 5, 8, 0.98) 100%);
+  background: 
+    radial-gradient(circle at center, rgba(225, 29, 72, 0.42) 0%, rgba(10, 11, 16, 0.95) 75%),
+    url('/images/gm-dragon-twist.jpg') center / cover no-repeat;
   z-index: 120;
   display: flex;
   align-items: center;
@@ -857,25 +874,45 @@ h1, h2, h3, h4, .font-title {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.4s ease;
+  backdrop-filter: blur(6px);
 }
 
-.dramatic-twist-screen.active {
+.dramatic-overlay.active, .dramatic-twist-screen.active {
   opacity: 1;
   pointer-events: auto;
 }
 
-.dramatic-box {
-  background: var(--bg-card);
+.dramatic-content, .dramatic-box {
+  background: 
+    linear-gradient(145deg, rgba(28, 12, 18, 0.95) 0%, rgba(13, 8, 12, 0.98) 100%),
+    url('/images/parchment-grimoire.jpg') center / cover;
   border: 2px solid var(--t20-ruby);
   border-radius: 16px;
-  padding: 2rem 1.5rem;
+  padding: 2.2rem 1.6rem;
   text-align: center;
   max-width: 480px;
-  box-shadow: 0 0 45px var(--t20-ruby-glow);
+  width: 100%;
+  box-shadow: 0 0 50px rgba(225, 29, 72, 0.55), inset 0 0 25px rgba(225, 29, 72, 0.2);
   transform: scale(0.9);
   transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.dramatic-twist-screen.active .dramatic-box {
+.dramatic-overlay.active .dramatic-content, .dramatic-twist-screen.active .dramatic-box {
   transform: scale(1);
+}
+
+.dramatic-title {
+  font-family: var(--font-title);
+  font-size: 1.6rem;
+  color: #fff;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 20px rgba(225, 29, 72, 0.8), 0 2px 4px #000;
+  margin-bottom: 0.5rem;
+}
+
+.dramatic-subtitle {
+  font-size: 0.88rem;
+  color: var(--gold-soft);
+  line-height: 1.6;
+  text-shadow: 0 1px 3px #000;
 }

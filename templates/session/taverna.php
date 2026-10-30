@@ -9,20 +9,16 @@
 <!-- Container Mobile Principal -->
 <main class="mobile-container">
 
-  <!-- Painel Superior da Campanha -->
-  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-    <div>
-      <div style="font-size: 0.65rem; color: var(--gold-imperial); font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em;">
-        Sessão da Guilda Ao Vivo
-      </div>
-      <h1 style="font-size: 1.15rem; font-weight: 900; color: #fff; margin: 0;">
-        <?= $e($campaign->title) ?>
-      </h1>
+  <!-- Banner Artístico da Taverna (Tormenta & D&D) -->
+  <div class="fantasy-art-banner" style="background-image: linear-gradient(180deg, rgba(13,16,26,0.25) 0%, rgba(13,16,26,0.92) 100%), url('/images/taverna-art.jpg'); height: 165px; border-radius: 12px; border: 1.5px solid var(--border-gold); margin-bottom: 0.85rem; background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: flex-end; padding: 1rem; position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.7);">
+    <div style="font-size: 0.65rem; color: var(--gold-bright); font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; text-shadow: 0 2px 4px #000;">
+      🍻 Ponto de Encontro • Taverna de Arton & Costa da Espada
     </div>
-    <div style="text-align: right;">
-      <span class="tag-pill gold" style="font-family: var(--font-code); font-size: 0.75rem;">
-        <?= $e($campaign->invite_code) ?>
-      </span>
+    <div style="font-family: var(--font-title); font-size: 1.35rem; font-weight: 900; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.95);">
+      <?= $e($campaign->title) ?>
+    </div>
+    <div style="font-size: 0.72rem; color: var(--text-secondary); text-shadow: 0 1px 4px #000;">
+      Sistema: <?= $e($campaign->rule_system ?? 'Universal / Tormenta20 & D&D') ?> • Código: <strong style="color:var(--gold-imperial);"><?= $e($campaign->invite_code) ?></strong>
     </div>
   </div>
 
@@ -218,8 +214,14 @@
 <div id="dice-bottom-sheet" class="bottom-sheet" onclick="if(event.target === this) closeDiceSheet();">
   <div class="bottom-sheet-content">
     <div class="sheet-handle"></div>
-    <h3 style="font-size: 1.1rem; text-align: center; margin-bottom: 0.25rem;">Bandeja Rápida de Dados D20</h3>
-    <p style="font-size: 0.75rem; color: var(--text-muted); text-align: center;">Selecione o dado para rolar instantaneamente:</p>
+    <h3 style="font-size: 1.1rem; text-align: center; margin-bottom: 0.25rem;">Bandeja Universal de Dados</h3>
+    <p style="font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-bottom: 0.75rem;">Suporta Sistema D20, D100, 3d6 e qualquer RPG de mesa:</p>
+
+    <!-- Fórmula Personalizada Livre -->
+    <form onsubmit="event.preventDefault(); const f=document.getElementById('tavern-dice-formula').value; if(f) bardoRoll(<?= $campaign->id ?>, <?= $characters[0]->id ?? 'null' ?>, f, 'Rolagem Especial');" style="display: flex; gap: 0.4rem; margin-bottom: 0.85rem;">
+      <input type="text" id="tavern-dice-formula" placeholder="Fórmula livre (ex: 3d6+2, 2d8, 1d100)" style="flex: 1; padding: 0.6rem; background: var(--bg-surface); border: 1px solid var(--border-gold); border-radius: 8px; color: #fff; font-family: var(--font-code); font-size: 0.85rem;">
+      <button type="submit" class="btn-touch btn-touch-primary" style="padding: 0 1rem;">Rolar</button>
+    </form>
 
     <div class="dice-tray-grid">
       <div class="dice-pill" onclick="bardoRoll(<?= $campaign->id ?>, <?= $characters[0]->id ?? 'null' ?>, '1d4', 'd4')">

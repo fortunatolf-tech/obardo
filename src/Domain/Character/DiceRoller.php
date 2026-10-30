@@ -32,8 +32,28 @@ final class DiceRoller
         }
 
         $total = $sum + $modifier;
-        $isCritical = ($sides === 20 && $numDice === 1 && $diceResults[0] === 20);
-        $isFumble = ($sides === 20 && $numDice === 1 && $diceResults[0] === 1);
+
+        // Avaliação de Sucessos Críticos e Falhas Críticas conforme o Sistema de RPG
+        $isCritical = false;
+        $isFumble = false;
+
+        if ($sides === 20 && $numDice === 1) {
+            // Sistema D20 (Tormenta20, D&D 5e, Pathfinder, OSR)
+            $isCritical = ($diceResults[0] === 20);
+            $isFumble = ($diceResults[0] === 1);
+        } elseif ($sides === 100 && $numDice === 1) {
+            // Sistema D100 (Call of Cthulhu, BRP, RuneQuest)
+            $isCritical = ($diceResults[0] <= 5);
+            $isFumble = ($diceResults[0] >= 96);
+        } elseif ($sides === 6 && $numDice === 3) {
+            // Sistema 3d6 (GURPS, Hero System)
+            $isCritical = ($sum <= 4);
+            $isFumble = ($sum >= 17);
+        } elseif ($sides === 6 && $numDice === 1) {
+            // Sistema 3D&T / 1d6
+            $isCritical = ($diceResults[0] === 6);
+            $isFumble = ($diceResults[0] === 1);
+        }
 
         return [
             'formula' => $formula,

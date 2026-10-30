@@ -2,12 +2,25 @@
 
 <main class="mobile-container">
   
+  <!-- Banner Épico de Alta Fantasia (Tormenta & D&D) -->
+  <div class="fantasy-art-banner" style="background-image: linear-gradient(180deg, rgba(10,11,16,0.2) 0%, rgba(10,11,16,0.92) 100%), url('/images/bg-tormenta-epic.jpg'); height: 160px; border-radius: 12px; border: 1.5px solid var(--border-gold); margin-bottom: 0.85rem; background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.1rem; position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.7);">
+    <div style="font-size: 0.65rem; color: var(--gold-bright); font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; text-shadow: 0 2px 4px #000;">
+      🏰 Salão das Guildas • Arte & Ambientação Tormenta & D&D
+    </div>
+    <div style="font-family: var(--font-title); font-size: 1.35rem; font-weight: 900; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.95);">
+      Minhas Campanhas
+    </div>
+    <div style="font-size: 0.75rem; color: var(--text-secondary); text-shadow: 0 1px 4px #000;">
+      Compatível com qualquer sistema de RPG de mesa tradicional
+    </div>
+  </div>
+
   <!-- Saudação ao Usuário -->
   <div class="rpg-card" style="border-color: var(--border-gold); padding: 1.25rem;">
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
       <div>
         <h1 style="font-size: 1.35rem; color: var(--gold-imperial);">Olá, <?= $e($user->name) ?>!</h1>
-        <p style="font-size: 0.8rem; color: var(--text-secondary);">Bem-vindo ao salão de campanhas d'O Bardo.</p>
+        <p style="font-size: 0.8rem; color: var(--text-secondary);">Empunhe sua espada e reúna seu grupo para a próxima sessão.</p>
       </div>
       <div style="display: flex; gap: 0.5rem;">
         <button class="btn-touch btn-touch-primary" onclick="document.getElementById('modal-new-campaign').style.display='flex'">
@@ -91,12 +104,17 @@
       </div>
 
       <div>
-        <label style="font-size: 0.7rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Sistema de Regras</label>
+        <label style="font-size: 0.7rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Sistema de Regras (Universal p/ Todos os RPGs)</label>
         <select name="rule_system" style="width: 100%; padding: 0.65rem; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; color: #fff; font-size: 0.85rem; margin-top: 3px;">
-          <option value="TORMENTA20">Tormenta20 (T20 D20 System)</option>
-          <option value="DND5E">D&D 5ª Edição / D20 SRD</option>
-          <option value="OSR_BX">Old-School Essentials (OSR / B/X)</option>
-          <option value="CUSTOM">Livre / Personalizado</option>
+          <option value="Tormenta20">Tormenta20 (T20 - Sistema D20)</option>
+          <option value="D&D 5e">Dungeons & Dragons 5ª Edição (D&D 5e / D20)</option>
+          <option value="Pathfinder 2e">Pathfinder 2ª Edição</option>
+          <option value="Call of Cthulhu">Call of Cthulhu 7e (Investigação & d100)</option>
+          <option value="Old Dragon">Old Dragon / OSR Clássico</option>
+          <option value="3D&T Alpha">3D&T Alpha / Victory (Dados d6)</option>
+          <option value="Vampiro: A Máscara">Vampiro: A Máscara / Storyteller (d10)</option>
+          <option value="GURPS">GURPS (Sistema 3d6)</option>
+          <option value="Sistema Próprio / Livre">Sistema Próprio / Universal (Qualquer RPG de Mesa)</option>
         </select>
       </div>
 

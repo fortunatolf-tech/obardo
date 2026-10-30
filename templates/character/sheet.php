@@ -16,7 +16,7 @@
     <div class="rpg-card">
       <div class="hero-compact">
         <div class="hero-portrait-frame">
-          ⚔️
+          <img src="/images/hero-portrait.jpg" alt="<?= $e($character->name) ?>" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
           <div class="level-badge"><?= $e(explode(' ', $character->classAndLevel)[1] ?? 'NV 1') ?></div>
         </div>
         <div class="hero-meta">
@@ -270,8 +270,14 @@
     <div id="dice-bottom-sheet" class="bottom-sheet" onclick="if(event.target === this) closeDiceSheet();">
       <div class="bottom-sheet-content">
         <div class="sheet-handle"></div>
-        <h3 style="font-size: 1.1rem; text-align: center; margin-bottom: 0.25rem;">Bandeja Rápida de Dados D20</h3>
-        <p style="font-size: 0.75rem; color: var(--text-muted); text-align: center;">Selecione o dado para rolar instantaneamente na mesa:</p>
+        <h3 style="font-size: 1.1rem; text-align: center; margin-bottom: 0.25rem;">Bandeja Universal de Dados</h3>
+        <p style="font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-bottom: 0.75rem;">Suporta Sistema D20, D100, 3d6 e qualquer RPG de mesa:</p>
+
+        <!-- Fórmula Personalizada Livre -->
+        <form onsubmit="event.preventDefault(); const f=document.getElementById('custom-dice-formula').value; if(f) bardoRoll(<?= $campaign->id ?>, <?= $character->id ?>, f, 'Rolagem Livre');" style="display: flex; gap: 0.4rem; margin-bottom: 0.85rem;">
+          <input type="text" id="custom-dice-formula" placeholder="Fórmula livre (ex: 3d6+2, 2d8, 1d100)" style="flex: 1; padding: 0.6rem; background: var(--bg-surface); border: 1px solid var(--border-gold); border-radius: 8px; color: #fff; font-family: var(--font-code); font-size: 0.85rem;">
+          <button type="submit" class="btn-touch btn-touch-primary" style="padding: 0 1rem;">Rolar</button>
+        </form>
 
         <div class="dice-tray-grid">
           <div class="dice-pill" onclick="bardoRoll(<?= $campaign->id ?>, <?= $character->id ?>, '1d4', 'd4')">
