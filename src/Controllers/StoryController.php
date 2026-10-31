@@ -77,6 +77,58 @@ final class StoryController
         ]);
     }
 
+    public function storeHandout(Request $request, array $params): void
+    {
+        $campaignId = (int)$params['id'];
+        $title = trim((string)$request->input('title', ''));
+        $description = trim((string)$request->input('description', ''));
+        $imageUrl = (string)$request->input('image_url', '');
+        $isRevealed = (bool)$request->input('is_revealed', false);
+
+        if ($title === '') {
+            Response::error('Validação Inválida', 'O título da pista/handout é obrigatório.', 422);
+        }
+
+        $id = $this->storyRepo->addHandout($campaignId, $title, $description, $imageUrl, $isRevealed);
+
+        if ($isRevealed) {
+            EventDispatcher::dispatch($campaignId, 'handout_revealed', [
+                'id' => $id,
+                'title' => $title,
+                'description' => $description,
+            ]);
+        }
+
+        Response::json([
+            'status' => 'success',
+            'message' => 'Pista/Handout adicionado com sucesso.',
+            'data' => [
+                'id' => $id,
+            ]
+        ], 201);
+    }
+
+    public function toggleHandout(Request $request, array $params): void
+    {
+        $campaignId = (int)$params['id'];
+        $handoutId = (int)$params['handout_id'];
+        $isRevealed = (bool)$request->input('is_revealed', true);
+
+        $this->storyRepo->toggleHandoutVisibility($handoutId, $isRevealed);
+
+        if ($isRevealed) {
+            EventDispatcher::dispatch($campaignId, 'handout_revealed', [
+                'id' => $handoutId,
+                'is_revealed' => true,
+            ]);
+        }
+
+        Response::json([
+            'status' => 'success',
+            'message' => $isRevealed ? 'Pista revelada para toda a mesa!' : 'Pista ocultada do grupo.',
+        ]);
+    }
+
     public function triggerPlotTwist(Request $request, array $params): void
     {
         $campaignId = (int)$params['id'];

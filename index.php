@@ -100,20 +100,25 @@ $router->get('/campaigns/{id}/taverna', [WebViewController::class, 'liveTaverna'
 // ROTAS DE API RESTful v1 (CONFORME ESPECIFICAÇÃO OPENAPI / RF01-RF26)
 // =============================================================================
 
-// 1. Autenticação & Usuários
+// 1. Autenticação, Usuários & LGPD (Art. 18 Lei 13.709/2018)
 $router->post('/api/v1/auth/register', [AuthController::class, 'register']);
 $router->post('/api/v1/auth/login', [AuthController::class, 'login']);
 $router->get('/api/v1/auth/me', [AuthController::class, 'me'], [AuthMiddleware::class]);
 $router->post('/api/v1/auth/logout', [AuthController::class, 'logout']);
+$router->get('/api/v1/auth/export', [AuthController::class, 'exportData'], [AuthMiddleware::class]);
+$router->delete('/api/v1/auth/account', [AuthController::class, 'deleteAccount'], [AuthMiddleware::class]);
 
-// 2. Campanhas & Gestão de Membros
+// 2. Campanhas & Gestão de Membros (RF01-RF05)
 $router->get('/api/v1/campaigns', [CampaignController::class, 'index'], [AuthMiddleware::class]);
 $router->post('/api/v1/campaigns', [CampaignController::class, 'store'], [AuthMiddleware::class]);
 $router->get('/api/v1/campaigns/{id}', [CampaignController::class, 'show'], [AuthMiddleware::class]);
+$router->patch('/api/v1/campaigns/{id}/secrets', [CampaignController::class, 'updateSecrets'], [AuthMiddleware::class, GMMiddleware::class]);
 $router->post('/api/v1/join', [CampaignController::class, 'join'], [AuthMiddleware::class]);
 $router->get('/api/v1/campaigns/{id}/members', [CampaignController::class, 'members'], [AuthMiddleware::class]);
+$router->patch('/api/v1/campaigns/{id}/members/{user_id}', [CampaignController::class, 'updateMemberRole'], [AuthMiddleware::class, GMMiddleware::class]);
+$router->delete('/api/v1/campaigns/{id}/members/{user_id}', [CampaignController::class, 'kickMember'], [AuthMiddleware::class, GMMiddleware::class]);
 
-// 3. Fichas de Personagem & Rolagem de Dados D20 (Tormenta20 / D&D)
+// 3. Fichas de Personagem & Rolagem de Dados D20/D100/3d6 (RF06-RF13)
 $router->get('/api/v1/campaigns/{id}/characters', [CharacterController::class, 'index'], [AuthMiddleware::class]);
 $router->post('/api/v1/campaigns/{id}/characters', [CharacterController::class, 'store'], [AuthMiddleware::class]);
 $router->get('/api/v1/characters/{id}', [CharacterController::class, 'show'], [AuthMiddleware::class]);
@@ -121,15 +126,17 @@ $router->patch('/api/v1/characters/{id}/status', [CharacterController::class, 'u
 $router->post('/api/v1/campaigns/{id}/dice/roll', [CharacterController::class, 'roll'], [AuthMiddleware::class]);
 $router->get('/api/v1/campaigns/{id}/dice/history', [CharacterController::class, 'rollHistory'], [AuthMiddleware::class]);
 
-// 4. Som & Ambientação Acústica Sincronizada (Exclusivo GM)
+// 4. Som & Ambientação Acústica Sincronizada (Exclusivo GM / RF18-RF22)
 $router->get('/api/v1/campaigns/{id}/audio/library', [AudioController::class, 'library'], [AuthMiddleware::class]);
 $router->get('/api/v1/campaigns/{id}/audio/live-state', [AudioController::class, 'liveState'], [AuthMiddleware::class]);
 $router->post('/api/v1/campaigns/{id}/audio/sync', [AudioController::class, 'sync'], [AuthMiddleware::class, GMMiddleware::class]);
 
-// 5. Crônicas Coletivas, Handouts & Reviravoltas da Trama (Exclusivo GM)
+// 5. Crônicas Coletivas, Handouts & Reviravoltas da Trama (RF14-RF17)
 $router->get('/api/v1/campaigns/{id}/chronicles', [StoryController::class, 'chronicles'], [AuthMiddleware::class]);
 $router->post('/api/v1/campaigns/{id}/chronicles', [StoryController::class, 'storeChronicle'], [AuthMiddleware::class]);
 $router->get('/api/v1/campaigns/{id}/handouts', [StoryController::class, 'handouts'], [AuthMiddleware::class]);
+$router->post('/api/v1/campaigns/{id}/handouts', [StoryController::class, 'storeHandout'], [AuthMiddleware::class, GMMiddleware::class]);
+$router->patch('/api/v1/campaigns/{id}/handouts/{handout_id}', [StoryController::class, 'toggleHandout'], [AuthMiddleware::class, GMMiddleware::class]);
 $router->post('/api/v1/campaigns/{id}/plots/trigger', [StoryController::class, 'triggerPlotTwist'], [AuthMiddleware::class, GMMiddleware::class]);
 
 // 6. Streaming em Tempo Real Server-Sent Events (SSE)

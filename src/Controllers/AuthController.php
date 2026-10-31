@@ -128,4 +128,35 @@ final class AuthController
             Response::redirect('/login');
         }
     }
+
+    public function exportData(Request $request): void
+    {
+        $user = $GLOBALS['auth_user'];
+        $data = $this->userRepo->exportUserData($user->id);
+
+        Response::json([
+            'status' => 'success',
+            'message' => 'Relatório oficial de dados gerado conforme Art. 18 da LGPD.',
+            'data' => $data,
+        ]);
+    }
+
+    public function deleteAccount(Request $request): void
+    {
+        $user = $GLOBALS['auth_user'];
+        $this->userRepo->delete($user->id);
+
+        setcookie('bardo_token', '', [
+            'expires' => time() - 3600,
+            'path' => '/',
+            'secure' => true,
+            'httponly' => true,
+            'samesite' => 'Strict'
+        ]);
+
+        Response::json([
+            'status' => 'success',
+            'message' => 'Conta e dados pessoais excluídos definitivamente em conformidade com a LGPD.',
+        ]);
+    }
 }

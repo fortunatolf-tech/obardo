@@ -16,14 +16,15 @@ final readonly class Campaign
         public string $code,
         public string $ruleSystem = 'TORMENTA20',
         public ?string $description = null,
+        public ?string $gmSecrets = null,
         public ?string $coverUrl = null,
         public bool $isActive = true,
         public ?string $createdAt = null
     ) {}
 
-    public function toArray(): array
+    public function toArray(bool $includeSecrets = false): array
     {
-        return [
+        $data = [
             'id' => $this->id,
             'gm_user_id' => $this->gmUserId,
             'title' => $this->title,
@@ -34,5 +35,11 @@ final readonly class Campaign
             'is_active' => $this->isActive,
             'created_at' => $this->createdAt,
         ];
+
+        if ($includeSecrets) {
+            $data['gm_secrets'] = $this->gmSecrets;
+        }
+
+        return $data;
     }
 }

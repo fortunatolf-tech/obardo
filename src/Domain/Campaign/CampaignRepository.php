@@ -151,6 +151,43 @@ final class CampaignRepository
         return (bool)$stmt->fetchColumn();
     }
 
+    public function updateGMSecrets(int $campaignId, string $secrets): bool
+    {
+        $stmt = $this->db->prepare("UPDATE `campaigns` SET `gm_secrets` = :sec WHERE `id` = :id");
+        return $stmt->execute([
+            'sec' => $secrets,
+            'id' => $campaignId,
+        ]);
+    }
+
+    public function updateMemberRole(int $campaignId, int $userId, string $role): bool
+    {
+        $validRoles = ['gm', 'co_gm', 'player', 'observer'];
+        if (!in_array($role, $validRoles, true)) {
+            return false;
+        }
+
+        $stmt = $this->db->prepare("
+            UPDATE `campaign_members` 
+            SET `member_role` = :role 
+            WHERE `campaign_id` = :cid AND `user_id` = :uid
+        ");
+        return $stmt->execute([
+            'role' => $role,
+            'cid' => $campaignId,
+            'uid' => $userId,
+        ]);
+    }
+
+    public function removeMember(int $campaignId, int $userId): bool
+    {
+        $stmt = $this->db->prepare("DELETE FROM `campaign_members` WHERE `campaign_id` = :cid AND `user_id` = :uid");
+        return $stmt->execute([
+            'cid' => $campaignId,
+            'uid' => $userId,
+        ]);
+    }
+
     private function hydrate(array $row): Campaign
     {
         return new Campaign(
@@ -160,6 +197,7 @@ final class CampaignRepository
             $row['code'],
             $row['rule_system'],
             $row['description'],
+            $row['gm_secrets'] ?? null,
             $row['cover_url'],
             (bool)$row['is_active'],
             $row['created_at']

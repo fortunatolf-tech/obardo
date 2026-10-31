@@ -76,7 +76,7 @@ final class CharacterRepository
             INSERT INTO `characters` 
             (`campaign_id`, `user_id`, `name`, `class_and_level`, `race_origin`, `hp_current`, `hp_max`, `mp_current`, `mp_max`, `armor_class`, `attributes_data`, `skills_data`, `inventory_data`, `spells_data`)
             VALUES 
-            (:cid, :uid, :name, :class, :race, :hp, :hp, :mp, :mp, :ca, :attrs, :skills, :inv, :spells)
+            (:cid, :uid, :name, :class, :race, :hp_current, :hp_max, :mp_current, :mp_max, :ca, :attrs, :skills, :inv, :spells)
         ");
 
         $stmt->execute([
@@ -85,8 +85,10 @@ final class CharacterRepository
             'name' => trim($name),
             'class' => $classAndLevel,
             'race' => $raceOrigin,
-            'hp' => $hpMax,
-            'mp' => $mpMax,
+            'hp_current' => $hpMax,
+            'hp_max' => $hpMax,
+            'mp_current' => $mpMax,
+            'mp_max' => $mpMax,
             'ca' => $armorClass,
             'attrs' => json_encode($attributes, JSON_UNESCAPED_UNICODE),
             'skills' => json_encode($skills, JSON_UNESCAPED_UNICODE),

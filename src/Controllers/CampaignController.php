@@ -121,4 +121,51 @@ final class CampaignController
             ]
         ]);
     }
+
+    public function updateSecrets(Request $request, array $params): void
+    {
+        $campaignId = (int)$params['id'];
+        $secrets = (string)$request->input('gm_secrets', '');
+
+        $this->campaignRepo->updateGMSecrets($campaignId, $secrets);
+
+        Response::json([
+            'status' => 'success',
+            'message' => 'Segredos do Mestre salvos com isolamento criptográfico garantido (RF17/RN06).',
+            'data' => [
+                'campaign_id' => $campaignId,
+            ]
+        ]);
+    }
+
+    public function updateMemberRole(Request $request, array $params): void
+    {
+        $campaignId = (int)$params['id'];
+        $targetUserId = (int)$params['user_id'];
+        $role = (string)$request->input('role', 'player');
+
+        $this->campaignRepo->updateMemberRole($campaignId, $targetUserId, $role);
+
+        Response::json([
+            'status' => 'success',
+            'message' => 'Cargo do participante atualizado com sucesso.',
+            'data' => [
+                'user_id' => $targetUserId,
+                'role' => $role,
+            ]
+        ]);
+    }
+
+    public function kickMember(Request $request, array $params): void
+    {
+        $campaignId = (int)$params['id'];
+        $targetUserId = (int)$params['user_id'];
+
+        $this->campaignRepo->removeMember($campaignId, $targetUserId);
+
+        Response::json([
+            'status' => 'success',
+            'message' => 'Participante removido da campanha com sucesso.',
+        ]);
+    }
 }

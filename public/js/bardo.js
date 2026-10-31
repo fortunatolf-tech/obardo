@@ -510,3 +510,163 @@ function triggerRunicFlash(type) {
     setTimeout(() => flash.remove(), 500);
   }, 250);
 }
+
+// =============================================================================
+// FUNÇÕES DE COMANDO EXCLUSIVAS DO MESTRE (RF05, RF12, RF15, RF17)
+// =============================================================================
+
+async function bardoSaveGMSecrets(campaignId) {
+  const textarea = document.getElementById('gm-secrets-text');
+  if (!textarea) return;
+  const secrets = textarea.value;
+  try {
+    const res = await fetch(`/api/v1/campaigns/${campaignId}/secrets`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ gm_secrets: secrets })
+    });
+    const data = await res.json();
+    if (res.ok && data.status === 'success') {
+      bardoToast('📜 Segredos do Mestre salvos com isolamento criptográfico garantido!');
+    } else {
+      bardoToast(data.message || 'Falha ao salvar segredos');
+    }
+  } catch (e) {
+    bardoToast('Erro de conexão ao salvar segredos.');
+  }
+}
+
+async function bardoToggleHandout(campaignId, handoutId, isRevealed) {
+  try {
+    const res = await fetch(`/api/v1/campaigns/${campaignId}/handouts/${handoutId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ is_revealed: isRevealed })
+    });
+    const data = await res.json();
+    if (res.ok && data.status === 'success') {
+      bardoToast(isRevealed ? '👁️ Pista revelada para toda a mesa!' : '🔒 Pista ocultada dos jogadores.');
+      setTimeout(() => window.location.reload(), 700);
+    } else {
+      bardoToast(data.message || 'Falha ao atualizar handout');
+    }
+  } catch (e) {
+    bardoToast('Erro de conexão ao atualizar handout.');
+  }
+}
+
+async function bardoCreateHandout(e, campaignId) {
+  e.preventDefault();
+  const form = e.target;
+  const title = form.title.value.trim();
+  const description = form.description.value.trim();
+  const imageUrl = form.image_url.value.trim();
+  const isRevealed = form.is_revealed.checked;
+
+  try {
+    const res = await fetch(`/api/v1/campaigns/${campaignId}/handouts`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: title,
+        description: description,
+        image_url: imageUrl || null,
+        is_revealed: isRevealed
+      })
+    });
+    const data = await res.json();
+    if (res.ok && data.status === 'success') {
+      bardoToast('📜 Pista/Handout adicionado com sucesso!');
+      setTimeout(() => window.location.reload(), 700);
+    } else {
+      bardoToast(data.message || 'Falha ao adicionar pista');
+    }
+  } catch (e) {
+    bardoToast('Erro de conexão ao adicionar pista.');
+  }
+}
+
+async function bardoUpdateMemberRole(campaignId, userId, newRole) {
+  try {
+    const res = await fetch(`/api/v1/campaigns/${campaignId}/members/${userId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ role: newRole })
+    });
+    const data = await res.json();
+    if (res.ok && data.status === 'success') {
+      bardoToast('⚔️ Cargo do membro atualizado!');
+      setTimeout(() => window.location.reload(), 700);
+    } else {
+      bardoToast(data.message || 'Falha ao alterar cargo');
+    }
+  } catch (e) {
+    bardoToast('Erro de conexão ao alterar cargo.');
+  }
+}
+
+async function bardoKickMember(campaignId, userId, userName) {
+  if (!confirm(`Tem certeza que deseja remover ${userName || 'este jogador'} da campanha?`)) {
+    return;
+  }
+  try {
+    const res = await fetch(`/api/v1/campaigns/${campaignId}/members/${userId}`, {
+      method: 'DELETE'
+    });
+    const data = await res.json();
+    if (res.ok && data.status === 'success') {
+      bardoToast('Membro removido da campanha.');
+      setTimeout(() => window.location.reload(), 700);
+    } else {
+      bardoToast(data.message || 'Falha ao remover membro');
+    }
+  } catch (e) {
+    bardoToast('Erro de conexão ao remover membro.');
+  }
+}
+
+async function bardoGMRoll(campaignId, formula, label) {
+  const secretCheckbox = document.getElementById('gm-dice-secret-toggle');
+  const isSecret = secretCheckbox ? secretCheckbox.checked : false;
+
+  try {
+    const res = await fetch(`/api/v1/campaigns/${campaignId}/dice/roll`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        formula: formula,
+        label: label,
+        is_secret: isSecret,
+        roller_name: 'Mestre (GM)'
+      })
+    });
+    const data = await res.json();
+    if (res.ok && data.status === 'success') {
+      const roll = data.data.roll;
+      bardoPlaySFX(roll.is_critical ? 'crit' : 'dice');
+      
+      const resContainer = document.getElementById('gm-roll-result-display');
+      if (resContainer) {
+        resContainer.style.display = 'block';
+        resContainer.innerHTML = `
+          <div style="background: rgba(0,0,0,0.6); border: 1.5px solid ${isSecret ? 'var(--t20-ruby)' : 'var(--gold-imperial)'}; border-radius: 8px; padding: 0.6rem; text-align: center;">
+            <div style="font-size: 0.72rem; color: ${isSecret ? 'var(--t20-ruby)' : 'var(--gold-imperial)'}; font-weight: bold;">
+              ${isSecret ? '🔒 ROLAGEM SECRETA DO MESTRE' : '📢 ROLAGEM PÚBLICA'} • ${escapeHtml(label)} (${escapeHtml(formula)})
+            </div>
+            <div style="font-family: var(--font-stats); font-size: 1.6rem; font-weight: 900; color: #fff; margin: 4px 0;">
+              ${roll.total}
+            </div>
+            <div style="font-size: 0.7rem; color: var(--text-muted);">
+              Dados: [${roll.dice_results.join(', ')}] ${roll.modifier >= 0 ? '+' + roll.modifier : roll.modifier}
+              ${roll.is_critical ? '<span style="color:var(--gold-bright); font-weight:bold;"> • CRÍTICO!</span>' : ''}
+              ${roll.is_fumble ? '<span style="color:var(--t20-ruby); font-weight:bold;"> • FALHA CRÍTICA!</span>' : ''}
+            </div>
+          </div>
+        `;
+      }
+      bardoToast(isSecret ? '🔒 Rolagem Secreta executada (Apenas Mestre vê)' : '🎲 Rolagem transmitida à mesa!');
+    }
+  } catch (e) {
+    bardoToast('Erro de conexão ao rolar dados.');
+  }
+}

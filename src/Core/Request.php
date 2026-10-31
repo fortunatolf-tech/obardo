@@ -16,43 +16,54 @@ final readonly class Request
     public array $body;
     public array $headers;
 
-    public function __construct()
-    {
-        $this->method = strtoupper($_SERVER['REQUEST_METHOD'] ?? 'GET');
-        $this->uri = $_SERVER['REQUEST_URI'] ?? '/';
+    public function __construct(
+        ?string $method = null,
+        ?string $uri = null,
+        array $body = [],
+        array $headers = [],
+        array $queryParams = []
+    ) {
+        $this->method = strtoupper($method ?? $_SERVER['REQUEST_METHOD'] ?? 'GET');
+        $this->uri = $uri ?? $_SERVER['REQUEST_URI'] ?? '/';
         $this->path = parse_url($this->uri, PHP_URL_PATH) ?: '/';
-        $this->queryParams = $_GET;
+        $this->queryParams = !empty($queryParams) ? $queryParams : $_GET;
 
         // Leitura de cabeçalhos
-        $headers = [];
+        $resolvedHeaders = $headers;
         foreach ($_SERVER as $key => $val) {
             if (str_starts_with($key, 'HTTP_')) {
                 $name = strtolower(str_replace('_', '-', substr($key, 5)));
-                $headers[$name] = $val;
+                $resolvedHeaders[$name] = $val;
             }
         }
-        $this->headers = $headers;
+        $this->headers = $resolvedHeaders;
+
+        // Se body foi fornecido explicitamente (ex: testes)
+        if (!empty($body)) {
+            $this->body = $body;
+            return;
+        }
 
         // Leitura e validação segura de Body JSON (PHP 8.3 json_validate)
-        $body = [];
+        $parsedBody = [];
         $raw = file_get_contents('php://input');
         if ($raw !== false && $raw !== '') {
             if (function_exists('json_validate') && json_validate($raw)) {
-                $body = json_decode($raw, true) ?? [];
+                $parsedBody = json_decode($raw, true) ?? [];
             } else {
                 $decoded = json_decode($raw, true);
                 if (json_last_error() === JSON_ERROR_NONE) {
-                    $body = $decoded ?? [];
+                    $parsedBody = $decoded ?? [];
                 }
             }
         }
 
         // Suporte a formulários POST normais
-        if ($this->method === 'POST' && empty($body) && !empty($_POST)) {
-            $body = $_POST;
+        if ($this->method === 'POST' && empty($parsedBody) && !empty($_POST)) {
+            $parsedBody = $_POST;
         }
 
-        $this->body = $body;
+        $this->body = $parsedBody;
     }
 
     public function input(string $key, mixed $default = null): mixed

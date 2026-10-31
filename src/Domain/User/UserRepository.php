@@ -92,6 +92,35 @@ final class UserRepository
         return $stmt->execute(['id' => $userId]);
     }
 
+    public function exportUserData(int $userId): array
+    {
+        $user = $this->findById($userId);
+        if (!$user) {
+            return [];
+        }
+
+        $stmtC = $this->db->prepare("SELECT id, title, code, rule_system, created_at FROM `campaigns` WHERE `gm_user_id` = :uid");
+        $stmtC->execute(['uid' => $userId]);
+        $campaigns = $stmtC->fetchAll();
+
+        $stmtCh = $this->db->prepare("SELECT id, campaign_id, name, class_and_level, race_origin, hp_current, hp_max, mp_current, mp_max, armor_class, created_at FROM `characters` WHERE `user_id` = :uid");
+        $stmtCh->execute(['uid' => $userId]);
+        $characters = $stmtCh->fetchAll();
+
+        $stmtCr = $this->db->prepare("SELECT id, campaign_id, title, session_date, created_at FROM `chronicles` WHERE `author_user_id` = :uid");
+        $stmtCr->execute(['uid' => $userId]);
+        $chronicles = $stmtCr->fetchAll();
+
+        return [
+            'lgpd_export_notice' => 'Relatório de Portabilidade de Dados - Lei Geral de Proteção de Dados (Art. 18 LGPD)',
+            'exported_at' => date('Y-m-d H:i:s'),
+            'user' => $user->toArray(),
+            'characters' => $characters,
+            'campaigns' => $campaigns,
+            'chronicles' => $chronicles,
+        ];
+    }
+
     private function hydrate(array $row): User
     {
         return new User(

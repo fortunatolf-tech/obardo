@@ -19,6 +19,7 @@ debug.keystore
 /vendor/
 composer.phar
 .phpunit.result.cache
+.phpunit.cache/
 
 # Logs & Temporary files
 *.log

@@ -25,6 +25,7 @@
           <div class="hero-tags">
             <span class="tag-pill gold"><?= $e($campaign->title) ?></span>
             <span class="tag-pill"><?= $e($campaign->ruleSystem) ?></span>
+            <button type="button" onclick="document.getElementById('modal-new-character').style.display='flex'" style="background: rgba(212,175,55,0.15); border: 1px solid var(--border-gold); color: var(--gold-imperial); border-radius: 99px; padding: 2px 10px; font-size: 0.68rem; font-family: var(--font-ui); cursor: pointer; font-weight: 700; transition: 0.2s;">+ Nova Ficha</button>
           </div>
         </div>
       </div>
@@ -390,6 +391,155 @@
     </script>
   <?php endif; ?>
 
+  <!-- MODAL DE CRIAÇÃO DE NOVA FICHA (TORMENTA20 / D&D / UNIVERSAL) -->
+  <div id="modal-new-character" style="display: none; position: fixed; inset: 0; z-index: 200; background: rgba(5,7,12,0.85); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 1rem; overflow-y: auto;">
+    <div style="background: linear-gradient(145deg, rgba(23, 27, 42, 0.98), rgba(12, 15, 24, 0.99)), url('/images/parchment-grimoire.jpg') center / cover; border: 2px solid var(--border-gold); box-shadow: 0 0 35px rgba(212, 175, 55, 0.35); border-radius: 16px; padding: 1.5rem; max-width: 520px; width: 100%; max-height: 90vh; overflow-y: auto;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid var(--border-gold-dark); padding-bottom: 0.5rem;">
+        <div>
+          <h3 style="font-family: var(--font-mythic); font-size: 1.2rem; color: var(--gold-imperial); margin: 0;">⚔️ Forja de Heróis</h3>
+          <p style="font-size: 0.72rem; color: var(--text-muted); margin: 2px 0 0 0;">Criação de Ficha Tormenta20, D&D e Sistemas d20</p>
+        </div>
+        <button type="button" onclick="document.getElementById('modal-new-character').style.display='none'" style="background: none; border: none; color: var(--gold-imperial); font-size: 1.4rem; cursor: pointer;">✕</button>
+      </div>
+
+      <form onsubmit="submitNewCharacter(event, <?= $campaign->id ?>)">
+        <div style="margin-bottom: 0.85rem;">
+          <label style="display: block; font-family: var(--font-ui); font-size: 0.75rem; color: var(--gold-imperial); font-weight: 700; margin-bottom: 4px;">NOME DO PERSONAGEM *</label>
+          <input type="text" name="name" required placeholder="Ex: Sir Lothar, Aylin..." style="width: 100%; background: rgba(0,0,0,0.6); border: 1px solid var(--border-gold); border-radius: 8px; color: #fff; padding: 0.6rem 0.8rem; font-family: var(--font-lore); font-size: 0.95rem;">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.85rem;">
+          <div>
+            <label style="display: block; font-family: var(--font-ui); font-size: 0.72rem; color: var(--gold-imperial); font-weight: 700; margin-bottom: 4px;">RAÇA / ORIGEM</label>
+            <input type="text" name="race_origin" placeholder="Humano, Elfo, Qareen..." value="Humano" style="width: 100%; background: rgba(0,0,0,0.6); border: 1px solid var(--border-gold); border-radius: 8px; color: #fff; padding: 0.5rem 0.7rem; font-family: var(--font-lore); font-size: 0.85rem;">
+          </div>
+          <div>
+            <label style="display: block; font-family: var(--font-ui); font-size: 0.72rem; color: var(--gold-imperial); font-weight: 700; margin-bottom: 4px;">CLASSE & NÍVEL</label>
+            <input type="text" name="class_and_level" placeholder="Guerreiro 1, Arcanista 1..." value="Guerreiro 1" style="width: 100%; background: rgba(0,0,0,0.6); border: 1px solid var(--border-gold); border-radius: 8px; color: #fff; padding: 0.5rem 0.7rem; font-family: var(--font-lore); font-size: 0.85rem;">
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.6rem; margin-bottom: 1rem;">
+          <div style="text-align: center; background: rgba(225,29,72,0.1); border: 1px solid var(--t20-ruby); border-radius: 8px; padding: 0.5rem;">
+            <label style="display: block; font-family: var(--font-ui); font-size: 0.68rem; color: var(--t20-ruby); font-weight: 700;">PV MÁX</label>
+            <input type="number" name="hp_max" value="20" min="1" max="999" style="width: 100%; background: transparent; border: none; text-align: center; color: #fff; font-family: var(--font-stats); font-size: 1.1rem; font-weight: 700;">
+          </div>
+          <div style="text-align: center; background: rgba(6,182,212,0.1); border: 1px solid var(--mana-cyan-light); border-radius: 8px; padding: 0.5rem;">
+            <label style="display: block; font-family: var(--font-ui); font-size: 0.68rem; color: var(--mana-cyan-light); font-weight: 700;">PM MÁX</label>
+            <input type="number" name="mp_max" value="6" min="0" max="999" style="width: 100%; background: transparent; border: none; text-align: center; color: #fff; font-family: var(--font-stats); font-size: 1.1rem; font-weight: 700;">
+          </div>
+          <div style="text-align: center; background: rgba(212,175,55,0.1); border: 1px solid var(--border-gold); border-radius: 8px; padding: 0.5rem;">
+            <label style="display: block; font-family: var(--font-ui); font-size: 0.68rem; color: var(--gold-imperial); font-weight: 700;">DEFESA</label>
+            <input type="number" name="armor_class" value="15" min="1" max="99" style="width: 100%; background: transparent; border: none; text-align: center; color: #fff; font-family: var(--font-stats); font-size: 1.1rem; font-weight: 700;">
+          </div>
+        </div>
+
+        <div style="margin-bottom: 1.25rem;">
+          <label style="display: block; font-family: var(--font-ui); font-size: 0.72rem; color: var(--gold-imperial); font-weight: 700; margin-bottom: 6px;">ATRIBUTOS BASE (D20 / T20 / 5E)</label>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;">
+            <?php foreach (['for' => 'FORÇA', 'des' => 'DESTREZA', 'con' => 'CONSTITUIÇÃO', 'int' => 'INTELIGÊNCIA', 'sab' => 'SABEDORIA', 'car' => 'CARISMA'] as $k => $label): ?>
+              <div style="background: rgba(0,0,0,0.5); border: 1px solid var(--border-gold-dark); border-radius: 8px; padding: 0.4rem; text-align: center;">
+                <span style="display: block; font-size: 0.65rem; color: var(--gold-imperial); font-family: var(--font-ui); font-weight: 700;"><?= strtoupper(substr($k, 0, 3)) ?></span>
+                <input type="number" name="attr_<?= $k ?>" value="10" min="1" max="30" oninput="updateAttrPreview(this, 'mod_<?= $k ?>')" style="width: 100%; background: transparent; border: none; text-align: center; color: #fff; font-size: 1rem; font-weight: 700; font-family: var(--font-stats);">
+                <span id="mod_<?= $k ?>" style="display: block; font-size: 0.68rem; color: var(--mana-cyan-light); font-weight: bold;">+0</span>
+              </div>
+            <?php endforeach; ?>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem;">
+          <button type="button" class="btn-touch btn-touch-dark" style="flex: 1;" onclick="document.getElementById('modal-new-character').style.display='none'">Cancelar</button>
+          <button type="submit" class="btn-touch btn-touch-primary" style="flex: 2;">⚔️ Forjar Ficha</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function updateAttrPreview(input, modSpanId) {
+      const val = parseInt(input.value) || 10;
+      const mod = Math.floor((val - 10) / 2);
+      const span = document.getElementById(modSpanId);
+      if (span) {
+        span.textContent = (mod >= 0 ? '+' : '') + mod;
+      }
+    }
+
+    async function submitNewCharacter(e, campaignId) {
+      e.preventDefault();
+      const form = e.target;
+      const btn = form.querySelector('button[type="submit"]');
+      btn.disabled = true;
+      btn.innerText = 'Forjando Herói...';
+
+      const forVal = parseInt(form.attr_for.value) || 10;
+      const desVal = parseInt(form.attr_des.value) || 10;
+      const conVal = parseInt(form.attr_con.value) || 10;
+      const intVal = parseInt(form.attr_int.value) || 10;
+      const sabVal = parseInt(form.attr_sab.value) || 10;
+      const carVal = parseInt(form.attr_car.value) || 10;
+
+      const payload = {
+        name: form.name.value.trim(),
+        race_origin: form.race_origin.value.trim(),
+        class_and_level: form.class_and_level.value.trim(),
+        hp_max: parseInt(form.hp_max.value) || 20,
+        mp_max: parseInt(form.mp_max.value) || 6,
+        armor_class: parseInt(form.armor_class.value) || 15,
+        attributes: {
+          for: forVal,
+          for_mod: Math.floor((forVal - 10) / 2),
+          des: desVal,
+          des_mod: Math.floor((desVal - 10) / 2),
+          con: conVal,
+          con_mod: Math.floor((conVal - 10) / 2),
+          int: intVal,
+          int_mod: Math.floor((intVal - 10) / 2),
+          sab: sabVal,
+          sab_mod: Math.floor((sabVal - 10) / 2),
+          car: carVal,
+          car_mod: Math.floor((carVal - 10) / 2)
+        },
+        skills: [
+          { name: "Luta", mod: Math.floor((forVal - 10) / 2) + 2 },
+          { name: "Percepção", mod: Math.floor((sabVal - 10) / 2) + 2 },
+          { name: "Iniciativa", mod: Math.floor((desVal - 10) / 2) + 2 },
+          { name: "Fortitude", mod: Math.floor((conVal - 10) / 2) + 2 },
+          { name: "Reflexos", mod: Math.floor((desVal - 10) / 2) + 2 },
+          { name: "Vontade", mod: Math.floor((sabVal - 10) / 2) + 2 }
+        ],
+        inventory: [
+          { name: "Espada Longa", qty: 1, damage: "1d8+FOR" },
+          { name: "Armadura de Couro Batido", qty: 1, def: "+3" },
+          { name: "Kit de Aventureiro", qty: 1, weight: "12kg" },
+          { name: "Tochas", qty: 5 },
+          { name: "Rações de Viagem (dias)", qty: 7 }
+        ],
+        spells: []
+      };
+
+      try {
+        const res = await fetch(`/api/v1/campaigns/${campaignId}/characters`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (res.ok && data.status === 'success') {
+          bardoToast('Ficha forjada com sucesso! Que os Deuses guiem sua lâmina!');
+          setTimeout(() => window.location.reload(), 800);
+        } else {
+          bardoToast(data.message || 'Falha ao forjar ficha');
+          btn.disabled = false;
+          btn.innerText = '⚔️ Forjar Ficha';
+        }
+      } catch (err) {
+        bardoToast('Erro de conexão ao forjar ficha.');
+        btn.disabled = false;
+        btn.innerText = '⚔️ Forjar Ficha';
+      }
+    }
+  </script>
 </main>
 
 <?php require __DIR__ . '/../layout/footer.php'; ?>

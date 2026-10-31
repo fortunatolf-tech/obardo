@@ -39,6 +39,7 @@ CREATE TABLE `campaigns` (
   `code` VARCHAR(20) NOT NULL UNIQUE,
   `rule_system` VARCHAR(50) NOT NULL DEFAULT 'TORMENTA20',
   `description` TEXT NULL,
+  `gm_secrets` TEXT NULL,
   `cover_url` VARCHAR(500) NULL,
   `is_active` TINYINT(1) NOT NULL DEFAULT 1,
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,

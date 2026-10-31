@@ -105,6 +105,8 @@ final class WebViewController
         $syncState = $this->audioRepo->getSyncState($campaignId);
         $tracks = $this->audioRepo->getTracks($campaignId);
         $rolls = $this->charRepo->getRecentRolls($campaignId, 15);
+        $handouts = $this->storyRepo->getHandouts($campaignId, false);
+        $members = $this->campaignRepo->getMembers($campaignId);
 
         View::render('gm.dashboard', [
             'title' => 'Comando do Mestre • ' . $campaign->title,
@@ -114,6 +116,8 @@ final class WebViewController
             'sync_state' => $syncState,
             'tracks' => $tracks,
             'rolls' => $rolls,
+            'handouts' => $handouts,
+            'members' => $members,
         ]);
     }
 
