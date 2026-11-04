@@ -1,177 +1,153 @@
 /**
  * O BARDO - MOTOR INTERATIVO TORMENTA20 & D&D (MOBILE FIRST)
- * Web Audio API Synthesizer, Gestão de PV/PM/Defesa, Rolador D20 & Sincronia
+ * Sons Reais CC0 / Domínio Público, Gestão de PV/PM/Defesa, Rolador D20 & Sincronia
  */
 
-// Web Audio Context com ativação suave em mobile (respeitando autoplay policy)
+// Mapeamento de Efeitos Sonoros Reais (CC0 / Domínio Público / Freesound / Kenney)
+const BARDO_SFX_MAP = {
+  // Combate & Armas
+  'espada_golpe': '/audio/sfx/espada_golpe.ogg',
+  'sword': '/audio/sfx/espada_golpe.ogg',
+  'espada_choque': '/audio/sfx/espada_choque.ogg',
+  'escudo_bloqueio': '/audio/sfx/escudo_bloqueio.wav',
+  'flecha_disparo': '/audio/sfx/flecha_disparo.wav',
+  'sacar_adaga': '/audio/sfx/sacar_adaga.ogg',
+  'soco_impacto': '/audio/sfx/soco_impacto.ogg',
+  'corte_lamina': '/audio/sfx/corte_lamina.ogg',
+
+  // Magia & Feitiços
+  'bola_de_fogo': '/audio/sfx/bola_de_fogo.ogg',
+  'raio_trovao': '/audio/sfx/raio_trovao.ogg',
+  'spell': '/audio/sfx/raio_trovao.ogg',
+  'cura_divina': '/audio/sfx/cura_divina.ogg',
+  'mana': '/audio/sfx/cura_divina.ogg',
+  'trovao_impacto': '/audio/sfx/trovao_impacto.wav',
+  'thunder': '/audio/sfx/trovao_impacto.wav',
+  'pocao_beber': '/audio/sfx/pocao_beber.wav',
+
+  // Monstros & Criaturas
+  'dragao_rugido': '/audio/sfx/dragao_rugido.ogg',
+  'roar': '/audio/sfx/dragao_rugido.ogg',
+  'lobo_uivo': '/audio/sfx/lobo_uivo.ogg',
+  'goblin_grito': '/audio/sfx/goblin_grito.ogg',
+  'risada_maligna': '/audio/sfx/risada_maligna.ogg',
+  'coracao_pulso': '/audio/sfx/coracao_pulso.ogg',
+
+  // Taverna & Social
+  'brinde_tacas': '/audio/sfx/brinde_tacas.wav',
+  'cheers': '/audio/sfx/brinde_tacas.wav',
+  'moedas_ouro': '/audio/sfx/moedas_ouro.ogg',
+  'coins': '/audio/sfx/moedas_ouro.ogg',
+  'dados_mesa': '/audio/sfx/dados_mesa.ogg',
+  'dice': '/audio/sfx/dados_mesa.ogg',
+  'crit': '/audio/sfx/brinde_tacas.wav',
+  'sino_alarme': '/audio/sfx/sino_alarme.wav',
+
+  // Masmorra & Exploração
+  'bau_tesouro': '/audio/sfx/bau_tesouro.ogg',
+  'porta_madeira': '/audio/sfx/porta_madeira.ogg',
+  'porta_fechando': '/audio/sfx/porta_fechando.ogg',
+  'porta_ferro': '/audio/sfx/porta_ferro.wav',
+  'rangido_madeira': '/audio/sfx/rangido_madeira.ogg',
+  'passos_pedra': '/audio/sfx/passos_pedra.ogg'
+};
+
+const BARDO_AMBIENT_MAP = {
+  'tavern': '/audio/ambient/taverna.ogg',
+  'taverna': '/audio/ambient/taverna.ogg',
+  'lute': '/audio/ambient/tavern_lute.wav',
+  'combat': '/audio/ambient/combat_drums.wav',
+  'dungeon': '/audio/ambient/caverna.ogg',
+  'horror': '/audio/ambient/dungeon_drone.wav',
+  'campfire': '/audio/ambient/fogueira.ogg',
+  'forest': '/audio/ambient/floresta_noite.ogg',
+  'wind': '/audio/ambient/vento.ogg',
+  'rain': '/audio/ambient/chuva.ogg',
+  'storm': '/audio/ambient/tempestade.ogg',
+  'city': '/audio/ambient/cidade_medieval.ogg',
+  'sea': '/audio/ambient/mar.ogg'
+};
+
+// Web Audio Context & Controles de Volume
 let audioCtx = null;
 let masterGainNode = null;
-let currentAmbientOsc = null;
+let currentAmbientAudio = null;
 let activeAmbientTrack = 'tavern';
+let masterVolume = 0.75;
 
 function getAudioContext() {
   if (!audioCtx) {
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-    audioCtx = new AudioContextClass();
-    masterGainNode = audioCtx.createGain();
-    masterGainNode.gain.setValueAtTime(0.75, audioCtx.currentTime);
-    masterGainNode.connect(audioCtx.destination);
+    if (AudioContextClass) {
+      audioCtx = new AudioContextClass();
+      masterGainNode = audioCtx.createGain();
+      masterGainNode.gain.setValueAtTime(masterVolume, audioCtx.currentTime);
+      masterGainNode.connect(audioCtx.destination);
+    }
   }
-  if (audioCtx.state === 'suspended') {
-    audioCtx.resume();
+  if (audioCtx && audioCtx.state === 'suspended') {
+    audioCtx.resume().catch(() => {});
   }
   return audioCtx;
 }
 
-// Síntese Acústica em Tempo Real para Efeitos Sonoros T20 & D&D
-function playAudioSFX(type) {
-  const ctx = getAudioContext();
-  const now = ctx.currentTime;
-
-  if (type === 'sword') {
-    // Corte metálico de lâmina / Ataque marcial
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(2800, now);
-    osc.frequency.exponentialRampToValueAtTime(320, now + 0.28);
-
-    gain.gain.setValueAtTime(0.7, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
-
-    osc.connect(gain);
-    gain.connect(masterGainNode);
-    osc.start(now);
-    osc.stop(now + 0.3);
-
-  } else if (type === 'spell' || type === 'mana') {
-    // Magia arcana / Brilho de PM
-    [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, now + idx * 0.05);
-      gain.gain.setValueAtTime(0.25, now + idx * 0.05);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.05 + 0.8);
-      osc.connect(gain);
-      gain.connect(masterGainNode);
-      osc.start(now + idx * 0.05);
-      osc.stop(now + idx * 0.05 + 0.85);
-    });
-
-  } else if (type === 'thunder') {
-    // Trovão divino / Magia de dano de área
-    const bufferSize = ctx.sampleRate * 2.2;
-    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-    const data = buffer.getChannelData(0);
-    for (let i = 0; i < bufferSize; i++) {
-      data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.55));
-    }
-    const noise = ctx.createBufferSource();
-    noise.buffer = buffer;
-
-    const filter = ctx.createBiquadFilter();
-    filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(160, now);
-    filter.frequency.exponentialRampToValueAtTime(28, now + 2.2);
-
-    const gain = ctx.createGain();
-    gain.gain.setValueAtTime(1.0, now);
-    gain.gain.exponentialRampToValueAtTime(0.01, now + 2.2);
-
-    noise.connect(filter);
-    filter.connect(gain);
-    gain.connect(masterGainNode);
-    noise.start(now);
-
-  } else if (type === 'roar') {
-    // Rugido monstruoso (Lefeu / Dragão de Tormenta)
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(85, now);
-    osc.frequency.linearRampToValueAtTime(45, now + 1.2);
-
-    gain.gain.setValueAtTime(0.8, now);
-    gain.gain.exponentialRampToValueAtTime(0.01, now + 1.3);
-
-    osc.connect(gain);
-    gain.connect(masterGainNode);
-    osc.start(now);
-    osc.stop(now + 1.35);
-
-  } else if (type === 'dice') {
-    // Dados de resina quicando
-    for (let i = 0; i < 3; i++) {
-      const t = now + i * 0.07;
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(900 + Math.random() * 300, t);
-      gain.gain.setValueAtTime(0.25, t);
-      gain.gain.exponentialRampToValueAtTime(0.01, t + 0.05);
-      osc.connect(gain);
-      gain.connect(masterGainNode);
-      osc.start(t);
-      osc.stop(t + 0.06);
-    }
-
-  } else if (type === 'crit') {
-    // Sucesso Crítico 20 Natural!
-    [440, 554.37, 659.25, 880].forEach((freq, idx) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(freq, now + idx * 0.06);
-      gain.gain.setValueAtTime(0.35, now + idx * 0.06);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.6);
-      osc.connect(gain);
-      gain.connect(masterGainNode);
-      osc.start(now + idx * 0.06);
-      osc.stop(now + idx * 0.06 + 0.65);
-    });
+function setMasterVolume(val) {
+  masterVolume = Math.max(0, Math.min(1, parseFloat(val)));
+  if (masterGainNode && audioCtx) {
+    try {
+      masterGainNode.gain.setValueAtTime(masterVolume, audioCtx.currentTime);
+    } catch (e) {}
+  }
+  if (currentAmbientAudio) {
+    currentAmbientAudio.volume = masterVolume;
   }
 }
 
-// Troca de Trilha Sonora Sincronizada (Taverna, Combate, Masmorra)
+// Reprodução de Efeitos Sonoros Reais (SFX)
+function playAudioSFX(type) {
+  getAudioContext();
+  const url = BARDO_SFX_MAP[type] || BARDO_SFX_MAP[type.toLowerCase()] || '/audio/sfx/dados_mesa.ogg';
+  try {
+    const audio = new Audio(url);
+    audio.volume = masterVolume;
+    const p = audio.play();
+    if (p && p.catch) {
+      p.catch(err => {
+        console.warn(`[O Bardo] Autoplay bloqueado para SFX "${type}":`, err.message);
+      });
+    }
+  } catch (err) {
+    console.warn(`[O Bardo] Erro ao carregar SFX "${type}":`, err);
+  }
+}
+
+// Troca de Trilha Sonora Real Sincronizada (Taverna, Combate, Masmorra)
 function switchAmbientTrack(trackName) {
-  const ctx = getAudioContext();
-  const now = ctx.currentTime;
+  getAudioContext();
   activeAmbientTrack = trackName;
 
-  if (currentAmbientOsc) {
-    try { currentAmbientOsc.stop(now); } catch(e) {}
-    currentAmbientOsc = null;
+  if (currentAmbientAudio) {
+    try {
+      currentAmbientAudio.pause();
+      currentAmbientAudio.currentTime = 0;
+    } catch(e) {}
+    currentAmbientAudio = null;
   }
 
-  const osc = ctx.createOscillator();
-  const filter = ctx.createBiquadFilter();
-  const gain = ctx.createGain();
-
-  if (trackName === 'combat') {
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(110, now); // A2
-    filter.frequency.setValueAtTime(380, now);
-    gain.gain.setValueAtTime(0.18, now);
-  } else if (trackName === 'dungeon') {
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(65.41, now); // C2
-    filter.frequency.setValueAtTime(220, now);
-    gain.gain.setValueAtTime(0.22, now);
-  } else {
-    // Taverna / Viagem
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(130.81, now); // C3
-    filter.frequency.setValueAtTime(500, now);
-    gain.gain.setValueAtTime(0.15, now);
+  const url = BARDO_AMBIENT_MAP[trackName] || `/audio/ambient/${trackName}.ogg`;
+  try {
+    currentAmbientAudio = new Audio(url);
+    currentAmbientAudio.loop = true;
+    currentAmbientAudio.volume = masterVolume;
+    const p = currentAmbientAudio.play();
+    if (p && p.catch) {
+      p.catch(err => {
+        console.warn(`[O Bardo] Autoplay bloqueado para Trilha "${trackName}":`, err.message);
+      });
+    }
+  } catch (err) {
+    console.warn(`[O Bardo] Erro ao carregar trilha "${trackName}":`, err);
   }
-
-  osc.connect(filter);
-  filter.connect(gain);
-  gain.connect(masterGainNode);
-
-  osc.start(now);
-  currentAmbientOsc = osc;
 
   // Atualização visual dos seletores de trilha
   document.querySelectorAll('.ambient-track-btn').forEach(btn => {
@@ -183,7 +159,15 @@ function switchAmbientTrack(trackName) {
     const titles = {
       'tavern': 'Taverna do Javali Saltitante • Alaúdes & Lareira',
       'dungeon': 'Cripta dos Antigos • Ecos & Tensão',
-      'combat': 'Batalha pela Vida • Tambores & Aço'
+      'combat': 'Batalha pela Vida • Tambores & Aço',
+      'lute': 'Alaúdes de Arton • Melodias de Taverna',
+      'city': 'Feira Livre da Cidade Medieval',
+      'campfire': 'Acampamento & Fogueira Crepitante',
+      'forest': 'Floresta Sombria à Noite',
+      'wind': 'Vento Uivante nas Montanhas',
+      'rain': 'Chuva na Estrada & Jornada',
+      'storm': 'Tempestade Furiosa & Trovões',
+      'sea': 'Ondas do Mar & Porto dos Aventureiros'
     };
     label.textContent = titles[trackName] || trackName;
   }

@@ -117,8 +117,7 @@ function bardoPlaySFX(sfxName, customUrl = null) {
     const p = audio.play();
     if (p && p.catch) {
       p.catch(err => {
-        // Fallback de síntese caso autoplay de áudio novo bloqueie antes de gesto
-        bardoFallbackSynthesizedSFX(sfxName);
+        console.warn(`[O Bardo] Não foi possível reproduzir SFX "${sfxName}" (bloqueio de autoplay do navegador). Toque na tela para habilitar o áudio.`);
       });
     }
 
@@ -129,28 +128,8 @@ function bardoPlaySFX(sfxName, customUrl = null) {
       setTimeout(() => pad.classList.remove('playing'), 600);
     }
   } catch (err) {
-    bardoFallbackSynthesizedSFX(sfxName);
+    console.warn(`[O Bardo] Erro ao carregar arquivo de SFX "${sfxName}":`, err);
   }
-}
-
-// Síntese Web Audio como Fallback de Alta Resiliência
-function bardoFallbackSynthesizedSFX(type) {
-  if (!bardoAudioCtx) return;
-  const ctx = bardoAudioCtx;
-  const now = ctx.currentTime;
-  try {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = type.includes('espada') || type === 'sword' ? 'triangle' : 'sine';
-    osc.frequency.setValueAtTime(520, now);
-    osc.frequency.exponentialRampToValueAtTime(120, now + 0.25);
-    gain.gain.setValueAtTime(0.4, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
-    osc.connect(gain);
-    gain.connect(bardoMasterGain || ctx.destination);
-    osc.start(now);
-    osc.stop(now + 0.26);
-  } catch (e) {}
 }
 
 // Reprodução de Trilha Sonora de Fundo em Loop

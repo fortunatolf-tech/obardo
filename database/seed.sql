@@ -34,11 +34,20 @@ INSERT INTO `characters` (`id`, `campaign_id`, `user_id`, `name`, `class_and_lev
  '[{"name": "Bola de Fogo", "cost_pm": 3, "action": "Padrão", "desc": "6d6 de dano de fogo em área (Reflexos reduz à metade)"}, {"name": "Mísseis Mágicos", "cost_pm": 1, "action": "Padrão", "desc": "2 dardos de 1d4+1 de dano de essência sem erro"}, {"name": "Velocidade", "cost_pm": 3, "action": "Padrão", "desc": "+1 ação padrão extra por turno"}]',
  'Estudioso dos segredos da Tormenta e das runas primordiais.');
 
--- 5. Faixas Sonoras Padrão
+-- 5. Faixas Sonoras Padrão (CC0 / Domínio Público - O Bardo & Bardfy)
 INSERT INTO `audio_tracks` (`id`, `title`, `category`, `file_url`, `duration_seconds`, `is_preset`) VALUES
-(1, 'Taverna do Javali Saltitante', 'tavern', '/assets/audio/tavern.ogg', 180, 1),
-(2, 'Cripta dos Antigos Perdidos', 'dungeon', '/assets/audio/dungeon.ogg', 240, 1),
-(3, 'Batalha pela Vida (Combate T20)', 'combat', '/assets/audio/combat.ogg', 195, 1);
+(1, 'Taverna do Javali Saltitante', 'tavern', '/audio/ambient/taverna.ogg', 180, 1),
+(2, 'Alaúdes de Arton (Música de Taverna)', 'tavern', '/audio/ambient/tavern_lute.wav', 64, 1),
+(3, 'Feira Livre da Cidade Medieval', 'city', '/audio/ambient/cidade_medieval.ogg', 120, 1),
+(4, 'Tambores de Guerra & Batalha Épica', 'combat', '/audio/ambient/combat_drums.wav', 64, 1),
+(5, 'Tempestade Furiosa & Trovões', 'combat', '/audio/ambient/tempestade.ogg', 150, 1),
+(6, 'Cripta Antiga & Ecos da Caverna', 'dungeon', '/audio/ambient/caverna.ogg', 240, 1),
+(7, 'Dungeon Drone (Horror & Tormenta)', 'dungeon', '/audio/ambient/dungeon_drone.wav', 64, 1),
+(8, 'Acampamento & Fogueira Crepitante', 'travel', '/audio/ambient/fogueira.ogg', 180, 1),
+(9, 'Floresta Sombria à Noite', 'travel', '/audio/ambient/floresta_noite.ogg', 210, 1),
+(10, 'Vento Uivante nas Montanhas', 'travel', '/audio/ambient/vento.ogg', 160, 1),
+(11, 'Chuva na Estrada & Jornada', 'travel', '/audio/ambient/chuva.ogg', 190, 1),
+(12, 'Ondas do Mar & Porto dos Aventureiros', 'travel', '/audio/ambient/mar.ogg', 140, 1);
 
 -- 6. Estado Inicial de Sincronização
 INSERT INTO `audio_sync_states` (`campaign_id`, `active_track_id`, `active_layer`, `playback_state`, `server_timestamp`, `start_offset_ms`) VALUES

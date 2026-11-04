@@ -76,7 +76,7 @@
         <span>Volume Pessoal:</span>
         <div style="display: flex; align-items: center; gap: 0.4rem;">
           <span>🔈</span>
-          <input type="range" min="0" max="100" value="75" style="width: 110px; cursor: pointer;" oninput="if(masterGainNode) masterGainNode.gain.setValueAtTime(this.value / 100, audioCtx.currentTime);">
+          <input type="range" min="0" max="100" value="75" style="width: 110px; cursor: pointer;" oninput="setMasterVolume(this.value / 100);">
           <span>🔊</span>
         </div>
       </div>
