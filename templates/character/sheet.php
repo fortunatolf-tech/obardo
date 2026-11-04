@@ -1,31 +1,31 @@
 <?php require __DIR__ . '/../layout/header.php'; ?>
 
-<main class="mobile-container">
+<main class="container mobile-container py-3">
   
   <?php if (!$character): ?>
-    <div class="rpg-card" style="text-align: center; padding: 2rem;">
-      <h2 style="font-size: 1.2rem; color: var(--gold-imperial); margin-bottom: 0.5rem;">Nenhum Personagem Criado</h2>
-      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Você ainda não possui uma ficha nesta campanha.</p>
-      <button class="btn-touch btn-touch-primary" onclick="document.getElementById('modal-new-character').style.display='flex'">
+    <div class="rpg-card text-center p-4">
+      <h2 class="font-mythic fs-4 text-warning mb-2">Nenhum Personagem Criado</h2>
+      <p class="text-muted fs-6 mb-4">Você ainda não possui uma ficha nesta campanha.</p>
+      <button class="btn btn-solid theme-primary btn-touch" data-bs-toggle="modal" data-bs-target="#modal-new-character">
         + Criar Ficha Tormenta20 / D&D
       </button>
     </div>
   <?php else: ?>
 
     <!-- Hero Card do Personagem -->
-    <div class="rpg-card">
-      <div class="hero-compact">
-        <div class="hero-portrait-frame">
-          <img src="/images/hero-portrait.jpg" alt="<?= $e($character->name) ?>" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
+    <div class="rpg-card mb-3">
+      <div class="hero-compact hstack gap-3 align-items-center mb-3 flex-wrap flex-sm-nowrap">
+        <div class="hero-portrait-frame flex-shrink-0">
+          <img src="/images/hero-portrait.jpg" alt="<?= $e($character->name) ?>" class="img-fluid rounded-3" style="width: 100%; height: 100%; object-fit: cover;">
           <div class="level-badge"><?= $e(explode(' ', $character->classAndLevel)[1] ?? 'NV 1') ?></div>
         </div>
-        <div class="hero-meta">
-          <div class="hero-name"><?= $e($character->name) ?></div>
-          <div class="hero-class-race"><?= $e($character->classAndLevel) ?> • <?= $e($character->raceOrigin) ?></div>
-          <div class="hero-tags">
+        <div class="hero-meta vstack gap-1 flex-grow-1">
+          <div class="hero-name font-mythic fs-4 text-warning"><?= $e($character->name) ?></div>
+          <div class="hero-class-race text-light fs-6 opacity-75"><?= $e($character->classAndLevel) ?> • <?= $e($character->raceOrigin) ?></div>
+          <div class="hero-tags hstack gap-2 flex-wrap mt-1">
             <span class="tag-pill gold"><?= $e($campaign->title) ?></span>
             <span class="tag-pill"><?= $e($campaign->ruleSystem) ?></span>
-            <button type="button" onclick="document.getElementById('modal-new-character').style.display='flex'" style="background: rgba(212,175,55,0.15); border: 1px solid var(--border-gold); color: var(--gold-imperial); border-radius: 99px; padding: 2px 10px; font-size: 0.68rem; font-family: var(--font-ui); cursor: pointer; font-weight: 700; transition: 0.2s;">+ Nova Ficha</button>
+            <button type="button" class="btn btn-sm btn-subtle theme-warning py-1 px-2 fs-7" data-bs-toggle="modal" data-bs-target="#modal-new-character">+ Nova Ficha</button>
           </div>
         </div>
       </div>
@@ -34,30 +34,30 @@
       <div class="vitals-grid">
         <!-- Barra de PV (Pontos de Vida - Carmesim) -->
         <div class="vital-box" onclick="openVitalsModal()">
-          <div class="vital-header">
-            <span class="vital-title" style="color: var(--t20-ruby);">❤️ PV (VIDA)</span>
+          <div class="vital-header d-flex justify-content-between align-items-center">
+            <span class="vital-title text-danger">❤️ PV (VIDA)</span>
             <span class="vital-numbers"><span id="hp-current-val"><?= (int)$character->hpCurrent ?></span>/<span id="hp-max-val"><?= (int)$character->hpMax ?></span></span>
           </div>
           <div class="bar-track">
             <?php $hpPct = $character->hpMax > 0 ? min(100, max(0, round(($character->hpCurrent / $character->hpMax) * 100))) : 0; ?>
             <div id="hp-fill-bar" class="bar-fill ruby" style="width: <?= $hpPct ?>%;"></div>
           </div>
-          <div style="font-size: 0.65rem; color: var(--text-muted); margin-top: 4px; text-align: right;">
+          <div class="text-muted fs-8 text-end mt-1">
             Toque p/ Dano/Cura
           </div>
         </div>
 
         <!-- Barra de PM (Pontos de Mana - Cyan Arcana) -->
         <div class="vital-box" onclick="bardoModifyPM(<?= $character->id ?>, -1)">
-          <div class="vital-header">
-            <span class="vital-title" style="color: var(--mana-cyan-light);">💎 PM (MANA)</span>
+          <div class="vital-header d-flex justify-content-between align-items-center">
+            <span class="vital-title text-info">💎 PM (MANA)</span>
             <span class="vital-numbers"><span id="pm-current-val"><?= (int)$character->mpCurrent ?></span>/<span id="pm-max-val"><?= (int)$character->mpMax ?></span></span>
           </div>
           <div class="bar-track">
             <?php $mpPct = $character->mpMax > 0 ? min(100, max(0, round(($character->mpCurrent / $character->mpMax) * 100))) : 0; ?>
             <div id="pm-fill-bar" class="bar-fill mana" style="width: <?= $mpPct ?>%;"></div>
           </div>
-          <div style="font-size: 0.65rem; color: var(--text-muted); margin-top: 4px; text-align: right;">
+          <div class="text-muted fs-8 text-end mt-1">
             Toque p/ Gastar 1 PM
           </div>
         </div>
@@ -88,36 +88,48 @@
       $carMod = $attrs['car_mod'] ?? (int)floor(($carVal - 10) / 2);
     ?>
 
-    <div class="attributes-row">
-      <div class="attr-card" onclick="bardoRoll(<?= $campaign->id ?>, <?= $character->id ?>, '1d20<?= $forMod >= 0 ? '+' . $forMod : $forMod ?>', 'Teste de Força')">
-        <span class="attr-tag">FOR</span>
-        <span class="attr-mod"><?= $forMod >= 0 ? '+' . $forMod : $forMod ?></span>
-        <span class="attr-raw"><?= $forVal ?></span>
+    <div class="row row-cols-3 row-cols-md-6 g-2 mb-3 attributes-row">
+      <div class="col">
+        <div class="attr-card" onclick="bardoRoll(<?= $campaign->id ?>, <?= $character->id ?>, '1d20<?= $forMod >= 0 ? '+' . $forMod : $forMod ?>', 'Teste de Força')">
+          <span class="attr-tag">FOR</span>
+          <span class="attr-mod"><?= $forMod >= 0 ? '+' . $forMod : $forMod ?></span>
+          <span class="attr-raw"><?= $forVal ?></span>
+        </div>
       </div>
-      <div class="attr-card" onclick="bardoRoll(<?= $campaign->id ?>, <?= $character->id ?>, '1d20<?= $desMod >= 0 ? '+' . $desMod : $desMod ?>', 'Teste de Destreza')">
-        <span class="attr-tag">DES</span>
-        <span class="attr-mod"><?= $desMod >= 0 ? '+' . $desMod : $desMod ?></span>
-        <span class="attr-raw"><?= $desVal ?></span>
+      <div class="col">
+        <div class="attr-card" onclick="bardoRoll(<?= $campaign->id ?>, <?= $character->id ?>, '1d20<?= $desMod >= 0 ? '+' . $desMod : $desMod ?>', 'Teste de Destreza')">
+          <span class="attr-tag">DES</span>
+          <span class="attr-mod"><?= $desMod >= 0 ? '+' . $desMod : $desMod ?></span>
+          <span class="attr-raw"><?= $desVal ?></span>
+        </div>
       </div>
-      <div class="attr-card" onclick="bardoRoll(<?= $campaign->id ?>, <?= $character->id ?>, '1d20<?= $conMod >= 0 ? '+' . $conMod : $conMod ?>', 'Teste de Constituição')">
-        <span class="attr-tag">CON</span>
-        <span class="attr-mod"><?= $conMod >= 0 ? '+' . $conMod : $conMod ?></span>
-        <span class="attr-raw"><?= $conVal ?></span>
+      <div class="col">
+        <div class="attr-card" onclick="bardoRoll(<?= $campaign->id ?>, <?= $character->id ?>, '1d20<?= $conMod >= 0 ? '+' . $conMod : $conMod ?>', 'Teste de Constituição')">
+          <span class="attr-tag">CON</span>
+          <span class="attr-mod"><?= $conMod >= 0 ? '+' . $conMod : $conMod ?></span>
+          <span class="attr-raw"><?= $conVal ?></span>
+        </div>
       </div>
-      <div class="attr-card" onclick="bardoRoll(<?= $campaign->id ?>, <?= $character->id ?>, '1d20<?= $intMod >= 0 ? '+' . $intMod : $intMod ?>', 'Teste de Inteligência')">
-        <span class="attr-tag">INT</span>
-        <span class="attr-mod"><?= $intMod >= 0 ? '+' . $intMod : $intMod ?></span>
-        <span class="attr-raw"><?= $intVal ?></span>
+      <div class="col">
+        <div class="attr-card" onclick="bardoRoll(<?= $campaign->id ?>, <?= $character->id ?>, '1d20<?= $intMod >= 0 ? '+' . $intMod : $intMod ?>', 'Teste de Inteligência')">
+          <span class="attr-tag">INT</span>
+          <span class="attr-mod"><?= $intMod >= 0 ? '+' . $intMod : $intMod ?></span>
+          <span class="attr-raw"><?= $intVal ?></span>
+        </div>
       </div>
-      <div class="attr-card" onclick="bardoRoll(<?= $campaign->id ?>, <?= $character->id ?>, '1d20<?= $sabMod >= 0 ? '+' . $sabMod : $sabMod ?>', 'Teste de Sabedoria')">
-        <span class="attr-tag">SAB</span>
-        <span class="attr-mod"><?= $sabMod >= 0 ? '+' . $sabMod : $sabMod ?></span>
-        <span class="attr-raw"><?= $sabVal ?></span>
+      <div class="col">
+        <div class="attr-card" onclick="bardoRoll(<?= $campaign->id ?>, <?= $character->id ?>, '1d20<?= $sabMod >= 0 ? '+' . $sabMod : $sabMod ?>', 'Teste de Sabedoria')">
+          <span class="attr-tag">SAB</span>
+          <span class="attr-mod"><?= $sabMod >= 0 ? '+' . $sabMod : $sabMod ?></span>
+          <span class="attr-raw"><?= $sabVal ?></span>
+        </div>
       </div>
-      <div class="attr-card" onclick="bardoRoll(<?= $campaign->id ?>, <?= $character->id ?>, '1d20<?= $carMod >= 0 ? '+' . $carMod : $carMod ?>', 'Teste de Carisma')">
-        <span class="attr-tag">CAR</span>
-        <span class="attr-mod"><?= $carMod >= 0 ? '+' . $carMod : $carMod ?></span>
-        <span class="attr-raw"><?= $carVal ?></span>
+      <div class="col">
+        <div class="attr-card" onclick="bardoRoll(<?= $campaign->id ?>, <?= $character->id ?>, '1d20<?= $carMod >= 0 ? '+' . $carMod : $carMod ?>', 'Teste de Carisma')">
+          <span class="attr-tag">CAR</span>
+          <span class="attr-mod"><?= $carMod >= 0 ? '+' . $carMod : $carMod ?></span>
+          <span class="attr-raw"><?= $carVal ?></span>
+        </div>
       </div>
     </div>
 
@@ -126,43 +138,45 @@
     <!-- ABA 1: COMBATE & ATAQUES -->
     <div id="section-combate" class="tab-pane">
       <div class="rpg-card">
-        <div class="card-title-bar">
+        <div class="card-title-bar d-flex justify-content-between align-items-center">
           <span class="card-title-text">⚔️ Ataques & Ações de Combate</span>
-          <span style="font-size: 0.7rem; color: var(--text-muted);">Bônus Base: +<?= max(1, $forMod + 2) ?></span>
+          <span class="text-muted fs-7">Bônus Base: +<?= max(1, $forMod + 2) ?></span>
         </div>
 
-        <div class="action-card ruby">
-          <div class="action-header">
-            <span class="action-title">Espada Longa de Aço-Rubi</span>
-            <span class="tag-pill gold">Crítico 19-20/x2</span>
+        <div class="vstack gap-3">
+          <div class="action-card ruby">
+            <div class="action-header d-flex justify-content-between align-items-center">
+              <span class="action-title">Espada Longa de Aço-Rubi</span>
+              <span class="tag-pill gold">Crítico 19-20/x2</span>
+            </div>
+            <div class="action-desc">
+              1 mão (dano 1d8+<?= $forMod ?>) ou 2 mãos (dano 1d10+<?= $forMod ?>) • Cortante
+            </div>
+            <div class="action-buttons hstack gap-2 flex-wrap">
+              <button class="btn btn-solid theme-primary btn-touch" onclick="bardoRoll(<?= $campaign->id ?>, <?= $character->id ?>, '1d20+<?= max(1, $forMod + 4) ?>', 'Ataque Espada Longa')">
+                ⚔️ Atacar (+<?= max(1, $forMod + 4) ?>)
+              </button>
+              <button class="btn btn-subtle theme-secondary btn-touch" onclick="bardoRoll(<?= $campaign->id ?>, <?= $character->id ?>, '1d8+<?= $forMod ?>', 'Dano Espada (1 mão)')">
+                1d8+<?= $forMod ?>
+              </button>
+              <button class="btn btn-subtle theme-secondary btn-touch" onclick="bardoRoll(<?= $campaign->id ?>, <?= $character->id ?>, '1d10+<?= $forMod ?>', 'Dano Espada (2 mãos)')">
+                1d10+<?= $forMod ?>
+              </button>
+            </div>
           </div>
-          <div class="action-desc">
-            1 mão (dano 1d8+<?= $forMod ?>) ou 2 mãos (dano 1d10+<?= $forMod ?>) • Cortante
-          </div>
-          <div class="action-buttons">
-            <button class="btn-touch btn-touch-primary" onclick="bardoRoll(<?= $campaign->id ?>, <?= $character->id ?>, '1d20+<?= max(1, $forMod + 4) ?>', 'Ataque Espada Longa')">
-              ⚔️ Atacar (+<?= max(1, $forMod + 4) ?>)
-            </button>
-            <button class="btn-touch btn-touch-dark" onclick="bardoRoll(<?= $campaign->id ?>, <?= $character->id ?>, '1d8+<?= $forMod ?>', 'Dano Espada (1 mão)')">
-              1d8+<?= $forMod ?>
-            </button>
-            <button class="btn-touch btn-touch-dark" onclick="bardoRoll(<?= $campaign->id ?>, <?= $character->id ?>, '1d10+<?= $forMod ?>', 'Dano Espada (2 mãos)')">
-              1d10+<?= $forMod ?>
-            </button>
-          </div>
-        </div>
 
-        <div class="action-card mana">
-          <div class="action-header">
-            <span class="action-title">Golpe Especial Flamejante</span>
-            <span class="action-cost">Custo: 2 PM</span>
+          <div class="action-card mana">
+            <div class="action-header d-flex justify-content-between align-items-center">
+              <span class="action-title">Golpe Especial Flamejante</span>
+              <span class="action-cost">Custo: 2 PM</span>
+            </div>
+            <div class="action-desc">
+              Envolve a arma em chamas arcanas. Concede +2d6 de dano de fogo no ataque.
+            </div>
+            <button class="btn btn-solid theme-info btn-touch w-100" onclick="bardoModifyPM(<?= $character->id ?>, -2); bardoRoll(<?= $campaign->id ?>, <?= $character->id ?>, '1d20+<?= max(1, $forMod + 4) ?>', 'Golpe Especial (Ataque)'); bardoRoll(<?= $campaign->id ?>, <?= $character->id ?>, '2d6', 'Dano Extra de Fogo');">
+              🔥 Desferir Golpe com Chamas (2 PM)
+            </button>
           </div>
-          <div class="action-desc">
-            Envolve a arma em chamas arcanas. Concede +2d6 de dano de fogo no ataque.
-          </div>
-          <button class="btn-touch btn-touch-mana" style="width: 100%;" onclick="bardoModifyPM(<?= $character->id ?>, -2); bardoRoll(<?= $campaign->id ?>, <?= $character->id ?>, '1d20+<?= max(1, $forMod + 4) ?>', 'Golpe Especial (Ataque)'); bardoRoll(<?= $campaign->id ?>, <?= $character->id ?>, '2d6', 'Dano Extra de Fogo');">
-            🔥 Desferir Golpe com Chamas (2 PM)
-          </button>
         </div>
       </div>
     </div>
@@ -170,36 +184,38 @@
     <!-- ABA 2: MAGIAS & GRIMÓRIO (COM CUSTO EM PM) -->
     <div id="section-magias" class="tab-pane" style="display: none;">
       <div class="rpg-card">
-        <div class="card-title-bar">
+        <div class="card-title-bar d-flex justify-content-between align-items-center">
           <span class="card-title-text">🔮 Grimório & Habilidades Arcanas</span>
-          <span style="font-size: 0.75rem; color: var(--mana-cyan-light); font-weight: 700;">Mana Atual: <?= (int)$character->mpCurrent ?> PM</span>
+          <span class="text-info fw-bold fs-7">Mana Atual: <?= (int)$character->mpCurrent ?> PM</span>
         </div>
 
         <?php if (empty($character->spellsData)): ?>
-          <p style="font-size: 0.8rem; color: var(--text-muted); text-align: center; padding: 1rem;">Nenhuma magia registrada no momento.</p>
+          <p class="text-muted text-center py-3 fs-7">Nenhuma magia registrada no momento.</p>
         <?php else: ?>
-          <?php foreach ($character->spellsData as $spell): ?>
-            <div class="action-card mana">
-              <div class="action-header">
-                <span class="action-title"><?= $e($spell['name']) ?></span>
-                <span class="action-cost"><?= (int)($spell['cost_pm'] ?? 1) ?> PM • <?= $e($spell['action'] ?? 'Padrão') ?></span>
+          <div class="vstack gap-3">
+            <?php foreach ($character->spellsData as $spell): ?>
+              <div class="action-card mana">
+                <div class="action-header d-flex justify-content-between align-items-center">
+                  <span class="action-title"><?= $e($spell['name']) ?></span>
+                  <span class="action-cost"><?= (int)($spell['cost_pm'] ?? 1) ?> PM • <?= $e($spell['action'] ?? 'Padrão') ?></span>
+                </div>
+                <div class="action-desc"><?= $e($spell['desc'] ?? '') ?></div>
+                <button class="btn btn-solid theme-info btn-touch w-100" onclick="bardoModifyPM(<?= $character->id ?>, -<?= (int)($spell['cost_pm'] ?? 1) ?>); bardoPlaySFX('spell'); bardoToast('🔮 Magia <?= $e($spell['name']) ?> conjurada!');">
+                  Conjurar <?= $e($spell['name']) ?> (-<?= (int)($spell['cost_pm'] ?? 1) ?> PM)
+                </button>
               </div>
-              <div class="action-desc"><?= $e($spell['desc'] ?? '') ?></div>
-              <button class="btn-touch btn-touch-mana" style="width: 100%;" onclick="bardoModifyPM(<?= $character->id ?>, -<?= (int)($spell['cost_pm'] ?? 1) ?>); bardoPlaySFX('spell'); bardoToast('🔮 Magia <?= $e($spell['name']) ?> conjurada!');">
-                Conjurar <?= $e($spell['name']) ?> (-<?= (int)($spell['cost_pm'] ?? 1) ?> PM)
-              </button>
-            </div>
-          <?php endforeach; ?>
+            <?php endforeach; ?>
+          </div>
         <?php endif; ?>
       </div>
     </div>
 
     <!-- ABA 3: PERÍCIAS (TORMENTA20 & D&D OGL) -->
     <div id="section-pericias" class="tab-pane" style="display: none;">
-      <div class="rpg-card" style="padding: 0.5rem 0;">
-        <div style="padding: 0.5rem 0.75rem 0.25rem 0.75rem; display: flex; justify-content: space-between; align-items: center;">
+      <div class="rpg-card py-2">
+        <div class="d-flex justify-content-between align-items-center px-3 py-2">
           <span class="card-title-text">📜 Perícias de Campanha</span>
-          <span style="font-size: 0.7rem; color: var(--gold-imperial);">[T] = Treinada</span>
+          <span class="text-warning fs-8 fw-bold">[T] = Treinada</span>
         </div>
 
         <?php 
@@ -217,36 +233,38 @@
           ];
         ?>
 
-        <?php foreach ($defaultSkills as $sk): ?>
-          <div class="skill-row" onclick="bardoRoll(<?= $campaign->id ?>, <?= $character->id ?>, '1d20<?= $sk['bonus'] >= 0 ? '+' . $sk['bonus'] : $sk['bonus'] ?>', 'Perícia: <?= $e($sk['name']) ?>')">
-            <div class="skill-left">
-              <div class="skill-train-badge <?= $sk['trained'] ? 'trained' : '' ?>">
-                <?= $sk['trained'] ? 'T' : '' ?>
+        <div class="vstack gap-1">
+          <?php foreach ($defaultSkills as $sk): ?>
+            <div class="skill-row" onclick="bardoRoll(<?= $campaign->id ?>, <?= $character->id ?>, '1d20<?= $sk['bonus'] >= 0 ? '+' . $sk['bonus'] : $sk['bonus'] ?>', 'Perícia: <?= $e($sk['name']) ?>')">
+              <div class="skill-left d-flex align-items-center gap-2">
+                <div class="skill-train-badge <?= $sk['trained'] ? 'trained' : '' ?>">
+                  <?= $sk['trained'] ? 'T' : '' ?>
+                </div>
+                <div>
+                  <span class="skill-name"><?= $e($sk['name']) ?></span>
+                  <span class="skill-attr-ref text-muted">(<?= $e($sk['attr']) ?>)</span>
+                </div>
               </div>
-              <div>
-                <span class="skill-name"><?= $e($sk['name']) ?></span>
-                <span class="skill-attr-ref">(<?= $e($sk['attr']) ?>)</span>
-              </div>
+              <span class="skill-bonus"><?= $sk['bonus'] >= 0 ? '+' . $sk['bonus'] : $sk['bonus'] ?> 🎲</span>
             </div>
-            <span class="skill-bonus"><?= $sk['bonus'] >= 0 ? '+' . $sk['bonus'] : $sk['bonus'] ?> 🎲</span>
-          </div>
-        <?php endforeach; ?>
+          <?php endforeach; ?>
+        </div>
       </div>
     </div>
 
     <!-- ABA 4: MOCHILA & CARGA -->
     <div id="section-mochila" class="tab-pane" style="display: none;">
       <div class="rpg-card">
-        <div class="card-title-bar">
+        <div class="card-title-bar d-flex justify-content-between align-items-center">
           <span class="card-title-text">🎒 Mochila & Carga</span>
-          <span style="font-size: 0.75rem; color: var(--emerald-life); font-weight: 700;">Capacidade: <?= $forVal ?> Espaços</span>
+          <span class="text-success fw-bold fs-7">Capacidade: <?= $forVal ?> Espaços</span>
         </div>
 
-        <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.85rem;">
+        <div class="vstack gap-2 fs-7">
           <?php foreach ($character->inventoryData as $item): ?>
-            <div style="background: var(--bg-surface); padding: 0.65rem 0.85rem; border-radius: 8px; display: flex; justify-content: space-between;">
+            <div class="p-2 rounded bg-surface d-flex justify-content-between align-items-center">
               <span><?= $item['equipped'] ? '🛡️' : '🎒' ?> <?= $e($item['name']) ?></span>
-              <span style="color: var(--gold-imperial); font-weight: 700;"><?= (int)($item['slots'] ?? 1) ?> Espaço(s)</span>
+              <span class="text-warning fw-bold"><?= (int)($item['slots'] ?? 1) ?> Espaço(s)</span>
             </div>
           <?php endforeach; ?>
         </div>
@@ -254,12 +272,12 @@
     </div>
 
     <!-- FEED DE ROLAGENS EM TEMPO REAL -->
-    <div class="rpg-card" style="margin-top: 1rem;">
-      <div class="card-title-bar">
+    <div class="rpg-card mt-3">
+      <div class="card-title-bar d-flex justify-content-between align-items-center">
         <span class="card-title-text">🎲 Histórico de Rolagens da Sessão</span>
-        <button class="btn-touch btn-touch-dark" style="padding: 2px 8px; font-size: 0.7rem;" onclick="document.getElementById('session-roll-feed').innerHTML=''">Limpar</button>
+        <button class="btn btn-sm btn-subtle theme-secondary py-1 px-2 fs-8" onclick="document.getElementById('session-roll-feed').innerHTML=''">Limpar</button>
       </div>
-      <div id="session-roll-feed"></div>
+      <div id="session-roll-feed" class="vstack gap-2"></div>
     </div>
 
     <!-- BOTAO FLUTUANTE (FAB) PARA ROLAGEM RAPIDA DE DADOS -->
@@ -271,13 +289,13 @@
     <div id="dice-bottom-sheet" class="bottom-sheet" onclick="if(event.target === this) closeDiceSheet();">
       <div class="bottom-sheet-content">
         <div class="sheet-handle"></div>
-        <h3 style="font-size: 1.1rem; text-align: center; margin-bottom: 0.25rem;">Bandeja Universal de Dados</h3>
-        <p style="font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-bottom: 0.75rem;">Suporta Sistema D20, D100, 3d6 e qualquer RPG de mesa:</p>
+        <h3 class="font-mythic fs-5 text-center text-warning mb-1">Bandeja Universal de Dados</h3>
+        <p class="text-muted text-center fs-7 mb-3">Suporta Sistema D20, D100, 3d6 e qualquer RPG de mesa:</p>
 
         <!-- Fórmula Personalizada Livre -->
-        <form onsubmit="event.preventDefault(); const f=document.getElementById('custom-dice-formula').value; if(f) bardoRoll(<?= $campaign->id ?>, <?= $character->id ?>, f, 'Rolagem Livre');" style="display: flex; gap: 0.4rem; margin-bottom: 0.85rem;">
-          <input type="text" id="custom-dice-formula" placeholder="Fórmula livre (ex: 3d6+2, 2d8, 1d100)" style="flex: 1; padding: 0.6rem; background: var(--bg-surface); border: 1px solid var(--border-gold); border-radius: 8px; color: #fff; font-family: var(--font-code); font-size: 0.85rem;">
-          <button type="submit" class="btn-touch btn-touch-primary" style="padding: 0 1rem;">Rolar</button>
+        <form onsubmit="event.preventDefault(); const f=document.getElementById('custom-dice-formula').value; if(f) bardoRoll(<?= $campaign->id ?>, <?= $character->id ?>, f, 'Rolagem Livre');" class="d-flex gap-2 mb-3">
+          <input type="text" id="custom-dice-formula" class="form-control font-code fs-7" placeholder="Fórmula livre (ex: 3d6+2, 2d8, 1d100)">
+          <button type="submit" class="btn btn-solid theme-primary btn-touch px-3">Rolar</button>
         </form>
 
         <div class="dice-tray-grid">
@@ -315,7 +333,7 @@
           </div>
         </div>
 
-        <button class="btn-touch btn-touch-dark" style="width: 100%; margin-top: 0.5rem;" onclick="closeDiceSheet()">Fechar</button>
+        <button class="btn btn-subtle theme-secondary btn-touch w-100 mt-2" onclick="closeDiceSheet()">Fechar</button>
       </div>
     </div>
 
@@ -323,19 +341,19 @@
     <div id="vitals-modal-sheet" class="bottom-sheet" onclick="if(event.target === this) closeVitalsModal();">
       <div class="bottom-sheet-content">
         <div class="sheet-handle"></div>
-        <h3 style="font-size: 1.1rem; text-align: center; color: var(--t20-ruby);">Ajuste Rápido de Pontos de Vida (PV)</h3>
-        <p style="font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-bottom: 1rem;">Aplique dano ou cura com um toque:</p>
+        <h3 class="font-mythic fs-5 text-center text-danger mb-1">Ajuste Rápido de Pontos de Vida (PV)</h3>
+        <p class="text-muted text-center fs-7 mb-3">Aplique dano ou cura com um toque:</p>
 
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-bottom: 1rem;">
-          <button class="btn-touch btn-touch-ruby" onclick="bardoModifyHP(<?= $character->id ?>, -1)">-1 Dano</button>
-          <button class="btn-touch btn-touch-ruby" onclick="bardoModifyHP(<?= $character->id ?>, -5)">-5 Dano</button>
-          <button class="btn-touch btn-touch-ruby" onclick="bardoModifyHP(<?= $character->id ?>, -10)">-10 Dano</button>
-          <button class="btn-touch btn-touch-primary" onclick="bardoModifyHP(<?= $character->id ?>, 1)">+1 Cura</button>
-          <button class="btn-touch btn-touch-primary" onclick="bardoModifyHP(<?= $character->id ?>, 5)">+5 Cura</button>
-          <button class="btn-touch btn-touch-primary" onclick="bardoModifyHP(<?= $character->id ?>, 10)">+10 Cura</button>
+        <div class="row row-cols-3 g-2 mb-3">
+          <div class="col"><button class="btn btn-solid theme-danger btn-touch w-100" onclick="bardoModifyHP(<?= $character->id ?>, -1)">-1 Dano</button></div>
+          <div class="col"><button class="btn btn-solid theme-danger btn-touch w-100" onclick="bardoModifyHP(<?= $character->id ?>, -5)">-5 Dano</button></div>
+          <div class="col"><button class="btn btn-solid theme-danger btn-touch w-100" onclick="bardoModifyHP(<?= $character->id ?>, -10)">-10 Dano</button></div>
+          <div class="col"><button class="btn btn-solid theme-primary btn-touch w-100" onclick="bardoModifyHP(<?= $character->id ?>, 1)">+1 Cura</button></div>
+          <div class="col"><button class="btn btn-solid theme-primary btn-touch w-100" onclick="bardoModifyHP(<?= $character->id ?>, 5)">+5 Cura</button></div>
+          <div class="col"><button class="btn btn-solid theme-primary btn-touch w-100" onclick="bardoModifyHP(<?= $character->id ?>, 10)">+10 Cura</button></div>
         </div>
 
-        <button class="btn-touch btn-touch-dark" style="width: 100%;" onclick="closeVitalsModal()">Concluir</button>
+        <button class="btn btn-subtle theme-secondary btn-touch w-100" onclick="closeVitalsModal()">Concluir</button>
       </div>
     </div>
 
@@ -391,67 +409,79 @@
     </script>
   <?php endif; ?>
 
-  <!-- MODAL DE CRIAÇÃO DE NOVA FICHA (TORMENTA20 / D&D / UNIVERSAL) -->
-  <div id="modal-new-character" style="display: none; position: fixed; inset: 0; z-index: 200; background: rgba(5,7,12,0.85); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 1rem; overflow-y: auto;">
-    <div style="background: linear-gradient(145deg, rgba(23, 27, 42, 0.98), rgba(12, 15, 24, 0.99)), url('/images/parchment-grimoire.jpg') center / cover; border: 2px solid var(--border-gold); box-shadow: 0 0 35px rgba(212, 175, 55, 0.35); border-radius: 16px; padding: 1.5rem; max-width: 520px; width: 100%; max-height: 90vh; overflow-y: auto;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid var(--border-gold-dark); padding-bottom: 0.5rem;">
-        <div>
-          <h3 style="font-family: var(--font-mythic); font-size: 1.2rem; color: var(--gold-imperial); margin: 0;">⚔️ Forja de Heróis</h3>
-          <p style="font-size: 0.72rem; color: var(--text-muted); margin: 2px 0 0 0;">Criação de Ficha Tormenta20, D&D e Sistemas d20</p>
-        </div>
-        <button type="button" onclick="document.getElementById('modal-new-character').style.display='none'" style="background: none; border: none; color: var(--gold-imperial); font-size: 1.4rem; cursor: pointer;">✕</button>
-      </div>
-
-      <form onsubmit="submitNewCharacter(event, <?= $campaign->id ?>)">
-        <div style="margin-bottom: 0.85rem;">
-          <label style="display: block; font-family: var(--font-ui); font-size: 0.75rem; color: var(--gold-imperial); font-weight: 700; margin-bottom: 4px;">NOME DO PERSONAGEM *</label>
-          <input type="text" name="name" required placeholder="Ex: Sir Lothar, Aylin..." style="width: 100%; background: rgba(0,0,0,0.6); border: 1px solid var(--border-gold); border-radius: 8px; color: #fff; padding: 0.6rem 0.8rem; font-family: var(--font-lore); font-size: 0.95rem;">
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.85rem;">
+  <!-- MODAL DE CRIAÇÃO DE NOVA FICHA (BOOTSTRAP 6 MODAL COMPONENT) -->
+  <div class="modal fade" id="modal-new-character" tabindex="-1" aria-labelledby="modalNewCharLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content rpg-card p-0">
+        <div class="modal-header d-flex justify-content-between align-items-center">
           <div>
-            <label style="display: block; font-family: var(--font-ui); font-size: 0.72rem; color: var(--gold-imperial); font-weight: 700; margin-bottom: 4px;">RAÇA / ORIGEM</label>
-            <input type="text" name="race_origin" placeholder="Humano, Elfo, Qareen..." value="Humano" style="width: 100%; background: rgba(0,0,0,0.6); border: 1px solid var(--border-gold); border-radius: 8px; color: #fff; padding: 0.5rem 0.7rem; font-family: var(--font-lore); font-size: 0.85rem;">
+            <h3 class="modal-title font-mythic fs-5 text-warning mb-0" id="modalNewCharLabel">⚔️ Forja de Heróis</h3>
+            <small class="text-muted fs-8">Criação de Ficha Tormenta20, D&D e Sistemas d20</small>
           </div>
-          <div>
-            <label style="display: block; font-family: var(--font-ui); font-size: 0.72rem; color: var(--gold-imperial); font-weight: 700; margin-bottom: 4px;">CLASSE & NÍVEL</label>
-            <input type="text" name="class_and_level" placeholder="Guerreiro 1, Arcanista 1..." value="Guerreiro 1" style="width: 100%; background: rgba(0,0,0,0.6); border: 1px solid var(--border-gold); border-radius: 8px; color: #fff; padding: 0.5rem 0.7rem; font-family: var(--font-lore); font-size: 0.85rem;">
-          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.6rem; margin-bottom: 1rem;">
-          <div style="text-align: center; background: rgba(225,29,72,0.1); border: 1px solid var(--t20-ruby); border-radius: 8px; padding: 0.5rem;">
-            <label style="display: block; font-family: var(--font-ui); font-size: 0.68rem; color: var(--t20-ruby); font-weight: 700;">PV MÁX</label>
-            <input type="number" name="hp_max" value="20" min="1" max="999" style="width: 100%; background: transparent; border: none; text-align: center; color: #fff; font-family: var(--font-stats); font-size: 1.1rem; font-weight: 700;">
-          </div>
-          <div style="text-align: center; background: rgba(6,182,212,0.1); border: 1px solid var(--mana-cyan-light); border-radius: 8px; padding: 0.5rem;">
-            <label style="display: block; font-family: var(--font-ui); font-size: 0.68rem; color: var(--mana-cyan-light); font-weight: 700;">PM MÁX</label>
-            <input type="number" name="mp_max" value="6" min="0" max="999" style="width: 100%; background: transparent; border: none; text-align: center; color: #fff; font-family: var(--font-stats); font-size: 1.1rem; font-weight: 700;">
-          </div>
-          <div style="text-align: center; background: rgba(212,175,55,0.1); border: 1px solid var(--border-gold); border-radius: 8px; padding: 0.5rem;">
-            <label style="display: block; font-family: var(--font-ui); font-size: 0.68rem; color: var(--gold-imperial); font-weight: 700;">DEFESA</label>
-            <input type="number" name="armor_class" value="15" min="1" max="99" style="width: 100%; background: transparent; border: none; text-align: center; color: #fff; font-family: var(--font-stats); font-size: 1.1rem; font-weight: 700;">
-          </div>
-        </div>
+        <div class="modal-body p-3 p-md-4">
+          <form onsubmit="submitNewCharacter(event, <?= $campaign->id ?>)">
+            <div class="mb-3">
+              <label class="form-label text-warning">NOME DO PERSONAGEM *</label>
+              <input type="text" name="name" required placeholder="Ex: Sir Lothar, Aylin..." class="form-control">
+            </div>
 
-        <div style="margin-bottom: 1.25rem;">
-          <label style="display: block; font-family: var(--font-ui); font-size: 0.72rem; color: var(--gold-imperial); font-weight: 700; margin-bottom: 6px;">ATRIBUTOS BASE (D20 / T20 / 5E)</label>
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;">
-            <?php foreach (['for' => 'FORÇA', 'des' => 'DESTREZA', 'con' => 'CONSTITUIÇÃO', 'int' => 'INTELIGÊNCIA', 'sab' => 'SABEDORIA', 'car' => 'CARISMA'] as $k => $label): ?>
-              <div style="background: rgba(0,0,0,0.5); border: 1px solid var(--border-gold-dark); border-radius: 8px; padding: 0.4rem; text-align: center;">
-                <span style="display: block; font-size: 0.65rem; color: var(--gold-imperial); font-family: var(--font-ui); font-weight: 700;"><?= strtoupper(substr($k, 0, 3)) ?></span>
-                <input type="number" name="attr_<?= $k ?>" value="10" min="1" max="30" oninput="updateAttrPreview(this, 'mod_<?= $k ?>')" style="width: 100%; background: transparent; border: none; text-align: center; color: #fff; font-size: 1rem; font-weight: 700; font-family: var(--font-stats);">
-                <span id="mod_<?= $k ?>" style="display: block; font-size: 0.68rem; color: var(--mana-cyan-light); font-weight: bold;">+0</span>
+            <div class="row g-2 mb-3">
+              <div class="col-12 col-sm-6">
+                <label class="form-label text-warning">RAÇA / ORIGEM</label>
+                <input type="text" name="race_origin" placeholder="Humano, Elfo, Qareen..." value="Humano" class="form-control">
               </div>
-            <?php endforeach; ?>
-          </div>
-        </div>
+              <div class="col-12 col-sm-6">
+                <label class="form-label text-warning">CLASSE & NÍVEL</label>
+                <input type="text" name="class_and_level" placeholder="Guerreiro 1, Arcanista 1..." value="Guerreiro 1" class="form-control">
+              </div>
+            </div>
 
-        <div style="display: flex; gap: 0.75rem;">
-          <button type="button" class="btn-touch btn-touch-dark" style="flex: 1;" onclick="document.getElementById('modal-new-character').style.display='none'">Cancelar</button>
-          <button type="submit" class="btn-touch btn-touch-primary" style="flex: 2;">⚔️ Forjar Ficha</button>
+            <div class="row g-2 mb-3 text-center">
+              <div class="col-4">
+                <div class="p-2 rounded border border-danger bg-surface">
+                  <label class="form-label text-danger mb-1 fs-8">PV MÁX</label>
+                  <input type="number" name="hp_max" value="20" min="1" max="999" class="form-control text-center font-code fw-bold fs-5 p-1 border-0 bg-transparent">
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="p-2 rounded border border-info bg-surface">
+                  <label class="form-label text-info mb-1 fs-8">PM MÁX</label>
+                  <input type="number" name="mp_max" value="6" min="0" max="999" class="form-control text-center font-code fw-bold fs-5 p-1 border-0 bg-transparent">
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="p-2 rounded border border-warning bg-surface">
+                  <label class="form-label text-warning mb-1 fs-8">DEFESA</label>
+                  <input type="number" name="armor_class" value="15" min="1" max="99" class="form-control text-center font-code fw-bold fs-5 p-1 border-0 bg-transparent">
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label text-warning mb-2">ATRIBUTOS BASE (D20 / T20 / 5E)</label>
+              <div class="row row-cols-3 row-cols-sm-6 g-2">
+                <?php foreach (['for' => 'FORÇA', 'des' => 'DESTREZA', 'con' => 'CONSTITUIÇÃO', 'int' => 'INTELIGÊNCIA', 'sab' => 'SABEDORIA', 'car' => 'CARISMA'] as $k => $label): ?>
+                  <div class="col">
+                    <div class="p-2 rounded bg-surface border border-secondary text-center">
+                      <span class="d-block text-warning font-ui fs-8 fw-bold mb-1"><?= strtoupper(substr($k, 0, 3)) ?></span>
+                      <input type="number" name="attr_<?= $k ?>" value="10" min="1" max="30" oninput="updateAttrPreview(this, 'mod_<?= $k ?>')" class="form-control text-center font-code fw-bold fs-5 p-0 border-0 bg-transparent">
+                      <span id="mod_<?= $k ?>" class="d-block text-info fw-bold fs-8 mt-1">+0</span>
+                    </div>
+                  </div>
+                <?php endforeach; ?>
+              </div>
+            </div>
+
+            <div class="hstack gap-2 justify-content-end">
+              <button type="button" class="btn btn-subtle theme-secondary btn-touch" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-solid theme-primary btn-touch px-4">⚔️ Forjar Ficha</button>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 

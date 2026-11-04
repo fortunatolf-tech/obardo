@@ -1,15 +1,16 @@
 /* ==========================================================================
-   O BARDO • DESIGN SYSTEM DISRUPTIVO: DRACULA THEME x ALTA FANTASIA
-   (https://github.com/dracula/dracula-theme)
-   Grimório Ancestral, Chanfros Rúnicos, HUD de Herói & Paleta Oficial Dracula
+   O BARDO • DESIGN SYSTEM: BOOTSTRAP 6 x DRACULA THEME x TORMENTA & D&D
+   Ref: https://getbootstrap.com/docs/6.0/getting-started/ai/#skills
+   Skills: bootstrap-v6-install, bootstrap-color-system, bootstrap-component, bootstrap-utility-api
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400&family=Cinzel+Decorative:wght@700;900&family=Grenze+Gotisch:wght@600;700;800;900&family=MedievalSharp&family=Uncial+Antiqua&family=JetBrains+Mono:wght@500;700;800&display=swap');
-
-:root {
-  /* ========================================================================
-     PALETA OFICIAL DRACULA THEME (https://github.com/dracula/dracula-theme)
-     ======================================================================== */
+/* ==========================================================================
+   1. BOOTSTRAP 6 RUNTIME TOKENS & PALETA DRACULA THEME
+   ========================================================================== */
+:root,
+:host,
+[data-bs-theme="dark"] {
+  /* Hues Oficiais Dracula Theme */
   --dracula-bg: #282a36;
   --dracula-bg-darker: #1e1f29;
   --dracula-bg-subtle: #21222c;
@@ -24,9 +25,46 @@
   --dracula-red: #ff5555;
   --dracula-yellow: #f1fa8c;
 
-  /* ========================================================================
-     PALETA BASE SEMÂNTICA DO BARDO (DRACULA GOTHIC FANTASY)
-     ======================================================================== */
+  /* Bootstrap 6 Runtime Theme Tokens */
+  --bs-primary: var(--dracula-purple);
+  --bs-primary-rgb: 189, 147, 249;
+  --bs-danger: var(--dracula-red);
+  --bs-danger-rgb: 255, 85, 85;
+  --bs-success: var(--dracula-green);
+  --bs-success-rgb: 80, 250, 123;
+  --bs-info: var(--dracula-cyan);
+  --bs-info-rgb: 139, 233, 253;
+  --bs-warning: var(--dracula-orange);
+  --bs-warning-rgb: 255, 184, 108;
+  --bs-accent: var(--dracula-pink);
+  --bs-accent-rgb: 255, 121, 198;
+  --bs-secondary: var(--dracula-comment);
+  --bs-secondary-rgb: 98, 114, 164;
+  --bs-dark: var(--dracula-bg);
+  --bs-dark-rgb: 40, 42, 54;
+  --bs-light: var(--dracula-fg);
+  --bs-light-rgb: 248, 248, 242;
+
+  /* Bootstrap 6 Body & Layer Custom Properties */
+  --bs-body-bg: var(--dracula-bg-darker);
+  --bs-body-color: var(--dracula-fg);
+  --bs-body-font-family: 'Almendra', Georgia, serif;
+  --bs-heading-color: var(--dracula-yellow);
+  --bs-border-color: rgba(98, 114, 164, 0.45);
+  --bs-border-color-translucent: rgba(98, 114, 164, 0.25);
+  --bs-link-color: var(--dracula-cyan);
+  --bs-link-hover-color: var(--dracula-pink);
+
+  /* Bootstrap 6 Layer Backgrounds */
+  --bs-bg-1: var(--dracula-bg);
+  --bs-bg-2: #343746;
+  --bs-bg-3: var(--dracula-current);
+  --bs-bg-4: #54586d;
+
+  /* Form & Focus Tokens */
+  --bs-focus-ring-color: rgba(189, 147, 249, 0.5);
+
+  /* Variáveis Semânticas do Bardo */
   --bg-abyss: var(--dracula-bg-darker);
   --bg-card: rgba(40, 42, 54, 0.96);
   --bg-card-solid: var(--dracula-bg);
@@ -42,7 +80,7 @@
   --border-pink: var(--dracula-pink);
   --border-cyan: var(--dracula-cyan);
 
-  /* Identidade Tormenta20 / D&D Mapeada ao Dracula */
+  /* Identidade Visual T20 / D&D */
   --t20-ruby: var(--dracula-red);
   --t20-ruby-dark: #d63838;
   --t20-ruby-glow: rgba(255, 85, 85, 0.6);
@@ -60,7 +98,7 @@
   --amber-warn: var(--dracula-orange);
   --purple-arcane: var(--dracula-purple);
 
-  /* Tipografia & Legibilidade Dracula */
+  /* Tipografia & Legibilidade */
   --text-parchment: var(--dracula-fg);
   --text-secondary: #e2e2dc;
   --text-muted: var(--dracula-comment);
@@ -77,15 +115,8 @@
   --bottom-dock-height: 74px;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  -webkit-tap-highlight-color: transparent;
-}
-
 /* ==========================================================================
-   SELEÇÃO & SCROLLBAR NATIVO DRACULA
+   2. REBOOT & SELEÇÃO NATIVA
    ========================================================================== */
 ::selection {
   background: var(--dracula-current);
@@ -111,9 +142,6 @@
   background: var(--dracula-comment);
 }
 
-/* ==========================================================================
-   CORPO & AMBIENTAÇÃO GRACIOSA DE ALTA FANTASIA DRACULA
-   ========================================================================== */
 body {
   background: 
     radial-gradient(ellipse at 50% 8%, rgba(189, 147, 249, 0.18) 0%, rgba(255, 85, 85, 0.16) 30%, rgba(40, 42, 54, 0.94) 65%, rgba(30, 31, 41, 0.99) 95%),
@@ -129,7 +157,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Tipografia Disruptiva com Cores Dracula */
+/* Tipografia Disruptiva */
 h1, .font-mythic {
   font-family: var(--font-mythic);
   font-weight: 900;
@@ -168,41 +196,127 @@ a:hover {
 }
 
 /* ==========================================================================
-   INPUTS & FORMULÁRIOS DRACULA UNIVERSAIS
+   3. THEME CLASSES (Conforme bootstrap-color-system skill)
    ========================================================================== */
+.theme-primary {
+  --theme-base: var(--dracula-purple);
+  --theme-bg: var(--dracula-purple);
+  --theme-bg-subtle: rgba(189, 147, 249, 0.15);
+  --theme-fg: var(--dracula-purple);
+  --theme-border: rgba(189, 147, 249, 0.4);
+  --theme-contrast: #1e1f29;
+}
+
+.theme-danger, .theme-ruby {
+  --theme-base: var(--dracula-red);
+  --theme-bg: var(--dracula-red);
+  --theme-bg-subtle: rgba(255, 85, 85, 0.15);
+  --theme-fg: var(--dracula-red);
+  --theme-border: rgba(255, 85, 85, 0.4);
+  --theme-contrast: #ffffff;
+}
+
+.theme-info, .theme-mana {
+  --theme-base: var(--dracula-cyan);
+  --theme-bg: var(--dracula-cyan);
+  --theme-bg-subtle: rgba(139, 233, 253, 0.15);
+  --theme-fg: var(--dracula-cyan);
+  --theme-border: rgba(139, 233, 253, 0.4);
+  --theme-contrast: #1e1f29;
+}
+
+.theme-success {
+  --theme-base: var(--dracula-green);
+  --theme-bg: var(--dracula-green);
+  --theme-bg-subtle: rgba(80, 250, 123, 0.15);
+  --theme-fg: var(--dracula-green);
+  --theme-border: rgba(80, 250, 123, 0.4);
+  --theme-contrast: #1e1f29;
+}
+
+.theme-warning, .theme-gold {
+  --theme-base: var(--dracula-yellow);
+  --theme-bg: var(--dracula-yellow);
+  --theme-bg-subtle: rgba(241, 250, 140, 0.15);
+  --theme-fg: var(--dracula-yellow);
+  --theme-border: rgba(241, 250, 140, 0.4);
+  --theme-contrast: #1e1f29;
+}
+
+.theme-accent, .theme-pink {
+  --theme-base: var(--dracula-pink);
+  --theme-bg: var(--dracula-pink);
+  --theme-bg-subtle: rgba(255, 121, 198, 0.15);
+  --theme-fg: var(--dracula-pink);
+  --theme-border: rgba(255, 121, 198, 0.4);
+  --theme-contrast: #1e1f29;
+}
+
+/* ==========================================================================
+   4. FORMULÁRIOS & CONTROLES BOOTSTRAP 6 (Conforme bootstrap-component skill)
+   ========================================================================== */
+.form-control,
+.form-select,
 input[type="text"],
 input[type="email"],
 input[type="password"],
 input[type="number"],
 textarea,
 select {
-  background: var(--dracula-bg) !important;
+  background-color: var(--dracula-bg) !important;
   border: 1.5px solid var(--dracula-comment) !important;
   color: var(--dracula-fg) !important;
-  border-radius: 8px;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  font-family: var(--font-book);
+  border-radius: 8px !important;
+  padding: 0.65rem 0.85rem !important;
+  font-family: var(--font-book) !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
 }
 
+.form-control:focus,
+.form-select:focus,
 input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus,
 input[type="number"]:focus,
 textarea:focus,
 select:focus {
+  background-color: var(--dracula-bg) !important;
   border-color: var(--dracula-purple) !important;
   box-shadow: 0 0 14px rgba(189, 147, 249, 0.5) !important;
-  outline: none;
+  color: var(--dracula-fg) !important;
+  outline: none !important;
 }
 
-input::placeholder,
-textarea::placeholder {
+.form-control::placeholder,
+textarea::placeholder,
+input::placeholder {
   color: var(--dracula-comment) !important;
   opacity: 0.85;
 }
 
+.form-label {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--dracula-yellow);
+  margin-bottom: 0.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.form-check-input {
+  background-color: var(--dracula-bg) !important;
+  border: 1.5px solid var(--dracula-comment) !important;
+  cursor: pointer;
+}
+
+.form-check-input:checked {
+  background-color: var(--dracula-purple) !important;
+  border-color: var(--dracula-purple) !important;
+}
+
 /* ==========================================================================
-   HEADER DISRUPTIVO COM INSÍGNIA METÁLICA (DRACULA ACCENT)
+   5. HEADER & INSÍGNIA BOOTSTRAP 6 FLEXBOX
    ========================================================================== */
 .app-header {
   position: sticky;
@@ -212,17 +326,12 @@ textarea::placeholder {
   backdrop-filter: blur(14px);
   border-bottom: 2px solid var(--dracula-purple);
   box-shadow: 0 4px 25px rgba(0, 0, 0, 0.8), 0 0 16px rgba(189, 147, 249, 0.25);
-  padding: 0.75rem 1.15rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
 .brand-wrapper {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  text-decoration: none;
 }
 
 .brand-shield {
@@ -294,24 +403,27 @@ textarea::placeholder {
 }
 
 /* ==========================================================================
-   CONTAINER & ESTRUTURA MOBILE
+   6. CONTAINER & LAYOUT MOBILE
    ========================================================================== */
 .mobile-container {
   width: 100%;
-  max-width: 620px;
-  margin: 0 auto;
-  padding: 0.95rem;
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0.95rem;
+  padding-right: 0.95rem;
 }
 
 @media (min-width: 900px) {
   .mobile-container {
-    max-width: 1020px;
-    padding: 1.75rem;
+    max-width: 1040px;
+    padding-left: 1.75rem;
+    padding-right: 1.75rem;
   }
 }
 
 /* ==========================================================================
-   CARDS CHANFRADOS DISRUPTIVOS COM FAIXA RAINBOW DRACULA
+   7. CARDS CHANFRADOS DISRUPTIVOS COM FAIXA RAINBOW DRACULA
    ========================================================================== */
 .rpg-card {
   background: 
@@ -407,7 +519,7 @@ textarea::placeholder {
 }
 
 /* ==========================================================================
-   HERO HEADER DO PERSONAGEM (TORMENTA & D&D)
+   8. HERO COMPACT & PORTRAIT
    ========================================================================== */
 .hero-compact {
   display: flex;
@@ -475,7 +587,7 @@ textarea::placeholder {
 }
 
 /* ==========================================================================
-   TAG PILLS & BADGES DRACULA
+   9. TAG PILLS & BADGES
    ========================================================================== */
 .tag-pill {
   font-family: var(--font-ui);
@@ -525,7 +637,7 @@ textarea::placeholder {
 }
 
 /* ==========================================================================
-   HUD DE VITAIS DISRUPTIVO: PV (VIDA), PM (MANA) & DEFESA
+   10. HUD DE VITAIS DISRUPTIVO (PV, PM & DEFESA)
    ========================================================================== */
 .vitals-grid {
   display: grid;
@@ -534,7 +646,7 @@ textarea::placeholder {
   margin-top: 1.1rem;
 }
 
-/* Escudo Nobre de Defesa (Dracula Purple & Yellow Crest) */
+/* Escudo Nobre de Defesa (Dracula Purple Crest) */
 .defense-shield-box {
   background: radial-gradient(circle at center, #44475a 0%, #282a36 100%);
   border: 2px solid var(--dracula-purple);
@@ -647,7 +759,7 @@ textarea::placeholder {
 }
 
 /* ==========================================================================
-   ATRIBUTOS DISRUPTIVOS: GEMAS FACETADAS COM CORES DRACULA
+   11. ATRIBUTOS DISRUPTIVOS: GEMAS FACETADAS COM CÓDIGO DRACULA
    FOR: Red | DES: Green | CON: Orange | INT: Cyan | SAB: Purple | CAR: Pink
    ========================================================================== */
 .attributes-row {
@@ -738,7 +850,7 @@ textarea::placeholder {
 }
 
 /* ==========================================================================
-   PERÍCIAS & GRUPO DE ROLAGENS
+   12. PERÍCIAS & GRUPO DE ROLAGENS
    ========================================================================== */
 .skill-row {
   display: flex;
@@ -807,7 +919,7 @@ textarea::placeholder {
 }
 
 /* ==========================================================================
-   AÇÕES, ARMAS & PODERES
+   13. AÇÕES, ARMAS & PODERES
    ========================================================================== */
 .action-card {
   background: linear-gradient(145deg, rgba(68, 71, 90, 0.5) 0%, rgba(40, 42, 54, 0.9) 100%);
@@ -876,9 +988,10 @@ textarea::placeholder {
 }
 
 /* ==========================================================================
-   BOTÕES DISRUPTIVOS DRACULA COM CHANFROS & ALTO IMPACTO
+   14. BOTÕES BOOTSTRAP 6 & TOQUE TÁTIL DISRUPTIVO
    ========================================================================== */
-.btn-touch {
+.btn-touch,
+.btn-solid {
   font-family: var(--font-ui);
   font-size: 0.82rem;
   font-weight: 800;
@@ -895,86 +1008,98 @@ textarea::placeholder {
   transition: all 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   box-shadow: 0 4px 14px rgba(0,0,0,0.6);
   user-select: none;
+  text-decoration: none;
 }
 
-.btn-touch:hover {
+.btn-touch:hover, .btn-solid:hover {
   transform: translateY(-2px);
 }
 
-.btn-touch:active {
+.btn-touch:active, .btn-solid:active {
   transform: scale(0.96);
 }
 
 /* Botão Primário: Dracula Purple */
-.btn-touch-primary {
-  background: linear-gradient(135deg, #bd93f9 0%, #a46df7 60%, #8542eb 100%);
-  color: #1e1f29;
-  border-color: #f1fa8c;
-  box-shadow: 0 4px 18px rgba(189, 147, 249, 0.5);
-  font-weight: 900;
+.btn-touch-primary,
+.btn-solid.theme-primary {
+  background: linear-gradient(135deg, #bd93f9 0%, #a46df7 60%, #8542eb 100%) !important;
+  color: #1e1f29 !important;
+  border-color: #f1fa8c !important;
+  box-shadow: 0 4px 18px rgba(189, 147, 249, 0.5) !important;
+  font-weight: 900 !important;
 }
 
-.btn-touch-primary:hover {
-  background: linear-gradient(135deg, #d6acff 0%, #bd93f9 100%);
-  box-shadow: 0 6px 24px rgba(189, 147, 249, 0.7);
+.btn-touch-primary:hover,
+.btn-solid.theme-primary:hover {
+  background: linear-gradient(135deg, #d6acff 0%, #bd93f9 100%) !important;
+  box-shadow: 0 6px 24px rgba(189, 147, 249, 0.7) !important;
 }
 
-/* Botão Carmesim/Ruby: Dracula Red */
-.btn-touch-ruby {
-  background: linear-gradient(135deg, #ff5555 0%, #e63946 60%, #b81424 100%);
-  color: #fff;
-  border-color: #ff79c6;
-  box-shadow: 0 4px 18px rgba(255, 85, 85, 0.55);
+/* Botão Ruby/Carmesim: Dracula Red */
+.btn-touch-ruby,
+.btn-solid.theme-danger {
+  background: linear-gradient(135deg, #ff5555 0%, #e63946 60%, #b81424 100%) !important;
+  color: #fff !important;
+  border-color: #ff79c6 !important;
+  box-shadow: 0 4px 18px rgba(255, 85, 85, 0.55) !important;
   text-shadow: 0 1px 3px rgba(0,0,0,0.8);
 }
 
-.btn-touch-ruby:hover {
-  background: linear-gradient(135deg, #ff6e6e 0%, #ff5555 100%);
-  box-shadow: 0 6px 24px rgba(255, 85, 85, 0.75);
+.btn-touch-ruby:hover,
+.btn-solid.theme-danger:hover {
+  background: linear-gradient(135deg, #ff6e6e 0%, #ff5555 100%) !important;
+  box-shadow: 0 6px 24px rgba(255, 85, 85, 0.75) !important;
 }
 
 /* Botão Mana: Dracula Cyan */
-.btn-touch-mana {
-  background: linear-gradient(135deg, #8be9fd 0%, #52cbdf 60%, #2baabf 100%);
-  color: #1e1f29;
-  border-color: #f8f8f2;
-  box-shadow: 0 4px 18px rgba(139, 233, 253, 0.5);
-  font-weight: 900;
+.btn-touch-mana,
+.btn-solid.theme-info {
+  background: linear-gradient(135deg, #8be9fd 0%, #52cbdf 60%, #2baabf 100%) !important;
+  color: #1e1f29 !important;
+  border-color: #f8f8f2 !important;
+  box-shadow: 0 4px 18px rgba(139, 233, 253, 0.5) !important;
+  font-weight: 900 !important;
 }
 
-.btn-touch-mana:hover {
-  background: linear-gradient(135deg, #a4f0ff 0%, #8be9fd 100%);
-  box-shadow: 0 6px 24px rgba(139, 233, 253, 0.7);
+.btn-touch-mana:hover,
+.btn-solid.theme-info:hover {
+  background: linear-gradient(135deg, #a4f0ff 0%, #8be9fd 100%) !important;
+  box-shadow: 0 6px 24px rgba(139, 233, 253, 0.7) !important;
 }
 
 /* Botão Verde/Vida: Dracula Green */
-.btn-touch-emerald, .btn-touch-green {
-  background: linear-gradient(135deg, #50fa7b 0%, #2bd65c 60%, #1ea844 100%);
-  color: #1e1f29;
-  border-color: #f8f8f2;
-  box-shadow: 0 4px 18px rgba(80, 250, 123, 0.5);
-  font-weight: 900;
+.btn-touch-emerald,
+.btn-touch-green,
+.btn-solid.theme-success {
+  background: linear-gradient(135deg, #50fa7b 0%, #2bd65c 60%, #1ea844 100%) !important;
+  color: #1e1f29 !important;
+  border-color: #f8f8f2 !important;
+  box-shadow: 0 4px 18px rgba(80, 250, 123, 0.5) !important;
+  font-weight: 900 !important;
 }
 
-.btn-touch-emerald:hover, .btn-touch-green:hover {
-  background: linear-gradient(135deg, #6aff8f 0%, #50fa7b 100%);
-  box-shadow: 0 6px 24px rgba(80, 250, 123, 0.7);
+.btn-touch-emerald:hover,
+.btn-solid.theme-success:hover {
+  background: linear-gradient(135deg, #6aff8f 0%, #50fa7b 100%) !important;
+  box-shadow: 0 6px 24px rgba(80, 250, 123, 0.7) !important;
 }
 
 /* Botão Dark / Current Line */
-.btn-touch-dark {
-  background: linear-gradient(135deg, #44475a 0%, #282a36 100%);
-  color: var(--dracula-fg);
-  border-color: var(--dracula-comment);
+.btn-touch-dark,
+.btn-subtle {
+  background: linear-gradient(135deg, #44475a 0%, #282a36 100%) !important;
+  color: var(--dracula-fg) !important;
+  border-color: var(--dracula-comment) !important;
 }
 
-.btn-touch-dark:hover {
-  border-color: var(--dracula-purple);
-  box-shadow: 0 0 12px rgba(189, 147, 249, 0.35);
+.btn-touch-dark:hover,
+.btn-subtle:hover {
+  border-color: var(--dracula-purple) !important;
+  box-shadow: 0 0 12px rgba(189, 147, 249, 0.35) !important;
 }
 
 /* ==========================================================================
-   FLOATING ACTION BUTTON (FAB) - ORBE DE DADOS COM BRILHO DRACULA
+   15. FLOATING ACTION BUTTON (FAB) & ORBE DE DADOS
    ========================================================================== */
 .fab-dice {
   position: fixed;
@@ -1008,8 +1133,28 @@ textarea::placeholder {
 }
 
 /* ==========================================================================
-   BOTTOM SHEET & MODAIS DRACULA
+   16. MODAL BOOTSTRAP 6 & BOTTOM SHEET
    ========================================================================== */
+.modal-content {
+  background: 
+    linear-gradient(145deg, rgba(40, 42, 54, 0.98) 0%, rgba(30, 31, 41, 0.99) 100%),
+    url('/images/parchment-grimoire.jpg') center / cover !important;
+  border: 2px solid var(--dracula-purple) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 0 45px rgba(189, 147, 249, 0.35) !important;
+  color: var(--dracula-fg) !important;
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--dracula-comment) !important;
+  padding: 1.15rem 1.25rem 0.75rem 1.25rem !important;
+}
+
+.modal-footer {
+  border-top: 1px solid var(--dracula-comment) !important;
+  padding: 0.75rem 1.25rem 1.15rem 1.25rem !important;
+}
+
 .bottom-sheet {
   position: fixed;
   inset: 0;
@@ -1102,7 +1247,7 @@ textarea::placeholder {
 }
 
 /* ==========================================================================
-   BARRA INFERIOR DOCK DISRUPTIVA (DRACULA NIGHT)
+   17. BARRA INFERIOR DOCK DISRUPTIVA (DRACULA NIGHT)
    ========================================================================== */
 .bottom-dock {
   position: fixed;
@@ -1154,7 +1299,7 @@ textarea::placeholder {
 }
 
 /* ==========================================================================
-   SOUNDBOARD TÁTIL & PADS DE ÁUDIO
+   18. SOUNDBOARD TÁTIL & PADS DE ÁUDIO
    ========================================================================== */
 .soundboard-grid {
   display: grid;
@@ -1246,7 +1391,7 @@ textarea::placeholder {
 }
 
 /* ==========================================================================
-   MODAL DRAMÁTICO EM TELA CHEIA (REVIRAVOLTA DA TRAMA • DRAGÃO VERMELHO)
+   19. MODAL DRAMÁTICO EM TELA CHEIA (REVIRAVOLTA DA TRAMA)
    ========================================================================== */
 .dramatic-overlay, .dramatic-twist-screen {
   position: fixed;

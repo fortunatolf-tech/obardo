@@ -1,29 +1,29 @@
 <?php require __DIR__ . '/../layout/header.php'; ?>
 
-<main class="mobile-container">
+<main class="container mobile-container py-3">
   
   <!-- Banner Épico de Alta Fantasia (Tormenta & D&D) -->
-  <div class="fantasy-art-banner" style="background-image: linear-gradient(180deg, rgba(10,11,16,0.2) 0%, rgba(10,11,16,0.92) 100%), url('/images/bg-tormenta-epic.jpg'); height: 160px; border-radius: 12px; border: 1.5px solid var(--border-gold); margin-bottom: 0.85rem; background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.1rem; position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.7);">
-    <div style="font-size: 0.65rem; color: var(--gold-bright); font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; text-shadow: 0 2px 4px #000;">
+  <div class="fantasy-art-banner mb-3" style="background-image: linear-gradient(180deg, rgba(10,11,16,0.2) 0%, rgba(10,11,16,0.92) 100%), url('/images/bg-tormenta-epic.jpg'); height: 160px; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.1rem;">
+    <div class="text-warning fw-bold text-uppercase fs-8 letter-spacing-1 text-shadow-sm">
       🏰 Salão das Guildas • Arte & Ambientação Tormenta & D&D
     </div>
-    <div style="font-family: var(--font-title); font-size: 1.35rem; font-weight: 900; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.95);">
+    <div class="font-title fs-4 text-white fw-bold text-shadow">
       Minhas Campanhas
     </div>
-    <div style="font-size: 0.75rem; color: var(--text-secondary); text-shadow: 0 1px 4px #000;">
+    <div class="text-light opacity-75 fs-7 text-shadow-sm">
       Compatível com qualquer sistema de RPG de mesa tradicional
     </div>
   </div>
 
   <!-- Saudação ao Usuário -->
-  <div class="rpg-card" style="border-color: var(--border-gold); padding: 1.25rem;">
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+  <div class="rpg-card mb-3 p-3 p-md-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
       <div>
-        <h1 style="font-size: 1.35rem; color: var(--gold-imperial);">Olá, <?= $e($user->name) ?>!</h1>
-        <p style="font-size: 0.8rem; color: var(--text-secondary);">Empunhe sua espada e reúna seu grupo para a próxima sessão.</p>
+        <h1 class="font-mythic fs-4 text-warning mb-1">Olá, <?= $e($user->name) ?>!</h1>
+        <p class="text-muted fs-7 mb-0">Empunhe sua espada e reúna seu grupo para a próxima sessão.</p>
       </div>
-      <div style="display: flex; gap: 0.5rem;">
-        <button class="btn-touch btn-touch-primary" onclick="document.getElementById('modal-new-campaign').style.display='flex'">
+      <div>
+        <button class="btn btn-solid theme-primary btn-touch" data-bs-toggle="modal" data-bs-target="#modal-new-campaign">
           + Nova Campanha
         </button>
       </div>
@@ -31,35 +31,35 @@
   </div>
 
   <!-- Ingressar por Código -->
-  <div class="rpg-card" style="padding: 1rem;">
-    <form action="/join" method="POST" style="display: flex; gap: 0.5rem; align-items: center;">
-      <input type="text" name="code" placeholder="Código de Convite (ex: BARDO-T20X)" required style="flex-grow: 1; padding: 0.65rem; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; color: #fff; font-size: 0.85rem; text-transform: uppercase; font-family: var(--font-code);">
-      <button type="submit" class="btn-touch btn-touch-dark" style="border-color: var(--gold-imperial); color: var(--gold-imperial);">
+  <div class="rpg-card mb-3 p-3">
+    <form action="/join" method="POST" class="d-flex gap-2 align-items-center">
+      <input type="text" name="code" placeholder="Código de Convite (ex: BARDO-T20X)" required class="form-control font-code text-uppercase fs-7 flex-grow-1">
+      <button type="submit" class="btn btn-subtle theme-warning btn-touch text-nowrap px-3">
         Ingressar
       </button>
     </form>
   </div>
 
   <!-- Lista de Campanhas -->
-  <h2 style="font-size: 1.1rem; color: var(--gold-imperial); margin: 1.25rem 0 0.5rem 0;">Suas Campanhas Ativas</h2>
+  <h2 class="font-mythic fs-5 text-warning mb-3">Suas Campanhas Ativas</h2>
 
   <?php if (empty($campaigns)): ?>
-    <div class="rpg-card" style="text-align: center; padding: 2rem;">
-      <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏕️</div>
-      <p style="color: var(--text-muted); font-size: 0.9rem;">Você ainda não participa de nenhuma campanha.</p>
-      <button class="btn-touch btn-touch-primary" style="margin-top: 1rem;" onclick="document.getElementById('modal-new-campaign').style.display='flex'">
+    <div class="rpg-card text-center p-4">
+      <div class="fs-1 mb-2">🏕️</div>
+      <p class="text-muted fs-6 mb-3">Você ainda não participa de nenhuma campanha.</p>
+      <button class="btn btn-solid theme-primary btn-touch" data-bs-toggle="modal" data-bs-target="#modal-new-campaign">
         Criar Minha Primeira Campanha
       </button>
     </div>
   <?php else: ?>
-    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+    <div class="vstack gap-3">
       <?php foreach ($campaigns as $camp): ?>
-        <div class="rpg-card" style="border-left: 4px solid <?= $camp['user_role'] === 'gm' ? 'var(--gold-imperial)' : 'var(--emerald-life)' ?>;">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+        <div class="rpg-card mb-0" style="border-left: 4px solid <?= $camp['user_role'] === 'gm' ? 'var(--dracula-yellow)' : 'var(--dracula-green)' ?>;">
+          <div class="d-flex justify-content-between align-items-start gap-2 mb-2 flex-wrap">
             <div>
-              <h3 style="font-size: 1.1rem; color: var(--gold-imperial);"><?= $e($camp['title']) ?></h3>
-              <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 2px;">
-                Sistema: <strong><?= $e($camp['rule_system']) ?></strong> • Código: <span class="tag-pill gold" style="font-family: var(--font-code);"><?= $e($camp['code']) ?></span>
+              <h3 class="font-title fs-5 text-warning mb-1"><?= $e($camp['title']) ?></h3>
+              <div class="text-muted fs-8">
+                Sistema: <strong class="text-light"><?= $e($camp['rule_system']) ?></strong> • Código: <span class="tag-pill gold font-code"><?= $e($camp['code']) ?></span>
               </div>
             </div>
             <span class="tag-pill <?= $camp['user_role'] === 'gm' ? 'gold' : '' ?>">
@@ -68,22 +68,28 @@
           </div>
 
           <?php if (!empty($camp['description'])): ?>
-            <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 0.75rem;">
+            <p class="text-light opacity-75 fs-7 mb-3 font-book">
               <?= $e($camp['description']) ?>
             </p>
           <?php endif; ?>
 
-          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-            <a href="/campaigns/<?= $camp['id'] ?>/sheet" class="btn-touch btn-touch-ruby" style="flex: 1; font-size: 0.75rem;">
-              🛡️ Abrir Ficha
-            </a>
-            <a href="/campaigns/<?= $camp['id'] ?>/taverna" class="btn-touch btn-touch-dark" style="flex: 1; font-size: 0.75rem;">
-              🍻 Entrar na Taverna
-            </a>
-            <?php if ($camp['user_role'] === 'gm'): ?>
-              <a href="/campaigns/<?= $camp['id'] ?>/gm" class="btn-touch btn-touch-primary" style="flex: 1; font-size: 0.75rem;">
-                👑 Painel do Mestre
+          <div class="row g-2">
+            <div class="col-12 col-sm-4">
+              <a href="/campaigns/<?= $camp['id'] ?>/sheet" class="btn btn-solid theme-danger btn-touch w-100 py-2 fs-7">
+                🛡️ Abrir Ficha
               </a>
+            </div>
+            <div class="col-12 col-sm-4">
+              <a href="/campaigns/<?= $camp['id'] ?>/taverna" class="btn btn-subtle theme-secondary btn-touch w-100 py-2 fs-7">
+                🍻 Entrar na Taverna
+              </a>
+            </div>
+            <?php if ($camp['user_role'] === 'gm'): ?>
+              <div class="col-12 col-sm-4">
+                <a href="/campaigns/<?= $camp['id'] ?>/gm" class="btn btn-solid theme-primary btn-touch w-100 py-2 fs-7">
+                  👑 Painel do Mestre
+                </a>
+              </div>
             <?php endif; ?>
           </div>
         </div>
@@ -91,44 +97,55 @@
     </div>
   <?php endif; ?>
 
-</main>
+  <!-- Modal Nova Campanha (BOOTSTRAP 6 MODAL) -->
+  <div class="modal fade" id="modal-new-campaign" tabindex="-1" aria-labelledby="modalNewCampLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rpg-card p-0">
+        <div class="modal-header d-flex justify-content-between align-items-center">
+          <div>
+            <h3 class="modal-title font-mythic fs-5 text-warning mb-0" id="modalNewCampLabel">Criar Nova Campanha de RPG</h3>
+            <small class="text-muted fs-8">Inicie uma nova saga no universo de sua escolha</small>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
 
-<!-- Modal Nova Campanha -->
-<div id="modal-new-campaign" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 100; align-items: center; justify-content: center; padding: 1rem;">
-  <div class="rpg-card" style="max-width: 480px; width: 100%; border-color: var(--border-gold); padding: 1.5rem;">
-    <h3 style="font-size: 1.2rem; color: var(--gold-imperial); margin-bottom: 1rem;">Criar Nova Campanha de RPG</h3>
-    <form action="/campaigns" method="POST" style="display: flex; flex-direction: column; gap: 0.75rem;">
-      <div>
-        <label style="font-size: 0.7rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Título da Campanha</label>
-        <input type="text" name="title" placeholder="Ex: O Templo dos Deuses Esquecidos" required style="width: 100%; padding: 0.65rem; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; color: #fff; font-size: 0.85rem; margin-top: 3px;">
-      </div>
+        <div class="modal-body p-3 p-md-4">
+          <form action="/campaigns" method="POST" class="vstack gap-3">
+            <div>
+              <label class="form-label text-warning">Título da Campanha *</label>
+              <input type="text" name="title" placeholder="Ex: O Templo dos Deuses Esquecidos" required class="form-control">
+            </div>
 
-      <div>
-        <label style="font-size: 0.7rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Sistema de Regras (Universal p/ Todos os RPGs)</label>
-        <select name="rule_system" style="width: 100%; padding: 0.65rem; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; color: #fff; font-size: 0.85rem; margin-top: 3px;">
-          <option value="Tormenta20">Tormenta20 (T20 - Sistema D20)</option>
-          <option value="D&D 5e">Dungeons & Dragons 5ª Edição (D&D 5e / D20)</option>
-          <option value="Pathfinder 2e">Pathfinder 2ª Edição</option>
-          <option value="Call of Cthulhu">Call of Cthulhu 7e (Investigação & d100)</option>
-          <option value="Old Dragon">Old Dragon / OSR Clássico</option>
-          <option value="3D&T Alpha">3D&T Alpha / Victory (Dados d6)</option>
-          <option value="Vampiro: A Máscara">Vampiro: A Máscara / Storyteller (d10)</option>
-          <option value="GURPS">GURPS (Sistema 3d6)</option>
-          <option value="Sistema Próprio / Livre">Sistema Próprio / Universal (Qualquer RPG de Mesa)</option>
-        </select>
-      </div>
+            <div>
+              <label class="form-label text-warning">Sistema de Regras (Universal p/ Todos os RPGs)</label>
+              <select name="rule_system" class="form-select">
+                <option value="Tormenta20">Tormenta20 (T20 - Sistema D20)</option>
+                <option value="D&D 5e">Dungeons & Dragons 5ª Edição (D&D 5e / D20)</option>
+                <option value="Pathfinder 2e">Pathfinder 2ª Edição</option>
+                <option value="Call of Cthulhu">Call of Cthulhu 7e (Investigação & d100)</option>
+                <option value="Old Dragon">Old Dragon / OSR Clássico</option>
+                <option value="3D&T Alpha">3D&T Alpha / Victory (Dados d6)</option>
+                <option value="Vampiro: A Máscara">Vampiro: A Máscara / Storyteller (d10)</option>
+                <option value="GURPS">GURPS (Sistema 3d6)</option>
+                <option value="Sistema Próprio / Livre">Sistema Próprio / Universal (Qualquer RPG de Mesa)</option>
+              </select>
+            </div>
 
-      <div>
-        <label style="font-size: 0.7rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Sinopse / Descrição da Aventura</label>
-        <textarea name="description" rows="3" placeholder="Breve resumo da premissa para seus jogadores..." style="width: 100%; padding: 0.65rem; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; color: #fff; font-size: 0.85rem; margin-top: 3px;"></textarea>
-      </div>
+            <div>
+              <label class="form-label text-warning">Sinopse / Descrição da Aventura</label>
+              <textarea name="description" rows="3" placeholder="Breve resumo da premissa para seus jogadores..." class="form-control"></textarea>
+            </div>
 
-      <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
-        <button type="submit" class="btn-touch btn-touch-primary" style="flex: 1;">Criar Campanha →</button>
-        <button type="button" class="btn-touch btn-touch-dark" onclick="document.getElementById('modal-new-campaign').style.display='none'">Cancelar</button>
+            <div class="hstack gap-2 justify-content-end mt-2">
+              <button type="button" class="btn btn-subtle theme-secondary btn-touch" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-solid theme-primary btn-touch px-4">Criar Campanha →</button>
+            </div>
+          </form>
+        </div>
       </div>
-    </form>
+    </div>
   </div>
-</div>
+
+</main>
 
 <?php require __DIR__ . '/../layout/footer.php'; ?>
