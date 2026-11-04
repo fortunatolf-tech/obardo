@@ -365,7 +365,7 @@ function updateSyncBadge(online) {
   document.querySelectorAll('.sync-badge').forEach(el => {
     el.innerHTML = online 
       ? '<span class="sync-dot"></span><span>Sincronizado (32ms)</span>'
-      : '<span class="sync-dot" style="background:#e11d48;box-shadow:none;"></span><span>Desconectado</span>';
+      : '<span class="sync-dot" style="background:#ff5555;box-shadow:none;"></span><span>Desconectado</span>';
   });
 }
 
@@ -379,19 +379,20 @@ function bardoToast(msg) {
       top: 60px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(19, 22, 34, 0.95);
-      border: 1px solid var(--border-gold);
-      color: #fff;
-      font-size: 0.8rem;
+      background: rgba(40, 42, 54, 0.98);
+      border: 1.5px solid var(--dracula-purple, #bd93f9);
+      color: #f8f8f2;
+      font-size: 0.82rem;
       font-weight: 700;
-      padding: 0.5rem 1rem;
+      padding: 0.55rem 1.15rem;
       border-radius: 99px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.85), 0 0 16px rgba(189, 147, 249, 0.4);
       z-index: 150;
       pointer-events: none;
-      transition: opacity 0.3s;
+      transition: opacity 0.3s ease;
       white-space: nowrap;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(12px);
+      font-family: var(--font-ui, sans-serif);
     `;
     document.body.appendChild(toast);
   }
@@ -457,7 +458,7 @@ function appendRollToFeed(label, formula, rolls, modifier, total, isCrit, isFumb
   entry.className = 'rpg-card';
   entry.style.padding = '0.65rem 0.85rem';
   entry.style.marginBottom = '0.5rem';
-  entry.style.borderLeft = isCrit ? '3px solid #10b981' : (isFumble ? '3px solid #e11d48' : '3px solid #d4af37');
+  entry.style.borderLeft = isCrit ? '3px solid #50fa7b' : (isFumble ? '3px solid #ff5555' : '3px solid #bd93f9');
 
   const rollsArr = Array.isArray(rolls) ? rolls : [rolls];
   const modStr = modifier !== 0 ? (modifier > 0 ? '+ ' + modifier : '- ' + Math.abs(modifier)) : '';
@@ -465,14 +466,14 @@ function appendRollToFeed(label, formula, rolls, modifier, total, isCrit, isFumb
   entry.innerHTML = `
     <div style="display: flex; justify-content: space-between; align-items: center;">
       <div>
-        <div style="font-weight: 700; font-size: 0.85rem; color: var(--gold-imperial);">
-          ${label} ${isCrit ? '<span style="color:#10b981;">(CRÍTICO!)</span>' : ''} ${isFumble ? '<span style="color:#e11d48;">(FALHA CRÍTICA!)</span>' : ''}
+        <div style="font-weight: 700; font-size: 0.85rem; color: var(--dracula-yellow, #f1fa8c);">
+          ${label} ${isCrit ? '<span style="color:#50fa7b; font-weight:bold;">(CRÍTICO!)</span>' : ''} ${isFumble ? '<span style="color:#ff5555; font-weight:bold;">(FALHA CRÍTICA!)</span>' : ''}
         </div>
-        <div style="font-size: 0.72rem; color: var(--text-muted);">
+        <div style="font-size: 0.72rem; color: var(--dracula-comment, #6272a4);">
           Dados: [${rollsArr.join(', ')}] ${modStr} (${formula})
         </div>
       </div>
-      <div style="font-family: var(--font-code); font-size: 1.3rem; font-weight: 900; color: ${isCrit ? '#10b981' : (isFumble ? '#e11d48' : '#fff')}; background: var(--bg-surface); padding: 2px 10px; border-radius: 6px; border: 1px solid var(--border-subtle);">
+      <div style="font-family: var(--font-code); font-size: 1.3rem; font-weight: 900; color: ${isCrit ? '#50fa7b' : (isFumble ? '#ff5555' : '#f8f8f2')}; background: var(--bg-surface); padding: 2px 10px; border-radius: 6px; border: 1px solid var(--border-subtle);">
         ${total}
       </div>
     </div>
@@ -496,7 +497,7 @@ function triggerRunicFlash(type) {
     pointer-events: none;
     z-index: 140;
     transition: opacity 0.5s ease;
-    box-shadow: inset 0 0 70px ${type === 'gold' ? 'rgba(251, 191, 36, 0.75)' : 'rgba(225, 29, 72, 0.85)'};
+    box-shadow: inset 0 0 70px ${type === 'gold' ? 'rgba(241, 250, 140, 0.75)' : 'rgba(255, 85, 85, 0.85)'};
     opacity: 1;
   `;
   document.body.appendChild(flash);

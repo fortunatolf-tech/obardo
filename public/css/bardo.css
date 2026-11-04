@@ -1,36 +1,69 @@
 /* ==========================================================================
-   O BARDO • DESIGN SYSTEM DISRUPTIVO: ALTA FANTASIA (TORMENTA & D&D)
-   Tipografia Rúnica, Grimório Ancestral, Chanfros Metálicos & HUD de Herói
+   O BARDO • DESIGN SYSTEM DISRUPTIVO: DRACULA THEME x ALTA FANTASIA
+   (https://github.com/dracula/dracula-theme)
+   Grimório Ancestral, Chanfros Rúnicos, HUD de Herói & Paleta Oficial Dracula
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400&family=Cinzel+Decorative:wght@700;900&family=Grenze+Gotisch:wght@600;700;800;900&family=MedievalSharp&family=Uncial+Antiqua&family=JetBrains+Mono:wght@500;700;800&display=swap');
 
 :root {
-  /* Paleta Base: Fundo Escuro Grimoire & Couro de Dragão */
-  --bg-abyss: #07080d;
-  --bg-card: rgba(18, 22, 34, 0.94);
-  --bg-surface: rgba(26, 31, 48, 0.92);
-  --bg-surface-elevated: #28304a;
-  --border-subtle: rgba(71, 85, 125, 0.45);
-  --border-gold: #d4af37;
-  --border-gold-glow: rgba(212, 175, 55, 0.55);
+  /* ========================================================================
+     PALETA OFICIAL DRACULA THEME (https://github.com/dracula/dracula-theme)
+     ======================================================================== */
+  --dracula-bg: #282a36;
+  --dracula-bg-darker: #1e1f29;
+  --dracula-bg-subtle: #21222c;
+  --dracula-current: #44475a;
+  --dracula-fg: #f8f8f2;
+  --dracula-comment: #6272a4;
+  --dracula-cyan: #8be9fd;
+  --dracula-green: #50fa7b;
+  --dracula-orange: #ffb86c;
+  --dracula-pink: #ff79c6;
+  --dracula-purple: #bd93f9;
+  --dracula-red: #ff5555;
+  --dracula-yellow: #f1fa8c;
 
-  /* Identidade Visual T20 / D&D */
-  --t20-ruby: #e11d48;
-  --t20-ruby-dark: #881337;
-  --t20-ruby-glow: rgba(225, 29, 72, 0.5);
+  /* ========================================================================
+     PALETA BASE SEMÂNTICA DO BARDO (DRACULA GOTHIC FANTASY)
+     ======================================================================== */
+  --bg-abyss: var(--dracula-bg-darker);
+  --bg-card: rgba(40, 42, 54, 0.96);
+  --bg-card-solid: var(--dracula-bg);
+  --bg-surface: rgba(68, 71, 90, 0.65);
+  --bg-surface-elevated: #343746;
 
-  --mana-cyan: #0284c7;
-  --mana-cyan-light: #38bdf8;
-  --mana-glow: rgba(2, 132, 199, 0.5);
+  --border-subtle: rgba(98, 114, 164, 0.45);
+  --border-current: var(--dracula-current);
+  --border-gold: var(--dracula-yellow);
+  --border-gold-glow: rgba(241, 250, 140, 0.5);
+  --border-purple: var(--dracula-purple);
+  --border-purple-glow: rgba(189, 147, 249, 0.55);
+  --border-pink: var(--dracula-pink);
+  --border-cyan: var(--dracula-cyan);
 
-  --gold-imperial: #d4af37;
-  --gold-bright: #fbbf24;
-  --gold-soft: #fef08a;
+  /* Identidade Tormenta20 / D&D Mapeada ao Dracula */
+  --t20-ruby: var(--dracula-red);
+  --t20-ruby-dark: #d63838;
+  --t20-ruby-glow: rgba(255, 85, 85, 0.6);
+  --t20-pink: var(--dracula-pink);
 
-  --emerald-life: #10b981;
-  --amber-warn: #f59e0b;
-  --purple-arcane: #a855f7;
+  --mana-cyan: var(--dracula-cyan);
+  --mana-cyan-light: var(--dracula-cyan);
+  --mana-glow: rgba(139, 233, 253, 0.55);
+
+  --gold-imperial: var(--dracula-yellow);
+  --gold-bright: var(--dracula-yellow);
+  --gold-soft: var(--dracula-orange);
+
+  --emerald-life: var(--dracula-green);
+  --amber-warn: var(--dracula-orange);
+  --purple-arcane: var(--dracula-purple);
+
+  /* Tipografia & Legibilidade Dracula */
+  --text-parchment: var(--dracula-fg);
+  --text-secondary: #e2e2dc;
+  --text-muted: var(--dracula-comment);
 
   /* Tipografia Disruptiva de Alta Fantasia */
   --font-mythic: 'Cinzel Decorative', serif;
@@ -51,12 +84,42 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+/* ==========================================================================
+   SELEÇÃO & SCROLLBAR NATIVO DRACULA
+   ========================================================================== */
+::selection {
+  background: var(--dracula-current);
+  color: var(--dracula-fg);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--dracula-bg-darker);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--dracula-current);
+  border-radius: 4px;
+  border: 1px solid var(--dracula-comment);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--dracula-comment);
+}
+
+/* ==========================================================================
+   CORPO & AMBIENTAÇÃO GRACIOSA DE ALTA FANTASIA DRACULA
+   ========================================================================== */
 body {
   background: 
-    radial-gradient(ellipse at 50% 10%, rgba(225, 29, 72, 0.22) 0%, rgba(13, 15, 24, 0.88) 45%, rgba(6, 7, 12, 0.98) 90%),
+    radial-gradient(ellipse at 50% 8%, rgba(189, 147, 249, 0.18) 0%, rgba(255, 85, 85, 0.16) 30%, rgba(40, 42, 54, 0.94) 65%, rgba(30, 31, 41, 0.99) 95%),
     url('/images/bg-tormenta-epic.jpg') no-repeat top center / 100% auto fixed,
-    #06070a;
-  color: var(--text-parchment);
+    var(--dracula-bg-darker);
+  color: var(--dracula-fg);
   font-family: var(--font-book);
   font-size: 1.05rem;
   letter-spacing: 0.02em;
@@ -66,19 +129,19 @@ body {
   overflow-x: hidden;
 }
 
-/* Tipografia Disruptiva */
+/* Tipografia Disruptiva com Cores Dracula */
 h1, .font-mythic {
   font-family: var(--font-mythic);
   font-weight: 900;
-  color: var(--gold-imperial);
+  color: var(--dracula-yellow);
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  text-shadow: 0 0 16px rgba(245, 158, 11, 0.45), 0 2px 6px #000;
+  text-shadow: 0 0 16px rgba(241, 250, 140, 0.5), 0 2px 6px #000;
 }
 
 h2, h3, .font-title {
   font-family: var(--font-title);
-  color: var(--gold-bright);
+  color: var(--dracula-purple);
   letter-spacing: 0.04em;
   text-shadow: 0 2px 8px rgba(0,0,0,0.95);
 }
@@ -88,17 +151,67 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
   letter-spacing: 0.05em;
 }
 
+code, pre, .font-code {
+  font-family: var(--font-code);
+  color: var(--dracula-yellow);
+}
+
+a {
+  color: var(--dracula-cyan);
+  text-decoration: none;
+  transition: color 0.18s ease, text-shadow 0.18s ease;
+}
+
+a:hover {
+  color: var(--dracula-pink);
+  text-shadow: 0 0 8px rgba(255, 121, 198, 0.5);
+}
+
 /* ==========================================================================
-   HEADER DISRUPTIVO COM INSÍGNIA METÁLICA
+   INPUTS & FORMULÁRIOS DRACULA UNIVERSAIS
+   ========================================================================== */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+textarea,
+select {
+  background: var(--dracula-bg) !important;
+  border: 1.5px solid var(--dracula-comment) !important;
+  color: var(--dracula-fg) !important;
+  border-radius: 8px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  font-family: var(--font-book);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--dracula-purple) !important;
+  box-shadow: 0 0 14px rgba(189, 147, 249, 0.5) !important;
+  outline: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--dracula-comment) !important;
+  opacity: 0.85;
+}
+
+/* ==========================================================================
+   HEADER DISRUPTIVO COM INSÍGNIA METÁLICA (DRACULA ACCENT)
    ========================================================================== */
 .app-header {
   position: sticky;
   top: 0;
   z-index: 40;
-  background: linear-gradient(180deg, rgba(16, 20, 32, 0.98) 0%, rgba(9, 11, 18, 0.95) 100%);
+  background: linear-gradient(180deg, rgba(33, 34, 44, 0.98) 0%, rgba(40, 42, 54, 0.96) 100%);
   backdrop-filter: blur(14px);
-  border-bottom: 2px solid var(--border-gold);
-  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.8), 0 0 15px rgba(212, 175, 55, 0.2);
+  border-bottom: 2px solid var(--dracula-purple);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.8), 0 0 16px rgba(189, 147, 249, 0.25);
   padding: 0.75rem 1.15rem;
   display: flex;
   align-items: center;
@@ -115,36 +228,36 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
 .brand-shield {
   width: 42px;
   height: 42px;
-  background: radial-gradient(circle at 35% 35%, #2a2216 0%, #13100b 100%);
-  border: 2px solid var(--border-gold);
+  background: radial-gradient(circle at 35% 35%, #44475a 0%, #282a36 100%);
+  border: 2px solid var(--dracula-purple);
   clip-path: polygon(50% 0%, 100% 20%, 100% 80%, 50% 100%, 0% 80%, 0% 20%);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.3rem;
-  box-shadow: 0 0 15px var(--border-gold-glow);
-  transition: transform 0.25s ease;
+  box-shadow: 0 0 15px rgba(189, 147, 249, 0.5);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .brand-wrapper:hover .brand-shield {
   transform: rotate(5deg) scale(1.08);
-  box-shadow: 0 0 22px var(--gold-bright);
+  box-shadow: 0 0 22px var(--dracula-cyan);
 }
 
 .brand-name {
   font-family: var(--font-mythic);
   font-size: 1.28rem;
   font-weight: 900;
-  color: var(--gold-imperial);
+  color: var(--dracula-yellow);
   line-height: 1;
   letter-spacing: 0.08em;
-  text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+  text-shadow: 0 0 12px rgba(241, 250, 140, 0.5);
 }
 
 .brand-sub {
   font-family: var(--font-ui);
   font-size: 0.68rem;
-  color: var(--t20-ruby);
+  color: var(--dracula-pink);
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -157,20 +270,20 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
   font-family: var(--font-ui);
   font-size: 0.72rem;
   font-weight: 700;
-  background: rgba(16, 185, 129, 0.15);
-  color: var(--emerald-life);
-  border: 1px solid rgba(16, 185, 129, 0.4);
+  background: rgba(80, 250, 123, 0.15);
+  color: var(--dracula-green);
+  border: 1px solid rgba(80, 250, 123, 0.4);
   padding: 0.3rem 0.65rem;
   border-radius: 99px;
-  box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+  box-shadow: 0 0 10px rgba(80, 250, 123, 0.25);
 }
 
 .sync-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--emerald-life);
-  box-shadow: 0 0 8px var(--emerald-life);
+  background: var(--dracula-green);
+  box-shadow: 0 0 8px var(--dracula-green);
   animation: pulse-sync 1.8s infinite;
 }
 
@@ -198,13 +311,13 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
 }
 
 /* ==========================================================================
-   CARDS CHANFRADOS DISRUPTIVOS (ESTILO GRIMÓRIO & ARMADURA FORJADA)
+   CARDS CHANFRADOS DISRUPTIVOS COM FAIXA RAINBOW DRACULA
    ========================================================================== */
 .rpg-card {
   background: 
-    linear-gradient(145deg, rgba(23, 27, 42, 0.95) 0%, rgba(12, 15, 24, 0.98) 100%),
+    linear-gradient(145deg, rgba(40, 42, 54, 0.96) 0%, rgba(30, 31, 41, 0.98) 100%),
     url('/images/parchment-grimoire.jpg') center / cover;
-  border: 1.5px solid var(--border-gold);
+  border: 1.5px solid var(--dracula-purple);
   clip-path: polygon(
     14px 0, 
     calc(100% - 14px) 0, 
@@ -217,17 +330,19 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
   );
   padding: 1.25rem;
   margin-bottom: 1.15rem;
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.8), 0 0 20px rgba(225, 29, 72, 0.08);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.8), 0 0 20px rgba(189, 147, 249, 0.12);
   position: relative;
-  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease, border-color 0.2s;
   backdrop-filter: blur(8px);
 }
 
 .rpg-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 14px 42px rgba(0, 0, 0, 0.9), 0 0 25px rgba(212, 175, 55, 0.2);
+  box-shadow: 0 14px 42px rgba(0, 0, 0, 0.9), 0 0 25px rgba(189, 147, 249, 0.25);
+  border-color: var(--dracula-pink);
 }
 
+/* Faixa Rainbow Dracula Oficial */
 .rpg-card::before {
   content: '';
   position: absolute;
@@ -235,8 +350,8 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, transparent, #fbbf24 15%, #e11d48 50%, #38bdf8 85%, transparent);
-  box-shadow: 0 0 12px #e11d48;
+  background: linear-gradient(90deg, transparent, #bd93f9 15%, #ff79c6 35%, #ff5555 55%, #ffb86c 70%, #f1fa8c 85%, #50fa7b 96%, transparent);
+  box-shadow: 0 0 12px rgba(189, 147, 249, 0.7);
 }
 
 .rpg-card::after {
@@ -245,9 +360,9 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
   top: 5px;
   right: 12px;
   font-size: 0.65rem;
-  color: var(--gold-imperial);
-  opacity: 0.7;
-  text-shadow: 0 0 8px var(--gold-imperial);
+  color: var(--dracula-yellow);
+  opacity: 0.8;
+  text-shadow: 0 0 8px var(--dracula-yellow);
 }
 
 .card-title-bar {
@@ -256,29 +371,29 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
   justify-content: space-between;
   margin-bottom: 0.85rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+  border-bottom: 1px solid rgba(98, 114, 164, 0.35);
 }
 
 .card-title-text {
   font-family: var(--font-title);
-  font-size: 1.12rem;
+  font-size: 1.15rem;
   font-weight: 700;
-  color: var(--gold-imperial);
+  color: var(--dracula-yellow);
   display: flex;
   align-items: center;
   gap: 0.5rem;
   text-shadow: 0 2px 4px rgba(0,0,0,0.8);
 }
 
-/* Banner de Arte Épica */
+/* Banner de Arte Épica com Moldura Dracula */
 .fantasy-art-banner {
   border-radius: 14px;
-  border: 1.5px solid var(--border-gold);
+  border: 1.5px solid var(--dracula-purple);
   background-size: cover;
   background-position: center;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(212, 175, 55, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(189, 147, 249, 0.25);
   clip-path: polygon(
     14px 0, 
     calc(100% - 14px) 0, 
@@ -303,13 +418,13 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
 .hero-portrait-frame {
   width: 82px;
   height: 82px;
-  border: 2px solid var(--border-gold);
+  border: 2px solid var(--dracula-purple);
   clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
-  background: radial-gradient(circle at center, #24293e 0%, #10121a 100%);
+  background: radial-gradient(circle at center, #44475a 0%, #282a36 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 18px var(--border-gold-glow);
+  box-shadow: 0 0 18px rgba(189, 147, 249, 0.5);
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
@@ -319,16 +434,16 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
   position: absolute;
   bottom: 0px;
   right: 0px;
-  background: var(--t20-ruby);
+  background: var(--dracula-red);
   color: #fff;
   font-family: var(--font-mythic);
   font-size: 0.68rem;
   font-weight: 900;
   padding: 2px 7px;
   border-top-left-radius: 6px;
-  border-left: 1px solid var(--gold-bright);
-  border-top: 1px solid var(--gold-bright);
-  box-shadow: 0 0 8px rgba(225, 29, 72, 0.8);
+  border-left: 1px solid var(--dracula-yellow);
+  border-top: 1px solid var(--dracula-yellow);
+  box-shadow: 0 0 8px rgba(255, 85, 85, 0.8);
 }
 
 .hero-meta {
@@ -339,15 +454,15 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
   font-family: var(--font-mythic);
   font-size: 1.4rem;
   font-weight: 900;
-  color: #fff;
+  color: var(--dracula-fg);
   line-height: 1.2;
-  text-shadow: 0 0 15px rgba(212, 175, 55, 0.4), 0 2px 5px #000;
+  text-shadow: 0 0 15px rgba(189, 147, 249, 0.45), 0 2px 5px #000;
 }
 
 .hero-class-race {
   font-family: var(--font-book);
   font-size: 0.95rem;
-  color: var(--gold-soft);
+  color: var(--dracula-yellow);
   font-style: italic;
   margin-top: 2px;
 }
@@ -359,23 +474,54 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
   flex-wrap: wrap;
 }
 
+/* ==========================================================================
+   TAG PILLS & BADGES DRACULA
+   ========================================================================== */
 .tag-pill {
   font-family: var(--font-ui);
   font-size: 0.72rem;
   font-weight: 700;
   padding: 2px 9px;
   border-radius: 4px;
-  background: rgba(26, 31, 48, 0.8);
-  border: 1px solid var(--border-subtle);
-  color: var(--text-secondary);
+  background: rgba(68, 71, 90, 0.7);
+  border: 1px solid var(--dracula-comment);
+  color: var(--dracula-fg);
   clip-path: polygon(4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%, 0 4px);
 }
 
 .tag-pill.gold {
-  color: var(--gold-bright);
-  border-color: rgba(212, 175, 55, 0.5);
-  background: rgba(212, 175, 55, 0.15);
-  box-shadow: 0 0 8px rgba(212, 175, 55, 0.2);
+  color: var(--dracula-yellow);
+  border-color: rgba(241, 250, 140, 0.5);
+  background: rgba(241, 250, 140, 0.15);
+  box-shadow: 0 0 8px rgba(241, 250, 140, 0.2);
+}
+
+.tag-pill.purple {
+  color: var(--dracula-purple);
+  border-color: rgba(189, 147, 249, 0.5);
+  background: rgba(189, 147, 249, 0.15);
+  box-shadow: 0 0 8px rgba(189, 147, 249, 0.2);
+}
+
+.tag-pill.cyan {
+  color: var(--dracula-cyan);
+  border-color: rgba(139, 233, 253, 0.5);
+  background: rgba(139, 233, 253, 0.15);
+  box-shadow: 0 0 8px rgba(139, 233, 253, 0.2);
+}
+
+.tag-pill.green {
+  color: var(--dracula-green);
+  border-color: rgba(80, 250, 123, 0.5);
+  background: rgba(80, 250, 123, 0.15);
+  box-shadow: 0 0 8px rgba(80, 250, 123, 0.2);
+}
+
+.tag-pill.pink {
+  color: var(--dracula-pink);
+  border-color: rgba(255, 121, 198, 0.5);
+  background: rgba(255, 121, 198, 0.15);
+  box-shadow: 0 0 8px rgba(255, 121, 198, 0.2);
 }
 
 /* ==========================================================================
@@ -388,31 +534,32 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
   margin-top: 1.1rem;
 }
 
-/* Escudo Nobre de Defesa (Clip-path Geométrico Autêntico) */
+/* Escudo Nobre de Defesa (Dracula Purple & Yellow Crest) */
 .defense-shield-box {
-  background: radial-gradient(circle at center, #2e2417 0%, #15110c 100%);
-  border: 2px solid var(--gold-imperial);
+  background: radial-gradient(circle at center, #44475a 0%, #282a36 100%);
+  border: 2px solid var(--dracula-purple);
   clip-path: polygon(50% 0%, 100% 16%, 100% 75%, 50% 100%, 0% 75%, 0% 16%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 0.65rem 0.25rem;
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.45);
+  box-shadow: 0 0 20px rgba(189, 147, 249, 0.45);
   cursor: pointer;
-  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s, border-color 0.2s;
 }
 
 .defense-shield-box:hover {
   transform: scale(1.08) rotate(-2deg);
-  box-shadow: 0 0 30px rgba(251, 191, 36, 0.7);
+  box-shadow: 0 0 30px rgba(189, 147, 249, 0.75);
+  border-color: var(--dracula-cyan);
 }
 
 .defense-label {
   font-family: var(--font-ui);
   font-size: 0.68rem;
   font-weight: 800;
-  color: var(--gold-bright);
+  color: var(--dracula-purple);
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -421,22 +568,22 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
   font-family: var(--font-mythic);
   font-size: 1.85rem;
   font-weight: 900;
-  color: #fff;
+  color: var(--dracula-yellow);
   line-height: 1;
-  text-shadow: 0 0 12px rgba(251, 191, 36, 0.6);
+  text-shadow: 0 0 12px rgba(241, 250, 140, 0.6);
 }
 
 .defense-sub {
   font-family: var(--font-ui);
   font-size: 0.65rem;
-  color: var(--gold-soft);
+  color: var(--dracula-cyan);
   margin-top: 2px;
 }
 
 /* Células de PV e PM com Chanfros Rúnicos */
 .vital-box {
-  background: linear-gradient(145deg, rgba(20, 24, 38, 0.95) 0%, rgba(10, 12, 18, 0.98) 100%);
-  border: 1.5px solid var(--border-subtle);
+  background: linear-gradient(145deg, rgba(40, 42, 54, 0.98) 0%, rgba(30, 31, 41, 0.99) 100%);
+  border: 1.5px solid var(--dracula-current);
   clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
   padding: 0.75rem 0.85rem;
   display: flex;
@@ -448,8 +595,8 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
 }
 
 .vital-box:hover {
-  border-color: var(--gold-imperial);
-  box-shadow: 0 0 18px var(--border-gold-glow);
+  border-color: var(--dracula-purple);
+  box-shadow: 0 0 18px rgba(189, 147, 249, 0.4);
   transform: translateY(-2px);
 }
 
@@ -470,16 +617,17 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
   font-family: var(--font-code);
   font-size: 1.05rem;
   font-weight: 800;
+  color: var(--dracula-fg);
 }
 
 .bar-track {
   width: 100%;
   height: 10px;
-  background: rgba(0,0,0,0.65);
+  background: rgba(30, 31, 41, 0.9);
   border-radius: 99px;
   margin-top: 0.45rem;
   overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(98, 114, 164, 0.35);
 }
 
 .bar-fill {
@@ -489,17 +637,18 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
 }
 
 .bar-fill.ruby {
-  background: linear-gradient(90deg, #f43f5e 0%, #be123c 60%, #881337 100%);
-  box-shadow: 0 0 12px var(--t20-ruby-glow);
+  background: linear-gradient(90deg, #ff79c6 0%, #ff5555 60%, #bd2424 100%);
+  box-shadow: 0 0 12px rgba(255, 85, 85, 0.65);
 }
 
 .bar-fill.mana {
-  background: linear-gradient(90deg, #38bdf8 0%, #0284c7 60%, #0369a1 100%);
-  box-shadow: 0 0 12px var(--mana-glow);
+  background: linear-gradient(90deg, #bd93f9 0%, #8be9fd 60%, #52cbdf 100%);
+  box-shadow: 0 0 12px rgba(139, 233, 253, 0.65);
 }
 
 /* ==========================================================================
-   ATRIBUTOS DISRUPTIVOS: GEMAS FACETADAS COM MODIFICADOR GIGANTE
+   ATRIBUTOS DISRUPTIVOS: GEMAS FACETADAS COM CORES DRACULA
+   FOR: Red | DES: Green | CON: Orange | INT: Cyan | SAB: Purple | CAR: Pink
    ========================================================================== */
 .attributes-row {
   display: grid;
@@ -509,8 +658,8 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
 }
 
 .attr-card {
-  background: linear-gradient(135deg, rgba(28, 33, 50, 0.95) 0%, rgba(13, 16, 26, 0.98) 100%);
-  border: 1.5px solid var(--border-gold);
+  background: linear-gradient(135deg, rgba(68, 71, 90, 0.7) 0%, rgba(40, 42, 54, 0.95) 100%);
+  border: 1.5px solid var(--dracula-comment);
   clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
   padding: 0.6rem 0.25rem;
   display: flex;
@@ -523,16 +672,49 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
 }
 
 .attr-card:hover {
-  border-color: var(--gold-bright);
   transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 8px 25px rgba(251, 191, 36, 0.4);
 }
+
+/* FORÇA - DRACULA RED */
+.attr-card:nth-child(1) { border-color: rgba(255, 85, 85, 0.6); }
+.attr-card:nth-child(1) .attr-tag { color: var(--dracula-red); }
+.attr-card:nth-child(1) .attr-mod { text-shadow: 0 0 14px rgba(255, 85, 85, 0.7); }
+.attr-card:nth-child(1):hover { border-color: var(--dracula-red); box-shadow: 0 0 20px rgba(255, 85, 85, 0.45); }
+
+/* DESTREZA - DRACULA GREEN */
+.attr-card:nth-child(2) { border-color: rgba(80, 250, 123, 0.6); }
+.attr-card:nth-child(2) .attr-tag { color: var(--dracula-green); }
+.attr-card:nth-child(2) .attr-mod { text-shadow: 0 0 14px rgba(80, 250, 123, 0.7); }
+.attr-card:nth-child(2):hover { border-color: var(--dracula-green); box-shadow: 0 0 20px rgba(80, 250, 123, 0.45); }
+
+/* CONSTITUIÇÃO - DRACULA ORANGE */
+.attr-card:nth-child(3) { border-color: rgba(255, 184, 108, 0.6); }
+.attr-card:nth-child(3) .attr-tag { color: var(--dracula-orange); }
+.attr-card:nth-child(3) .attr-mod { text-shadow: 0 0 14px rgba(255, 184, 108, 0.7); }
+.attr-card:nth-child(3):hover { border-color: var(--dracula-orange); box-shadow: 0 0 20px rgba(255, 184, 108, 0.45); }
+
+/* INTELIGÊNCIA - DRACULA CYAN */
+.attr-card:nth-child(4) { border-color: rgba(139, 233, 253, 0.6); }
+.attr-card:nth-child(4) .attr-tag { color: var(--dracula-cyan); }
+.attr-card:nth-child(4) .attr-mod { text-shadow: 0 0 14px rgba(139, 233, 253, 0.7); }
+.attr-card:nth-child(4):hover { border-color: var(--dracula-cyan); box-shadow: 0 0 20px rgba(139, 233, 253, 0.45); }
+
+/* SABEDORIA - DRACULA PURPLE */
+.attr-card:nth-child(5) { border-color: rgba(189, 147, 249, 0.6); }
+.attr-card:nth-child(5) .attr-tag { color: var(--dracula-purple); }
+.attr-card:nth-child(5) .attr-mod { text-shadow: 0 0 14px rgba(189, 147, 249, 0.7); }
+.attr-card:nth-child(5):hover { border-color: var(--dracula-purple); box-shadow: 0 0 20px rgba(189, 147, 249, 0.45); }
+
+/* CARISMA - DRACULA PINK */
+.attr-card:nth-child(6) { border-color: rgba(255, 121, 198, 0.6); }
+.attr-card:nth-child(6) .attr-tag { color: var(--dracula-pink); }
+.attr-card:nth-child(6) .attr-mod { text-shadow: 0 0 14px rgba(255, 121, 198, 0.7); }
+.attr-card:nth-child(6):hover { border-color: var(--dracula-pink); box-shadow: 0 0 20px rgba(255, 121, 198, 0.45); }
 
 .attr-tag {
   font-family: var(--font-ui);
   font-size: 0.68rem;
   font-weight: 800;
-  color: var(--gold-soft);
   text-transform: uppercase;
 }
 
@@ -543,15 +725,14 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
   color: #fff;
   line-height: 1.1;
   margin: 3px 0;
-  text-shadow: 0 0 12px rgba(225, 29, 72, 0.7);
 }
 
 .attr-raw {
   font-family: var(--font-code);
   font-size: 0.68rem;
   font-weight: 700;
-  color: var(--gold-bright);
-  background: rgba(0,0,0,0.55);
+  color: var(--dracula-yellow);
+  background: rgba(30, 31, 41, 0.8);
   padding: 1px 6px;
   border-radius: 4px;
 }
@@ -564,14 +745,14 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
   align-items: center;
   justify-content: space-between;
   padding: 0.65rem 0.85rem;
-  border-bottom: 1px solid rgba(71, 85, 125, 0.3);
+  border-bottom: 1px solid rgba(98, 114, 164, 0.25);
   font-size: 0.95rem;
   cursor: pointer;
   transition: background 0.15s ease;
 }
 
 .skill-row:hover {
-  background: rgba(212, 175, 55, 0.08);
+  background: rgba(189, 147, 249, 0.1);
 }
 
 .skill-left {
@@ -584,33 +765,33 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
   width: 20px;
   height: 20px;
   border-radius: 4px;
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--dracula-comment);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-ui);
   font-size: 0.68rem;
   font-weight: 800;
-  color: var(--text-muted);
+  color: var(--dracula-comment);
 }
 
 .skill-train-badge.trained {
-  background: var(--gold-imperial);
-  color: #0b0d13;
-  border-color: var(--gold-bright);
-  box-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
+  background: var(--dracula-purple);
+  color: var(--dracula-bg-darker);
+  border-color: var(--dracula-yellow);
+  box-shadow: 0 0 8px rgba(189, 147, 249, 0.5);
 }
 
 .skill-name {
   font-family: var(--font-book);
   font-weight: 700;
-  color: #fff;
+  color: var(--dracula-fg);
 }
 
 .skill-attr-ref {
   font-family: var(--font-ui);
   font-size: 0.72rem;
-  color: var(--gold-soft);
+  color: var(--dracula-yellow);
   text-transform: uppercase;
 }
 
@@ -618,37 +799,42 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
   font-family: var(--font-code);
   font-weight: 800;
   font-size: 1rem;
-  color: var(--gold-bright);
-  background: rgba(14, 17, 28, 0.8);
+  color: var(--dracula-yellow);
+  background: rgba(30, 31, 41, 0.85);
   padding: 2px 10px;
   border-radius: 6px;
-  border: 1px solid rgba(212, 175, 55, 0.3);
+  border: 1px solid rgba(189, 147, 249, 0.3);
 }
 
 /* ==========================================================================
    AÇÕES, ARMAS & PODERES
    ========================================================================== */
 .action-card {
-  background: linear-gradient(145deg, rgba(22, 26, 40, 0.9) 0%, rgba(12, 15, 24, 0.95) 100%);
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  border-left: 4px solid var(--border-gold);
+  background: linear-gradient(145deg, rgba(68, 71, 90, 0.5) 0%, rgba(40, 42, 54, 0.9) 100%);
+  border: 1px solid rgba(98, 114, 164, 0.35);
+  border-left: 4px solid var(--dracula-purple);
   clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
   padding: 0.85rem 1rem;
   margin-bottom: 0.75rem;
-  transition: transform 0.2s ease, border-color 0.2s;
+  transition: transform 0.2s ease, border-color 0.2s, background 0.2s;
 }
 
 .action-card:hover {
   transform: translateX(3px);
-  border-color: var(--gold-bright);
+  border-color: var(--dracula-purple);
+  background: linear-gradient(145deg, rgba(68, 71, 90, 0.75) 0%, rgba(40, 42, 54, 0.98) 100%);
 }
 
 .action-card.ruby {
-  border-left-color: var(--t20-ruby);
+  border-left-color: var(--dracula-red);
 }
 
 .action-card.mana {
-  border-left-color: var(--mana-cyan);
+  border-left-color: var(--dracula-cyan);
+}
+
+.action-card.green {
+  border-left-color: var(--dracula-green);
 }
 
 .action-header {
@@ -662,16 +848,16 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
   font-family: var(--font-title);
   font-weight: 700;
   font-size: 1.05rem;
-  color: #fff;
+  color: var(--dracula-fg);
 }
 
 .action-cost {
   font-family: var(--font-ui);
   font-size: 0.72rem;
   font-weight: 800;
-  background: rgba(2, 132, 199, 0.25);
-  color: var(--mana-cyan-light);
-  border: 1px solid rgba(2, 132, 199, 0.5);
+  background: rgba(139, 233, 253, 0.2);
+  color: var(--dracula-cyan);
+  border: 1px solid rgba(139, 233, 253, 0.5);
   padding: 2px 8px;
   border-radius: 4px;
 }
@@ -679,7 +865,7 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
 .action-desc {
   font-family: var(--font-book);
   font-size: 0.88rem;
-  color: var(--text-secondary);
+  color: var(--dracula-comment);
   line-height: 1.45;
   margin-bottom: 0.55rem;
 }
@@ -690,7 +876,7 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
 }
 
 /* ==========================================================================
-   BOTÕES DISRUPTIVOS COM CORTE CHANFRADO & BRILHO METÁLICO
+   BOTÕES DISRUPTIVOS DRACULA COM CHANFROS & ALTO IMPACTO
    ========================================================================== */
 .btn-touch {
   font-family: var(--font-ui);
@@ -719,50 +905,76 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
   transform: scale(0.96);
 }
 
+/* Botão Primário: Dracula Purple */
 .btn-touch-primary {
-  background: linear-gradient(135deg, #d4af37 0%, #b89324 60%, #947214 100%);
-  color: #080a10;
-  border-color: #fef08a;
-  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.45);
+  background: linear-gradient(135deg, #bd93f9 0%, #a46df7 60%, #8542eb 100%);
+  color: #1e1f29;
+  border-color: #f1fa8c;
+  box-shadow: 0 4px 18px rgba(189, 147, 249, 0.5);
+  font-weight: 900;
 }
 
 .btn-touch-primary:hover {
-  background: linear-gradient(135deg, #fbbf24 0%, #d4af37 100%);
-  box-shadow: 0 6px 22px rgba(251, 191, 36, 0.6);
+  background: linear-gradient(135deg, #d6acff 0%, #bd93f9 100%);
+  box-shadow: 0 6px 24px rgba(189, 147, 249, 0.7);
 }
 
+/* Botão Carmesim/Ruby: Dracula Red */
 .btn-touch-ruby {
-  background: linear-gradient(135deg, #e11d48 0%, #be123c 60%, #881337 100%);
+  background: linear-gradient(135deg, #ff5555 0%, #e63946 60%, #b81424 100%);
   color: #fff;
-  border-color: #fca5a5;
-  box-shadow: 0 4px 15px rgba(225, 29, 72, 0.5);
+  border-color: #ff79c6;
+  box-shadow: 0 4px 18px rgba(255, 85, 85, 0.55);
   text-shadow: 0 1px 3px rgba(0,0,0,0.8);
 }
 
 .btn-touch-ruby:hover {
-  background: linear-gradient(135deg, #f43f5e 0%, #be123c 100%);
-  box-shadow: 0 6px 22px rgba(225, 29, 72, 0.7);
+  background: linear-gradient(135deg, #ff6e6e 0%, #ff5555 100%);
+  box-shadow: 0 6px 24px rgba(255, 85, 85, 0.75);
 }
 
+/* Botão Mana: Dracula Cyan */
 .btn-touch-mana {
-  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-  color: #fff;
-  border-color: #7dd3fc;
-  box-shadow: 0 4px 15px rgba(2, 132, 199, 0.5);
+  background: linear-gradient(135deg, #8be9fd 0%, #52cbdf 60%, #2baabf 100%);
+  color: #1e1f29;
+  border-color: #f8f8f2;
+  box-shadow: 0 4px 18px rgba(139, 233, 253, 0.5);
+  font-weight: 900;
 }
 
+.btn-touch-mana:hover {
+  background: linear-gradient(135deg, #a4f0ff 0%, #8be9fd 100%);
+  box-shadow: 0 6px 24px rgba(139, 233, 253, 0.7);
+}
+
+/* Botão Verde/Vida: Dracula Green */
+.btn-touch-emerald, .btn-touch-green {
+  background: linear-gradient(135deg, #50fa7b 0%, #2bd65c 60%, #1ea844 100%);
+  color: #1e1f29;
+  border-color: #f8f8f2;
+  box-shadow: 0 4px 18px rgba(80, 250, 123, 0.5);
+  font-weight: 900;
+}
+
+.btn-touch-emerald:hover, .btn-touch-green:hover {
+  background: linear-gradient(135deg, #6aff8f 0%, #50fa7b 100%);
+  box-shadow: 0 6px 24px rgba(80, 250, 123, 0.7);
+}
+
+/* Botão Dark / Current Line */
 .btn-touch-dark {
-  background: linear-gradient(135deg, #24293e 0%, #131622 100%);
-  color: var(--text-parchment);
-  border-color: var(--border-gold);
+  background: linear-gradient(135deg, #44475a 0%, #282a36 100%);
+  color: var(--dracula-fg);
+  border-color: var(--dracula-comment);
 }
 
 .btn-touch-dark:hover {
-  border-color: var(--gold-bright);
+  border-color: var(--dracula-purple);
+  box-shadow: 0 0 12px rgba(189, 147, 249, 0.35);
 }
 
 /* ==========================================================================
-   FLOATING ACTION BUTTON (FAB) - ORBE DE DADOS COM ANEL RÚNICO
+   FLOATING ACTION BUTTON (FAB) - ORBE DE DADOS COM BRILHO DRACULA
    ========================================================================== */
 .fab-dice {
   position: fixed;
@@ -771,9 +983,9 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #e11d48 0%, #881337 60%, #4c0519 100%);
-  border: 2px solid var(--gold-imperial);
-  box-shadow: 0 0 25px rgba(225, 29, 72, 0.75), 0 8px 24px rgba(0,0,0,0.8);
+  background: radial-gradient(circle at 35% 35%, #ff79c6 0%, #bd93f9 50%, #44475a 100%);
+  border: 2px solid var(--dracula-yellow);
+  box-shadow: 0 0 25px rgba(189, 147, 249, 0.75), 0 8px 24px rgba(0,0,0,0.8);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -787,20 +999,22 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
 
 .fab-dice:hover {
   transform: scale(1.15) rotate(15deg);
-  box-shadow: 0 0 35px rgba(251, 191, 36, 0.9), 0 10px 28px rgba(0,0,0,0.9);
+  box-shadow: 0 0 35px rgba(241, 250, 140, 0.9), 0 10px 28px rgba(0,0,0,0.9);
 }
 
 @keyframes pulse-fab {
-  0%, 100% { box-shadow: 0 0 22px rgba(225, 29, 72, 0.6); }
-  50% { box-shadow: 0 0 38px rgba(225, 29, 72, 0.95), 0 0 18px rgba(251, 191, 36, 0.65); }
+  0%, 100% { box-shadow: 0 0 22px rgba(189, 147, 249, 0.6); }
+  50% { box-shadow: 0 0 38px rgba(255, 121, 198, 0.95), 0 0 20px rgba(241, 250, 140, 0.7); }
 }
 
-/* Bottom Sheet Modal de Rolagem */
+/* ==========================================================================
+   BOTTOM SHEET & MODAIS DRACULA
+   ========================================================================== */
 .bottom-sheet {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(10px);
+  background: rgba(30, 31, 41, 0.85);
+  backdrop-filter: blur(12px);
   z-index: 100;
   display: flex;
   flex-direction: column;
@@ -817,14 +1031,14 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
 
 .bottom-sheet-content {
   background: 
-    linear-gradient(145deg, rgba(23, 27, 42, 0.98) 0%, rgba(12, 15, 24, 0.99) 100%),
+    linear-gradient(145deg, rgba(40, 42, 54, 0.98) 0%, rgba(30, 31, 41, 0.99) 100%),
     url('/images/parchment-grimoire.jpg') center / cover;
-  border-top: 3px solid var(--border-gold);
+  border-top: 3px solid var(--dracula-purple);
   border-radius: 20px 20px 0 0;
   padding: 1.35rem 1.25rem calc(var(--safe-bottom) + 1.25rem) 1.25rem;
   max-height: 85vh;
   overflow-y: auto;
-  box-shadow: 0 -10px 40px rgba(0,0,0,0.85);
+  box-shadow: 0 -10px 40px rgba(0,0,0,0.85), 0 0 25px rgba(189, 147, 249, 0.2);
   transform: translateY(100%);
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.2);
 }
@@ -836,10 +1050,10 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
 .sheet-handle {
   width: 44px;
   height: 5px;
-  background: var(--border-gold);
+  background: var(--dracula-purple);
   border-radius: 99px;
   margin: 0 auto 1.1rem auto;
-  box-shadow: 0 0 8px var(--border-gold-glow);
+  box-shadow: 0 0 10px var(--dracula-purple);
 }
 
 /* Grade de Pílulas de Dados Poliédricos */
@@ -851,8 +1065,8 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
 }
 
 .dice-pill {
-  background: linear-gradient(135deg, rgba(26, 31, 48, 0.95) 0%, rgba(13, 16, 26, 0.98) 100%);
-  border: 1.5px solid var(--border-subtle);
+  background: linear-gradient(135deg, rgba(68, 71, 90, 0.7) 0%, rgba(40, 42, 54, 0.95) 100%);
+  border: 1.5px solid var(--dracula-comment);
   clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
   padding: 0.65rem 0.3rem;
   display: flex;
@@ -864,15 +1078,15 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
 }
 
 .dice-pill:hover {
-  border-color: var(--gold-bright);
+  border-color: var(--dracula-cyan);
   transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 6px 18px rgba(251, 191, 36, 0.35);
+  box-shadow: 0 6px 18px rgba(139, 233, 253, 0.4);
 }
 
 .dice-pill.selected {
-  border-color: var(--t20-ruby);
-  background: linear-gradient(135deg, rgba(225, 29, 72, 0.25) 0%, rgba(13, 16, 26, 0.98) 100%);
-  box-shadow: 0 0 16px rgba(225, 29, 72, 0.5);
+  border-color: var(--dracula-pink);
+  background: linear-gradient(135deg, rgba(255, 121, 198, 0.25) 0%, rgba(40, 42, 54, 0.98) 100%);
+  box-shadow: 0 0 16px rgba(255, 121, 198, 0.5);
 }
 
 .dice-pill-icon {
@@ -883,12 +1097,12 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
   font-family: var(--font-mythic);
   font-size: 0.85rem;
   font-weight: 800;
-  color: var(--gold-bright);
+  color: var(--dracula-yellow);
   margin-top: 2px;
 }
 
 /* ==========================================================================
-   BARRA INFERIOR DOCK DISRUPTIVA (ARCO FORJADO COM ASA DE DRAGÃO)
+   BARRA INFERIOR DOCK DISRUPTIVA (DRACULA NIGHT)
    ========================================================================== */
 .bottom-dock {
   position: fixed;
@@ -896,9 +1110,9 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
   left: 0;
   right: 0;
   height: var(--bottom-dock-height);
-  background: linear-gradient(180deg, rgba(18, 22, 36, 0.98) 0%, rgba(8, 10, 16, 0.99) 100%);
-  border-top: 2px solid var(--border-gold);
-  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.85), inset 0 1px 15px rgba(212, 175, 55, 0.15);
+  background: linear-gradient(180deg, rgba(40, 42, 54, 0.98) 0%, rgba(30, 31, 41, 0.99) 100%);
+  border-top: 2px solid var(--dracula-purple);
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.85), inset 0 1px 15px rgba(189, 147, 249, 0.2);
   backdrop-filter: blur(16px);
   z-index: 50;
   display: flex;
@@ -912,7 +1126,7 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
   font-family: var(--font-ui);
   font-size: 0.72rem;
   letter-spacing: 0.04em;
-  color: var(--text-muted);
+  color: var(--dracula-comment);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -924,8 +1138,8 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
 }
 
 .dock-item:hover, .dock-item.active {
-  color: var(--gold-bright);
-  text-shadow: 0 0 10px rgba(251, 191, 36, 0.6);
+  color: var(--dracula-yellow);
+  text-shadow: 0 0 10px rgba(241, 250, 140, 0.65);
   transform: translateY(-2px);
 }
 
@@ -936,7 +1150,7 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
 
 .dock-item.active .dock-icon {
   transform: scale(1.22);
-  filter: drop-shadow(0 0 8px var(--gold-bright));
+  filter: drop-shadow(0 0 8px var(--dracula-purple));
 }
 
 /* ==========================================================================
@@ -950,8 +1164,8 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
 }
 
 .soundboard-pad {
-  background: linear-gradient(135deg, rgba(28, 33, 50, 0.95) 0%, rgba(13, 16, 26, 0.98) 100%);
-  border: 1.5px solid var(--border-subtle);
+  background: linear-gradient(135deg, rgba(68, 71, 90, 0.7) 0%, rgba(40, 42, 54, 0.95) 100%);
+  border: 1.5px solid var(--dracula-comment);
   clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
   padding: 0.85rem 0.4rem;
   display: flex;
@@ -964,9 +1178,9 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
 }
 
 .soundboard-pad:hover {
-  border-color: var(--gold-bright);
+  border-color: var(--dracula-purple);
   transform: translateY(-3px);
-  box-shadow: 0 8px 22px rgba(251, 191, 36, 0.4);
+  box-shadow: 0 8px 22px rgba(189, 147, 249, 0.45);
 }
 
 .soundboard-pad:active {
@@ -975,8 +1189,8 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
 }
 
 .soundboard-pad.ruby:hover {
-  border-color: var(--t20-ruby);
-  box-shadow: 0 8px 22px rgba(225, 29, 72, 0.5);
+  border-color: var(--dracula-red);
+  box-shadow: 0 8px 22px rgba(255, 85, 85, 0.55);
 }
 
 .soundboard-icon {
@@ -987,8 +1201,48 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
   font-family: var(--font-ui);
   font-size: 0.75rem;
   font-weight: 700;
-  color: var(--text-parchment);
+  color: var(--dracula-fg);
   margin-top: 3px;
+}
+
+/* SFX Touch Grid (Mestre) */
+.sfx-touch-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
+}
+
+.sfx-pad {
+  background: linear-gradient(135deg, rgba(68, 71, 90, 0.7) 0%, rgba(40, 42, 54, 0.95) 100%);
+  border: 1.5px solid var(--dracula-comment);
+  border-radius: 8px;
+  padding: 0.65rem 0.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.sfx-pad:hover {
+  border-color: var(--dracula-purple);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(189, 147, 249, 0.4);
+}
+
+.sfx-pad-icon {
+  font-size: 1.35rem;
+}
+
+.sfx-pad-label {
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--dracula-fg);
+  margin-top: 2px;
 }
 
 /* ==========================================================================
@@ -998,7 +1252,7 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
   position: fixed;
   inset: 0;
   background: 
-    radial-gradient(circle at center, rgba(225, 29, 72, 0.42) 0%, rgba(10, 11, 16, 0.95) 75%),
+    radial-gradient(circle at center, rgba(255, 85, 85, 0.42) 0%, rgba(30, 31, 41, 0.96) 75%),
     url('/images/gm-dragon-twist.jpg') center / cover no-repeat;
   z-index: 120;
   display: flex;
@@ -1008,7 +1262,7 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.4s ease;
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(8px);
 }
 
 .dramatic-overlay.active, .dramatic-twist-screen.active {
@@ -1018,15 +1272,15 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
 
 .dramatic-content, .dramatic-box {
   background: 
-    linear-gradient(145deg, rgba(28, 12, 18, 0.95) 0%, rgba(13, 8, 12, 0.98) 100%),
+    linear-gradient(145deg, rgba(40, 42, 54, 0.98) 0%, rgba(30, 31, 41, 0.99) 100%),
     url('/images/parchment-grimoire.jpg') center / cover;
-  border: 2px solid var(--t20-ruby);
+  border: 2px solid var(--dracula-red);
   border-radius: 16px;
   padding: 2.2rem 1.6rem;
   text-align: center;
   max-width: 480px;
   width: 100%;
-  box-shadow: 0 0 50px rgba(225, 29, 72, 0.55), inset 0 0 25px rgba(225, 29, 72, 0.2);
+  box-shadow: 0 0 50px rgba(255, 85, 85, 0.6), inset 0 0 25px rgba(255, 85, 85, 0.25);
   transform: scale(0.9);
   transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -1038,16 +1292,16 @@ h4, label, .tag-pill, .btn-touch, .dock-item, .vital-title, .dice-pill-name {
 .dramatic-title {
   font-family: var(--font-mythic);
   font-size: 1.65rem;
-  color: #fff;
+  color: var(--dracula-yellow);
   letter-spacing: 0.05em;
-  text-shadow: 0 0 20px rgba(225, 29, 72, 0.85), 0 2px 4px #000;
+  text-shadow: 0 0 20px rgba(255, 85, 85, 0.85), 0 2px 4px #000;
   margin-bottom: 0.5rem;
 }
 
 .dramatic-subtitle {
   font-family: var(--font-book);
   font-size: 0.95rem;
-  color: var(--gold-soft);
+  color: var(--dracula-fg);
   line-height: 1.6;
   text-shadow: 0 1px 3px #000;
 }
