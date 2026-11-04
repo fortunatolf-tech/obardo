@@ -112,7 +112,7 @@ CREATE TABLE `audio_tracks` (
   `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   `campaign_id` BIGINT UNSIGNED NULL,
   `title` VARCHAR(200) NOT NULL,
-  `category` ENUM('tavern', 'dungeon', 'combat', 'travel', 'sfx') NOT NULL DEFAULT 'tavern',
+  `category` VARCHAR(50) NOT NULL DEFAULT 'tavern',
   `file_url` VARCHAR(500) NOT NULL,
   `duration_seconds` INT NOT NULL DEFAULT 0,
   `is_preset` TINYINT(1) NOT NULL DEFAULT 1,

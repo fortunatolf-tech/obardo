@@ -22,37 +22,66 @@
     </div>
   </div>
 
-  <!-- Player de Áudio Atmosférico Sincronizado com o Mestre -->
+  <!-- Player de Áudio Atmosférico Sincronizado com o Mestre (Estilo Bardfy) -->
   <div class="rpg-card mb-3" style="border-color: var(--dracula-green); background: linear-gradient(145deg, #182030 0%, #10131d 100%);">
-    <div class="d-flex justify-content-between align-items-center gap-2 flex-wrap">
+    <div class="d-flex justify-content-between align-items-center gap-2 flex-wrap mb-2">
       <div class="d-flex align-items-center gap-2">
-        <div class="rounded-3 border border-success d-flex align-items-center justify-content-center fs-4 text-success" style="width: 40px; height: 40px; background: rgba(80, 250, 123, 0.15);">
+        <div class="rounded-3 border border-success d-flex align-items-center justify-content-center fs-4 text-success" style="width: 42px; height: 42px; background: rgba(80, 250, 123, 0.15);">
           🎵
         </div>
         <div>
-          <div class="text-muted fw-bold text-uppercase fs-8">
-            Trilha Sonora da Sessão (Transmitida pelo Mestre)
+          <div class="d-flex align-items-center gap-2">
+            <span class="text-muted fw-bold text-uppercase fs-8">Trilha Sonora da Sessão</span>
+            <div class="audio-visualizer paused">
+              <div class="viz-bar"></div>
+              <div class="viz-bar"></div>
+              <div class="viz-bar"></div>
+              <div class="viz-bar"></div>
+              <div class="viz-bar"></div>
+            </div>
           </div>
           <div id="current-track-label" class="fs-6 fw-bold text-warning">
-            <?= $e($sync_state?->track_title ?? 'Taverna do Javali Saltitante • Alaúdes & Lareira') ?>
+            <?= $e($sync_state['track_title'] ?? $sync_state->track_title ?? 'Taverna do Javali Saltitante • Alaúdes & Lareira') ?>
           </div>
         </div>
       </div>
 
-      <div class="d-flex align-items-center gap-2">
-        <button class="btn btn-solid theme-primary btn-touch py-1 px-3 fs-7" onclick="bardoPlayAmbient('tavern'); bardoPlaySFX('spell'); bardoToast('🔊 Áudio da Taverna Sintonizado!');">
+      <div class="hstack gap-2">
+        <button class="btn btn-solid theme-primary btn-touch py-1 px-3 fs-7" onclick="bardoPlayAmbient('<?= $e($sync_state['track_url'] ?? '/audio/ambient/taverna.ogg') ?>'); bardoPlaySFX('brinde_tacas'); bardoToast('🔊 Áudio da Taverna Sintonizado!');">
           🔊 Sintonizar
+        </button>
+        <button id="bardo-mute-btn" class="btn btn-subtle theme-secondary btn-touch py-1 px-2 fs-8" onclick="bardoToggleMute()">
+          🔇 Mudo
         </button>
       </div>
     </div>
 
-    <!-- Controle de Volume Local -->
-    <div class="d-flex align-items-center justify-content-between mt-2 pt-2 border-top border-secondary fs-7 text-muted">
-      <span>Volume Pessoal:</span>
-      <div class="d-flex align-items-center gap-2">
-        <span>🔈</span>
-        <input type="range" min="0" max="100" value="75" class="form-range" style="width: 120px;" oninput="if(bardoMasterGain) bardoMasterGain.gain.setValueAtTime(this.value / 100, bardoAudioCtx.currentTime);">
-        <span>🔊</span>
+    <!-- Controle de Volume Pessoal Multi-Camada -->
+    <div class="row g-2 pt-2 border-top border-secondary fs-8 text-muted">
+      <div class="col-6">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+          <span>Trilha Ambiente:</span>
+          <span id="player-music-val" class="text-info fw-bold">70%</span>
+        </div>
+        <input type="range" min="0" max="100" value="70" class="form-range" oninput="bardoSetMusicVolume(this.value); document.getElementById('player-music-val').textContent=this.value+'%';">
+      </div>
+      <div class="col-6">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+          <span>Efeitos Sonoros (SFX):</span>
+          <span id="player-sfx-val" class="text-warning fw-bold">90%</span>
+        </div>
+        <input type="range" min="0" max="100" value="90" class="form-range" oninput="bardoSetSfxVolume(this.value); document.getElementById('player-sfx-val').textContent=this.value+'%';">
+      </div>
+    </div>
+
+    <!-- Barra de Reações Rápidas da Mesa (Soundboard dos Jogadores) -->
+    <div class="d-flex align-items-center justify-content-between gap-1 mt-2 pt-2 border-top border-secondary">
+      <span class="fs-8 text-muted">Reações da Mesa:</span>
+      <div class="hstack gap-1">
+        <button type="button" class="btn btn-sm btn-subtle theme-warning py-0 px-2 fs-8" onclick="bardoPlaySFX('brinde_tacas'); bardoToast('🍻 Um brinde à guilda!');">🍻 Brindar</button>
+        <button type="button" class="btn btn-sm btn-subtle theme-secondary py-0 px-2 fs-8" onclick="bardoPlaySFX('moedas_ouro'); bardoToast('🪙 Moedas tilintando!');">🪙 Moedas</button>
+        <button type="button" class="btn btn-sm btn-subtle theme-danger py-0 px-2 fs-8" onclick="bardoPlaySFX('espada_choque');">⚔️ Batalha</button>
+        <button type="button" class="btn btn-sm btn-subtle theme-info py-0 px-2 fs-8" onclick="bardoPlaySFX('pocao_beber');">🧪 Poção</button>
       </div>
     </div>
   </div>

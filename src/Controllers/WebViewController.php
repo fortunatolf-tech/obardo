@@ -104,6 +104,7 @@ final class WebViewController
         $characters = $this->charRepo->findByCampaign($campaignId);
         $syncState = $this->audioRepo->getSyncState($campaignId);
         $tracks = $this->audioRepo->getTracks($campaignId);
+        $sfxCatalog = $this->audioRepo->getSfxCatalog();
         $rolls = $this->charRepo->getRecentRolls($campaignId, 15);
         $handouts = $this->storyRepo->getHandouts($campaignId, false);
         $members = $this->campaignRepo->getMembers($campaignId);
@@ -115,6 +116,7 @@ final class WebViewController
             'characters' => $characters,
             'sync_state' => $syncState,
             'tracks' => $tracks,
+            'sfx_catalog' => $sfxCatalog,
             'rolls' => $rolls,
             'handouts' => $handouts,
             'members' => $members,
@@ -133,6 +135,8 @@ final class WebViewController
 
         $characters = $this->charRepo->findByCampaign($campaignId);
         $syncState = $this->audioRepo->getSyncState($campaignId);
+        $tracks = $this->audioRepo->getTracks($campaignId);
+        $sfxCatalog = $this->audioRepo->getSfxCatalog();
         $chronicles = $this->storyRepo->getChronicles($campaignId);
         $handouts = $this->storyRepo->getHandouts($campaignId, true);
         $rolls = $this->charRepo->getRecentRolls($campaignId, 25);
@@ -143,6 +147,8 @@ final class WebViewController
             'campaign' => $campaign,
             'characters' => $characters,
             'sync_state' => $syncState,
+            'tracks' => $tracks,
+            'sfx_catalog' => $sfxCatalog,
             'chronicles' => $chronicles,
             'handouts' => $handouts,
             'rolls' => $rolls,

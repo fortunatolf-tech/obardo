@@ -51,82 +51,164 @@
     </div>
   </div>
 
-  <!-- SEÇÃO 1: MESA DE SOM & AMBIENTAÇÃO SINCRONIZADA -->
+  <!-- SEÇÃO 1: MESA DE SOM & AMBIENTAÇÃO SINCRONIZADA (ESTILO BARDFY) -->
   <div id="section-gm-audio" class="gm-tab-pane">
-    <div class="rpg-card">
-      <div class="card-title-bar d-flex justify-content-between align-items-center">
-        <span class="card-title-text">🎵 Som & Ambientação Sincronizada</span>
-        <span class="tag-pill gold">Broadcast Ativo</span>
-      </div>
-
-      <p class="text-muted fs-7 mb-3">
-        Comande a trilha que toca simultaneamente nos celulares de todos os jogadores conectados:
-      </p>
-
-      <div class="vstack gap-2 mb-4">
-        <div class="action-card ambient-track-btn cursor-pointer mb-0" data-track="tavern" onclick="bardoGMSync(<?= $campaign->id ?>, 'PLAY', 1, 'music'); bardoPlayAmbient('tavern');">
-          <div class="action-header d-flex justify-content-between align-items-center">
-            <span class="action-title">🍻 Taverna do Javali Saltitante</span>
-            <span class="tag-pill">Loop Contínuo</span>
+    <div class="audio-studio-card">
+      <div class="card-title-bar d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <div class="d-flex align-items-center gap-2">
+          <span class="card-title-text">🎵 Estúdio Acústico & Soundboard</span>
+          <div class="audio-visualizer paused">
+            <div class="viz-bar"></div>
+            <div class="viz-bar"></div>
+            <div class="viz-bar"></div>
+            <div class="viz-bar"></div>
+            <div class="viz-bar"></div>
           </div>
-          <div class="action-desc">Alaúdes alegres, murmúrio de conversas e taças brindando.</div>
         </div>
-
-        <div class="action-card ambient-track-btn cursor-pointer mb-0" data-track="dungeon" onclick="bardoGMSync(<?= $campaign->id ?>, 'PLAY', 2, 'music'); bardoPlayAmbient('dungeon');">
-          <div class="action-header d-flex justify-content-between align-items-center">
-            <span class="action-title">💀 Masmorra & Cripta Antiga</span>
-            <span class="tag-pill">Suspense</span>
-          </div>
-          <div class="action-desc">Gotas de água fria ecoando, vento espectral e tensão.</div>
-        </div>
-
-        <div class="action-card ambient-track-btn cursor-pointer mb-0" data-track="combat" onclick="bardoGMSync(<?= $campaign->id ?>, 'PLAY', 3, 'music'); bardoPlayAmbient('combat');">
-          <div class="action-header d-flex justify-content-between align-items-center">
-            <span class="action-title">⚔️ Batalha pela Vida (Combate T20)</span>
-            <span class="tag-pill text-danger border-danger">Clímax</span>
-          </div>
-          <div class="action-desc">Tambores de guerra urgentes, trompas heróicas e adrenalina.</div>
+        <div class="hstack gap-2">
+          <span class="tag-pill gold">Broadcast Ativo</span>
+          <button id="bardo-mute-btn" class="btn btn-sm btn-subtle theme-secondary py-1 px-2 fs-8" onclick="bardoToggleMute()">🔊 Silenciar</button>
         </div>
       </div>
 
-      <!-- Soundboard de Disparo Imediato -->
-      <div class="card-title-bar d-flex justify-content-between align-items-center">
+      <!-- Player de Controle Ativo -->
+      <div class="p-3 rounded bg-surface border border-secondary mb-3">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+          <div>
+            <div class="text-muted fw-bold text-uppercase fs-8">Trilha Atual no Ar (Sincronizada para a Mesa)</div>
+            <div id="current-track-label" class="fs-6 fw-bold text-warning">
+              <?= $e($sync_state['track_title'] ?? 'Taverna do Javali Saltitante • Alaúdes & Lareira') ?>
+            </div>
+          </div>
+          <div class="hstack gap-2">
+            <button class="btn btn-sm btn-solid theme-primary btn-touch py-1 px-3 fs-8" onclick="bardoPlayAmbient('taverna'); bardoGMSync(<?= $campaign->id ?>, 'PLAY', 1, 'music');">
+              ▶ Tocar
+            </button>
+            <button class="btn btn-sm btn-subtle theme-danger btn-touch py-1 px-2 fs-8" onclick="bardoStopAllAudio(); bardoGMSync(<?= $campaign->id ?>, 'STOP', null, 'music');">
+              ⏹ Parar Tudo
+            </button>
+          </div>
+        </div>
+
+        <!-- Mesa de Mixagem de Volumes (Geral, Música e SFX) -->
+        <div class="row g-2 pt-2 border-top border-secondary text-muted fs-8">
+          <div class="col-12 col-md-4">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <span>Volume Geral:</span>
+              <span id="vol-master-val" class="text-white fw-bold">85%</span>
+            </div>
+            <input type="range" min="0" max="100" value="85" class="form-range" oninput="bardoSetMasterVolume(this.value); document.getElementById('vol-master-val').textContent=this.value+'%';">
+          </div>
+          <div class="col-12 col-md-4">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <span>Trilha Ambiente:</span>
+              <span id="vol-music-val" class="text-info fw-bold">70%</span>
+            </div>
+            <input type="range" min="0" max="100" value="70" class="form-range" oninput="bardoSetMusicVolume(this.value); document.getElementById('vol-music-val').textContent=this.value+'%';">
+          </div>
+          <div class="col-12 col-md-4">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <span>Efeitos Sonoros (SFX):</span>
+              <span id="vol-sfx-val" class="text-warning fw-bold">90%</span>
+            </div>
+            <input type="range" min="0" max="100" value="90" class="form-range" oninput="bardoSetSfxVolume(this.value); document.getElementById('vol-sfx-val').textContent=this.value+'%';">
+          </div>
+        </div>
+      </div>
+
+      <!-- CENAS DE AMBIENTAÇÃO RÁPIDA (PRESETS ESTILO BARDFY) -->
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <span class="font-mythic fs-7 text-warning">🏰 Cenas de Ambientação Prontas</span>
+        <small class="text-muted fs-8">Mix multi-camada instantâneo</small>
+      </div>
+
+      <div class="preset-grid mb-3">
+        <div class="preset-card active" data-preset="tavern" onclick="bardoApplyPreset('tavern'); bardoGMSync(<?= $campaign->id ?>, 'PLAY', 1, 'music');">
+          <span class="preset-icon">🍻</span>
+          <div class="preset-title">Taverna Alegre</div>
+          <div class="preset-desc">Alaúdes, canecas & calor</div>
+        </div>
+        <div class="preset-card" data-preset="combat" onclick="bardoApplyPreset('combat'); bardoGMSync(<?= $campaign->id ?>, 'PLAY', 4, 'music');">
+          <span class="preset-icon">⚔️</span>
+          <div class="preset-title">Batalha Épica</div>
+          <div class="preset-desc">Tambores & tempestade</div>
+        </div>
+        <div class="preset-card" data-preset="dungeon" onclick="bardoApplyPreset('dungeon'); bardoGMSync(<?= $campaign->id ?>, 'PLAY', 6, 'music');">
+          <span class="preset-icon">💀</span>
+          <div class="preset-title">Masmorra & Cripta</div>
+          <div class="preset-desc">Gotas, ecos & suspense</div>
+        </div>
+        <div class="preset-card" data-preset="campfire" onclick="bardoApplyPreset('campfire'); bardoGMSync(<?= $campaign->id ?>, 'PLAY', 8, 'music');">
+          <span class="preset-icon">🏕️</span>
+          <div class="preset-title">Acampamento</div>
+          <div class="preset-desc">Fogueira & floresta noturna</div>
+        </div>
+        <div class="preset-card" data-preset="city" onclick="bardoApplyPreset('city'); bardoGMSync(<?= $campaign->id ?>, 'PLAY', 3, 'music');">
+          <span class="preset-icon">🏰</span>
+          <div class="preset-title">Cidade Medieval</div>
+          <div class="preset-desc">Mercado & multidão</div>
+        </div>
+        <div class="preset-card" data-preset="storm" onclick="bardoApplyPreset('storm'); bardoGMSync(<?= $campaign->id ?>, 'PLAY', 5, 'music');">
+          <span class="preset-icon">⛈️</span>
+          <div class="preset-title">Tempestade</div>
+          <div class="preset-desc">Vento gélido & trovões</div>
+        </div>
+      </div>
+
+      <!-- SOUNDBOARD INTERATIVO ESTILO BARDFY (COM FILTROS) -->
+      <div class="card-title-bar d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
         <span class="card-title-text">⚡ Soundboard Instantâneo (SFX)</span>
-        <span class="text-muted fs-8">Sincronia Imediata</span>
+        <span class="text-muted fs-8">Disparo em 0ms • Sincronia na Mesa</span>
       </div>
 
-      <div class="row row-cols-5 g-2 sfx-touch-grid">
-        <div class="col">
-          <div class="sfx-pad text-center" onclick="bardoGMSFX(<?= $campaign->id ?>, 'sword')">
-            <span class="sfx-pad-icon d-block fs-3">⚔️</span>
-            <span class="sfx-pad-label font-ui fs-8 text-white">Aço / Golpe</span>
-          </div>
-        </div>
-        <div class="col">
-          <div class="sfx-pad text-center" onclick="bardoGMSFX(<?= $campaign->id ?>, 'thunder')">
-            <span class="sfx-pad-icon d-block fs-3">⚡</span>
-            <span class="sfx-pad-label font-ui fs-8 text-white">Trovão</span>
-          </div>
-        </div>
-        <div class="col">
-          <div class="sfx-pad text-center" onclick="bardoGMSFX(<?= $campaign->id ?>, 'spell')">
-            <span class="sfx-pad-icon d-block fs-3">🔮</span>
-            <span class="sfx-pad-label font-ui fs-8 text-white">Magia</span>
-          </div>
-        </div>
-        <div class="col">
-          <div class="sfx-pad text-center" onclick="bardoGMSFX(<?= $campaign->id ?>, 'roar')">
-            <span class="sfx-pad-icon d-block fs-3">🐉</span>
-            <span class="sfx-pad-label font-ui fs-8 text-white">Rugido</span>
-          </div>
-        </div>
-        <div class="col">
-          <div class="sfx-pad text-center" onclick="bardoGMSFX(<?= $campaign->id ?>, 'dice')">
-            <span class="sfx-pad-icon d-block fs-3">🎲</span>
-            <span class="sfx-pad-label font-ui fs-8 text-white">Dados</span>
-          </div>
-        </div>
+      <!-- Abas de Categoria do Soundboard -->
+      <div class="soundboard-nav mb-3">
+        <button type="button" class="soundboard-tab-btn active" onclick="bardoFilterSfxCategory('all', this)">🌟 Todos os Sons</button>
+        <button type="button" class="soundboard-tab-btn" onclick="bardoFilterSfxCategory('combat', this)">⚔️ Combate & Armas</button>
+        <button type="button" class="soundboard-tab-btn" onclick="bardoFilterSfxCategory('magic', this)">🔮 Magia & Feitiços</button>
+        <button type="button" class="soundboard-tab-btn" onclick="bardoFilterSfxCategory('monster', this)">🐉 Monstros & Criaturas</button>
+        <button type="button" class="soundboard-tab-btn" onclick="bardoFilterSfxCategory('tavern', this)">🍻 Taverna & Social</button>
+        <button type="button" class="soundboard-tab-btn" onclick="bardoFilterSfxCategory('dungeon', this)">🗝️ Masmorra & Exploração</button>
       </div>
+
+      <!-- Grid dos Pads de Som -->
+      <div class="sfx-bardfy-grid mb-4">
+        <?php foreach ($sfx_catalog ?? [] as $categoryKey => $catData): ?>
+          <?php foreach ($catData['items'] as $item): ?>
+            <div class="sfx-bardfy-pad" data-sfx-id="<?= $e($item['id']) ?>" data-sfx-category="<?= $e($categoryKey) ?>" onclick="bardoGMSFX(<?= $campaign->id ?>, '<?= $e($item['id']) ?>')">
+              <span class="sfx-bardfy-icon"><?= $item['icon'] ?></span>
+              <span class="sfx-bardfy-name"><?= $e($item['label']) ?></span>
+              <span class="sfx-bardfy-badge"><?= $e($catData['name']) ?></span>
+            </div>
+          <?php endforeach; ?>
+        <?php endforeach; ?>
+      </div>
+
+      <!-- CATÁLOGO DE TRILHAS AMBIENTES INDIVIDUAIS -->
+      <div class="card-title-bar d-flex justify-content-between align-items-center mb-2">
+        <span class="card-title-text">🎼 Biblioteca de Trilhas Contínuas (Loop)</span>
+        <span class="tag-pill gold"><?= count($tracks ?? []) ?> Faixas CC0</span>
+      </div>
+
+      <div class="vstack gap-2">
+        <?php foreach ($tracks ?? [] as $track): ?>
+          <div class="track-item" data-track-id="<?= $track['id'] ?>" data-track-url="<?= $e($track['file_url']) ?>">
+            <div class="d-flex align-items-center gap-2 flex-grow-1 text-truncate">
+              <span class="fs-4">
+                <?= $track['category'] === 'combat' ? '⚔️' : ($track['category'] === 'dungeon' ? '💀' : ($track['category'] === 'city' ? '🏰' : ($track['category'] === 'travel' ? '🌲' : '🍻'))) ?>
+              </span>
+              <div class="text-truncate">
+                <div class="fw-bold fs-7 text-white text-truncate"><?= $e($track['title']) ?></div>
+                <small class="text-muted fs-8 font-code"><?= $e(strtoupper($track['category'])) ?> • <?= (int)$track['duration_seconds'] ?>s • Loop Contínuo</small>
+              </div>
+            </div>
+            <button class="btn btn-sm btn-subtle theme-warning btn-touch py-1 px-3 fs-8 text-nowrap" onclick="bardoPlayAmbient('<?= $e($track['file_url']) ?>', '<?= $e($track['title']) ?>'); bardoGMSync(<?= $campaign->id ?>, 'PLAY', <?= $track['id'] ?>, 'music');">
+              ▶ Tocar
+            </button>
+          </div>
+        <?php endforeach; ?>
+      </div>
+
     </div>
   </div>
 

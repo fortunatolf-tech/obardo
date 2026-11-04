@@ -25,11 +25,13 @@ final class AudioController
     {
         $campaignId = isset($params['id']) ? (int)$params['id'] : null;
         $tracks = $this->audioRepo->getTracks($campaignId);
+        $sfxCatalog = $this->audioRepo->getSfxCatalog();
 
         Response::json([
             'status' => 'success',
             'data' => [
                 'tracks' => $tracks,
+                'sfx_catalog' => $sfxCatalog,
                 'sfx_presets' => ['sword', 'thunder', 'spell', 'roar', 'dice', 'crit'],
             ]
         ]);
@@ -64,6 +66,7 @@ final class AudioController
             // Transmissão imediata via SSE
             EventDispatcher::dispatch($campaignId, 'audio_sfx_command', [
                 'sfx_name' => $sfxName,
+                'file_url' => $sfxState['file_url'] ?? '',
                 'server_timestamp' => $sfxState['timestamp'],
             ]);
 

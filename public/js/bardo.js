@@ -3,156 +3,337 @@
  * Sincronização Acústica Web Audio API + Server-Sent Events (SSE) + Tormenta20 / D&D
  */
 
+/**
+ * O BARDO - MOTOR DE ÁUDIO MULTI-CAMADAS & SOUNDBOARD ESTILO BARDFY
+ * Sons Reais Livres de Direitos Autorais (CC0 / Pixabay / Freesound / Kenney)
+ * Sincronização Server-Sent Events (SSE) em Tempo Real
+ */
+
+const BARDO_SFX_MAP = {
+  // Combate & Armas
+  'espada_golpe': '/audio/sfx/espada_golpe.ogg',
+  'sword': '/audio/sfx/espada_golpe.ogg',
+  'espada_choque': '/audio/sfx/espada_choque.ogg',
+  'escudo_bloqueio': '/audio/sfx/escudo_bloqueio.wav',
+  'flecha_disparo': '/audio/sfx/flecha_disparo.wav',
+  'sacar_adaga': '/audio/sfx/sacar_adaga.ogg',
+  'soco_impacto': '/audio/sfx/soco_impacto.ogg',
+  'corte_lamina': '/audio/sfx/corte_lamina.ogg',
+
+  // Magia & Feitiços
+  'bola_de_fogo': '/audio/sfx/bola_de_fogo.ogg',
+  'raio_trovao': '/audio/sfx/raio_trovao.ogg',
+  'spell': '/audio/sfx/raio_trovao.ogg',
+  'cura_divina': '/audio/sfx/cura_divina.ogg',
+  'mana': '/audio/sfx/cura_divina.ogg',
+  'trovao_impacto': '/audio/sfx/trovao_impacto.wav',
+  'thunder': '/audio/sfx/trovao_impacto.wav',
+  'pocao_beber': '/audio/sfx/pocao_beber.wav',
+
+  // Monstros & Criaturas
+  'dragao_rugido': '/audio/sfx/dragao_rugido.ogg',
+  'roar': '/audio/sfx/dragao_rugido.ogg',
+  'lobo_uivo': '/audio/sfx/lobo_uivo.ogg',
+  'goblin_grito': '/audio/sfx/goblin_grito.ogg',
+  'risada_maligna': '/audio/sfx/risada_maligna.ogg',
+  'coracao_pulso': '/audio/sfx/coracao_pulso.ogg',
+
+  // Taverna & Social
+  'brinde_tacas': '/audio/sfx/brinde_tacas.wav',
+  'cheers': '/audio/sfx/brinde_tacas.wav',
+  'moedas_ouro': '/audio/sfx/moedas_ouro.ogg',
+  'coins': '/audio/sfx/moedas_ouro.ogg',
+  'dados_mesa': '/audio/sfx/dados_mesa.ogg',
+  'dice': '/audio/sfx/dados_mesa.ogg',
+  'crit': '/audio/sfx/brinde_tacas.wav',
+  'sino_alarme': '/audio/sfx/sino_alarme.wav',
+
+  // Masmorra & Exploração
+  'bau_tesouro': '/audio/sfx/bau_tesouro.ogg',
+  'porta_madeira': '/audio/sfx/porta_madeira.ogg',
+  'porta_fechando': '/audio/sfx/porta_fechando.ogg',
+  'porta_ferro': '/audio/sfx/porta_ferro.wav',
+  'rangido_madeira': '/audio/sfx/rangido_madeira.ogg',
+  'passos_pedra': '/audio/sfx/passos_pedra.ogg'
+};
+
+const BARDO_AMBIENT_MAP = {
+  'tavern': '/audio/ambient/taverna.ogg',
+  'taverna': '/audio/ambient/taverna.ogg',
+  'lute': '/audio/ambient/tavern_lute.wav',
+  'combat': '/audio/ambient/combat_drums.wav',
+  'dungeon': '/audio/ambient/caverna.ogg',
+  'horror': '/audio/ambient/dungeon_drone.wav',
+  'campfire': '/audio/ambient/fogueira.ogg',
+  'forest': '/audio/ambient/floresta_noite.ogg',
+  'wind': '/audio/ambient/vento.ogg',
+  'rain': '/audio/ambient/chuva.ogg',
+  'storm': '/audio/ambient/tempestade.ogg',
+  'city': '/audio/ambient/cidade_medieval.ogg',
+  'sea': '/audio/ambient/mar.ogg'
+};
+
+// Instâncias Globais de Áudio Multi-Camadas
+let bardoMusicAudio = null;
+let bardoWeatherAudio = null;
 let bardoAudioCtx = null;
 let bardoMasterGain = null;
-let bardoActiveOsc = null;
 let bardoCurrentCampaignId = null;
 let bardoSSE = null;
+
+// Controle de Volumes
+let bardoMasterVolume = 0.85;
+let bardoMusicVolume = 0.70;
+let bardoSfxVolume = 0.90;
+let bardoIsMuted = false;
+let bardoActiveTrackKey = null;
 
 function initBardoAudio() {
   if (!bardoAudioCtx) {
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-    bardoAudioCtx = new AudioContextClass();
-    bardoMasterGain = bardoAudioCtx.createGain();
-    bardoMasterGain.gain.setValueAtTime(0.75, bardoAudioCtx.currentTime);
-    bardoMasterGain.connect(bardoAudioCtx.destination);
+    if (AudioContextClass) {
+      bardoAudioCtx = new AudioContextClass();
+      bardoMasterGain = bardoAudioCtx.createGain();
+      bardoMasterGain.gain.setValueAtTime(bardoMasterVolume, bardoAudioCtx.currentTime);
+      bardoMasterGain.connect(bardoAudioCtx.destination);
+    }
   }
-  if (bardoAudioCtx.state === 'suspended') {
-    bardoAudioCtx.resume();
+  if (bardoAudioCtx && bardoAudioCtx.state === 'suspended') {
+    bardoAudioCtx.resume().catch(() => {});
   }
   return bardoAudioCtx;
 }
 
-// Síntese de Efeitos Sonoros Instantâneos
-function bardoPlaySFX(type) {
-  const ctx = initBardoAudio();
-  const now = ctx.currentTime;
+// Reprodução de Efeitos Sonoros Reais (SFX) com Polyphony
+function bardoPlaySFX(sfxName, customUrl = null) {
+  initBardoAudio();
 
-  if (type === 'sword') {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(2800, now);
-    osc.frequency.exponentialRampToValueAtTime(320, now + 0.28);
-    gain.gain.setValueAtTime(0.7, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
-    osc.connect(gain);
-    gain.connect(bardoMasterGain);
-    osc.start(now);
-    osc.stop(now + 0.3);
-  } else if (type === 'spell' || type === 'mana') {
-    [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, now + idx * 0.05);
-      gain.gain.setValueAtTime(0.25, now + idx * 0.05);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.05 + 0.8);
-      osc.connect(gain);
-      gain.connect(bardoMasterGain);
-      osc.start(now + idx * 0.05);
-      osc.stop(now + idx * 0.05 + 0.85);
-    });
-  } else if (type === 'thunder') {
-    const bufferSize = ctx.sampleRate * 2.2;
-    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-    const data = buffer.getChannelData(0);
-    for (let i = 0; i < bufferSize; i++) {
-      data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.55));
+  const url = customUrl || BARDO_SFX_MAP[sfxName] || BARDO_SFX_MAP[sfxName.toLowerCase()] || '/audio/sfx/dados_mesa.ogg';
+  const effectiveVol = bardoIsMuted ? 0 : (bardoMasterVolume * bardoSfxVolume);
+
+  try {
+    const audio = new Audio(url);
+    audio.volume = Math.max(0, Math.min(1, effectiveVol));
+    const p = audio.play();
+    if (p && p.catch) {
+      p.catch(err => {
+        // Fallback de síntese caso autoplay de áudio novo bloqueie antes de gesto
+        bardoFallbackSynthesizedSFX(sfxName);
+      });
     }
-    const noise = ctx.createBufferSource();
-    noise.buffer = buffer;
-    const filter = ctx.createBiquadFilter();
-    filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(160, now);
-    filter.frequency.exponentialRampToValueAtTime(28, now + 2.2);
-    const gain = ctx.createGain();
-    gain.gain.setValueAtTime(1.0, now);
-    gain.gain.exponentialRampToValueAtTime(0.01, now + 2.2);
-    noise.connect(filter);
-    filter.connect(gain);
-    gain.connect(bardoMasterGain);
-    noise.start(now);
-  } else if (type === 'roar') {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(85, now);
-    osc.frequency.linearRampToValueAtTime(45, now + 1.2);
-    gain.gain.setValueAtTime(0.8, now);
-    gain.gain.exponentialRampToValueAtTime(0.01, now + 1.3);
-    osc.connect(gain);
-    gain.connect(bardoMasterGain);
-    osc.start(now);
-    osc.stop(now + 1.35);
-  } else if (type === 'dice') {
-    for (let i = 0; i < 3; i++) {
-      const t = now + i * 0.07;
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(900 + Math.random() * 300, t);
-      gain.gain.setValueAtTime(0.25, t);
-      gain.gain.exponentialRampToValueAtTime(0.01, t + 0.05);
-      osc.connect(gain);
-      gain.connect(bardoMasterGain);
-      osc.start(t);
-      osc.stop(t + 0.06);
+
+    // Feedback visual animado no pad do soundboard
+    const pad = document.querySelector(`[data-sfx-id="${sfxName}"]`);
+    if (pad) {
+      pad.classList.add('playing');
+      setTimeout(() => pad.classList.remove('playing'), 600);
     }
-  } else if (type === 'crit') {
-    [440, 554.37, 659.25, 880].forEach((freq, idx) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(freq, now + idx * 0.06);
-      gain.gain.setValueAtTime(0.35, now + idx * 0.06);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.6);
-      osc.connect(gain);
-      gain.connect(bardoMasterGain);
-      osc.start(now + idx * 0.06);
-      osc.stop(now + idx * 0.06 + 0.65);
-    });
+  } catch (err) {
+    bardoFallbackSynthesizedSFX(sfxName);
   }
 }
 
-// Síntese de Trilha Ambiente
-function bardoPlayAmbient(category) {
-  const ctx = initBardoAudio();
+// Síntese Web Audio como Fallback de Alta Resiliência
+function bardoFallbackSynthesizedSFX(type) {
+  if (!bardoAudioCtx) return;
+  const ctx = bardoAudioCtx;
   const now = ctx.currentTime;
+  try {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = type.includes('espada') || type === 'sword' ? 'triangle' : 'sine';
+    osc.frequency.setValueAtTime(520, now);
+    osc.frequency.exponentialRampToValueAtTime(120, now + 0.25);
+    gain.gain.setValueAtTime(0.4, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+    osc.connect(gain);
+    gain.connect(bardoMasterGain || ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.26);
+  } catch (e) {}
+}
 
-  if (bardoActiveOsc) {
-    try { bardoActiveOsc.stop(now); } catch(e) {}
-    bardoActiveOsc = null;
+// Reprodução de Trilha Sonora de Fundo em Loop
+function bardoPlayAmbient(trackKeyOrUrl, title = '') {
+  initBardoAudio();
+
+  let url = trackKeyOrUrl;
+  if (!url.startsWith('http') && !url.startsWith('/')) {
+    url = BARDO_AMBIENT_MAP[trackKeyOrUrl] || `/audio/ambient/${trackKeyOrUrl}.ogg`;
   }
 
-  const osc = ctx.createOscillator();
-  const filter = ctx.createBiquadFilter();
-  const gain = ctx.createGain();
+  bardoActiveTrackKey = trackKeyOrUrl;
 
-  if (category === 'combat') {
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(110, now);
-    filter.frequency.setValueAtTime(380, now);
-    gain.gain.setValueAtTime(0.18, now);
-  } else if (category === 'dungeon') {
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(65.41, now);
-    filter.frequency.setValueAtTime(220, now);
-    gain.gain.setValueAtTime(0.22, now);
-  } else {
-    // Taverna / Viagem
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(130.81, now);
-    filter.frequency.setValueAtTime(500, now);
-    gain.gain.setValueAtTime(0.15, now);
+  if (!bardoMusicAudio) {
+    bardoMusicAudio = new Audio();
+    bardoMusicAudio.loop = true;
+    bardoMusicAudio.preload = 'auto';
   }
 
-  osc.connect(filter);
-  filter.connect(gain);
-  gain.connect(bardoMasterGain);
+  // Crossfade / troca de trilha
+  bardoMusicAudio.src = url;
+  bardoMusicAudio.volume = bardoIsMuted ? 0 : (bardoMasterVolume * bardoMusicVolume);
 
-  osc.start(now);
-  bardoActiveOsc = osc;
+  const p = bardoMusicAudio.play();
+  if (p && p.catch) {
+    p.catch(err => {
+      console.warn('Autoplay aguardando interação do usuário:', err);
+    });
+  }
+
+  // Atualiza label na Taverna e no Dashboard do Mestre
+  const label = document.getElementById('current-track-label');
+  if (label) {
+    label.textContent = title || bardoGetTrackTitle(trackKeyOrUrl);
+  }
+
+  // Ativa visualizador de áudio
+  document.querySelectorAll('.audio-visualizer').forEach(v => v.classList.remove('paused'));
+
+  // Destaca card ativo no catálogo
+  document.querySelectorAll('.track-item, .ambient-track-btn').forEach(el => {
+    el.classList.remove('active');
+    if (el.getAttribute('data-track') === trackKeyOrUrl || el.getAttribute('data-track-url') === url) {
+      el.classList.add('active');
+    }
+  });
+}
+
+// Reprodução da Camada de Clima / Atmosfera Secundária (Multi-layer)
+function bardoPlayWeather(trackKeyOrUrl) {
+  initBardoAudio();
+
+  let url = trackKeyOrUrl;
+  if (!url.startsWith('http') && !url.startsWith('/')) {
+    url = BARDO_AMBIENT_MAP[trackKeyOrUrl] || `/audio/ambient/${trackKeyOrUrl}.ogg`;
+  }
+
+  if (!bardoWeatherAudio) {
+    bardoWeatherAudio = new Audio();
+    bardoWeatherAudio.loop = true;
+  }
+
+  bardoWeatherAudio.src = url;
+  bardoWeatherAudio.volume = bardoIsMuted ? 0 : (bardoMasterVolume * bardoMusicVolume * 0.75);
+  bardoWeatherAudio.play().catch(() => {});
+}
+
+// Pausar / Parar todo o áudio
+function bardoStopAllAudio() {
+  if (bardoMusicAudio) {
+    bardoMusicAudio.pause();
+    bardoMusicAudio.currentTime = 0;
+  }
+  if (bardoWeatherAudio) {
+    bardoWeatherAudio.pause();
+    bardoWeatherAudio.currentTime = 0;
+  }
+  document.querySelectorAll('.audio-visualizer').forEach(v => v.classList.add('paused'));
+  document.querySelectorAll('.track-item, .preset-card').forEach(el => el.classList.remove('active'));
+  const label = document.getElementById('current-track-label');
+  if (label) label.textContent = 'Trilha Parada • Silêncio na Taverna';
+}
+
+// Presets de Cenas Rápidas (Estilo Bardfy Presets)
+function bardoApplyPreset(presetName) {
+  document.querySelectorAll('.preset-card').forEach(c => c.classList.remove('active'));
+  const presetEl = document.querySelector(`[data-preset="${presetName}"]`);
+  if (presetEl) presetEl.classList.add('active');
+
+  switch (presetName) {
+    case 'tavern':
+      bardoPlayAmbient('taverna', '🍻 Taverna do Javali Saltitante');
+      bardoPlayWeather('lute');
+      bardoToast('🍻 Cena Ativada: Taverna Alegre (Música + Alaúdes)!');
+      break;
+    case 'combat':
+      bardoPlayAmbient('combat', '⚔️ Batalha Épica pela Vida');
+      bardoPlayWeather('storm');
+      bardoPlaySFX('espada_choque');
+      bardoToast('⚔️ Cena Ativada: Batalha Sangrenta (Tambores + Tempestade)!');
+      break;
+    case 'dungeon':
+      bardoPlayAmbient('dungeon', '💀 Masmorra & Cripta Antiga');
+      bardoPlayWeather('horror');
+      bardoToast('💀 Cena Ativada: Masmorra Proibida & Ecos do Vazio!');
+      break;
+    case 'campfire':
+      bardoPlayAmbient('campfire', '🏕️ Acampamento & Fogueira');
+      bardoPlayWeather('forest');
+      bardoToast('🏕️ Cena Ativada: Noite na Floresta & Fogueira!');
+      break;
+    case 'city':
+      bardoPlayAmbient('city', '🏰 Feira da Cidade Medieval');
+      if (bardoWeatherAudio) bardoWeatherAudio.pause();
+      bardoToast('🏰 Cena Ativada: Cidade & Mercado Medieval!');
+      break;
+    case 'storm':
+      bardoPlayAmbient('storm', '⛈️ Tempestade Violenta & Caos');
+      bardoPlaySFX('trovao_impacto');
+      bardoToast('⛈️ Cena Ativada: Tempestade & Trovões!');
+      break;
+  }
+}
+
+// Controles de Volume
+function bardoSetMasterVolume(val) {
+  bardoMasterVolume = Math.max(0, Math.min(100, parseFloat(val))) / 100;
+  bardoApplyVolumes();
+}
+
+function bardoSetMusicVolume(val) {
+  bardoMusicVolume = Math.max(0, Math.min(100, parseFloat(val))) / 100;
+  bardoApplyVolumes();
+}
+
+function bardoSetSfxVolume(val) {
+  bardoSfxVolume = Math.max(0, Math.min(100, parseFloat(val))) / 100;
+  bardoApplyVolumes();
+}
+
+function bardoToggleMute() {
+  bardoIsMuted = !bardoIsMuted;
+  bardoApplyVolumes();
+  const muteBtn = document.getElementById('bardo-mute-btn');
+  if (muteBtn) {
+    muteBtn.innerHTML = bardoIsMuted ? '🔇 Desmutar' : '🔊 Silenciar';
+  }
+  bardoToast(bardoIsMuted ? '🔇 Áudio Silenciado' : '🔊 Áudio Reativado');
+}
+
+function bardoApplyVolumes() {
+  const effectiveMusic = bardoIsMuted ? 0 : (bardoMasterVolume * bardoMusicVolume);
+  if (bardoMusicAudio) bardoMusicAudio.volume = Math.max(0, Math.min(1, effectiveMusic));
+  if (bardoWeatherAudio) bardoWeatherAudio.volume = Math.max(0, Math.min(1, effectiveMusic * 0.75));
+}
+
+function bardoGetTrackTitle(key) {
+  const map = {
+    'taverna': 'Taverna do Javali Saltitante • Alaúdes & Lareira',
+    'tavern': 'Taverna do Javali Saltitante • Alaúdes & Lareira',
+    'combat': 'Tambores de Guerra & Batalha Épica',
+    'dungeon': 'Cripta Antiga & Ecos da Caverna',
+    'horror': 'Dungeon Drone (Horror & Tormenta)',
+    'campfire': 'Acampamento & Fogueira Crepitante',
+    'forest': 'Floresta Sombria à Noite',
+    'city': 'Feira Livre da Cidade Medieval',
+    'storm': 'Tempestade Furiosa & Trovões'
+  };
+  return map[key] || 'Ambientação de Alta Fantasia';
+}
+
+// Filtro de Categorias no Soundboard
+function bardoFilterSfxCategory(category, btnEl) {
+  document.querySelectorAll('.soundboard-tab-btn').forEach(b => b.classList.remove('active'));
+  if (btnEl) btnEl.classList.add('active');
+
+  document.querySelectorAll('.sfx-bardfy-pad').forEach(pad => {
+    if (category === 'all' || pad.getAttribute('data-sfx-category') === category) {
+      pad.style.display = 'flex';
+    } else {
+      pad.style.display = 'none';
+    }
+  });
 }
 
 // Conector Server-Sent Events (SSE) em Tempo Real
@@ -165,7 +346,7 @@ function connectBardoSSE(campaignId) {
   const url = `/api/v1/campaigns/${campaignId}/events/stream`;
   bardoSSE = new EventSource(url);
 
-  bardoSSE.addEventListener('connected', (e) => {
+  bardoSSE.addEventListener('connected', () => {
     updateSyncBadge(true);
   });
 
@@ -174,22 +355,19 @@ function connectBardoSSE(campaignId) {
     const data = JSON.parse(e.data);
     bardoToast(`🎵 Mestre comandou: ${data.action}`);
     if (data.action === 'PLAY' || data.action === 'PLAY_TRACK') {
-      const cat = data.track_category || 'tavern';
-      bardoPlayAmbient(cat);
+      const url = data.track_url || data.track_category || 'tavern';
+      bardoPlayAmbient(url, data.track_title);
       const label = document.getElementById('current-track-label');
       if (label && data.track_title) label.textContent = data.track_title;
     } else if (data.action === 'PAUSE' || data.action === 'STOP') {
-      if (bardoActiveOsc) {
-        try { bardoActiveOsc.stop(); } catch(err) {}
-        bardoActiveOsc = null;
-      }
+      bardoStopAllAudio();
     }
   });
 
   // Efeito sonoro do soundboard recebido
   bardoSSE.addEventListener('audio_sfx_command', (e) => {
     const data = JSON.parse(e.data);
-    bardoPlaySFX(data.sfx_name);
+    bardoPlaySFX(data.sfx_name, data.file_url);
   });
 
   // Reviravolta da trama ativada ao vivo pelo Mestre!
